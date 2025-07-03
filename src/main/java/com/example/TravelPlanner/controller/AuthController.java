@@ -34,7 +34,7 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public void login(
+    public ResponseEntity<LoginResponse> login(
             @RequestBody @Valid LoginRequest request,
             HttpServletResponse httpServletResponse
     ) {
@@ -54,5 +54,9 @@ public class AuthController {
 
         httpServletResponse.addCookie(accessTokenCookie);
         httpServletResponse.addCookie(refreshTokenCookie);
+
+        return ResponseEntity
+                .ok()
+                .body(response);
     }
 }
