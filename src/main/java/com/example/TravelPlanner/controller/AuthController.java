@@ -7,9 +7,12 @@ import com.example.TravelPlanner.controller.dto.response.MemberResponse;
 import com.example.TravelPlanner.service.AuthService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,7 +22,10 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthController {
     private final AuthService authService;
 
-    public ResponseEntity<MemberResponse> signup(SignupRequest request) {
+    @PostMapping("/signup")
+    public ResponseEntity<MemberResponse> signup(
+            @RequestBody @Valid SignupRequest request
+    ) {
         MemberResponse response = authService.signup(request);
 
         return ResponseEntity
@@ -27,7 +33,11 @@ public class AuthController {
                 .body(response);
     }
 
-    public void login(LoginRequest request, HttpServletResponse httpServletResponse) {
+    @PostMapping("/login")
+    public void login(
+            @RequestBody @Valid LoginRequest request,
+            HttpServletResponse httpServletResponse
+    ) {
         LoginResponse response = authService.login(request);
 
         Cookie accessTokenCookie = new Cookie("accessToken", response.accessToken());
