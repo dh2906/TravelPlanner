@@ -1,16 +1,16 @@
 package com.example.TravelPlanner.controller;
 
+import com.example.TravelPlanner.controller.dto.request.MemberUpdateRequest;
 import com.example.TravelPlanner.controller.dto.response.MemberResponse;
 import com.example.TravelPlanner.entity.Member;
 import com.example.TravelPlanner.global.annotation.LoginMember;
 import com.example.TravelPlanner.service.MemberService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/members")
@@ -27,5 +27,15 @@ public class MemberController {
         );
     }
 
+    @PutMapping("/me")
+    public ResponseEntity<MemberResponse> updateMyInfo(
+            @LoginMember Member member,
+            @RequestBody @Valid MemberUpdateRequest request
+    ) {
+        MemberResponse response = memberService.updateMember(member, request);
 
+        return ResponseEntity
+                .ok()
+                .body(response);
+    }
 }

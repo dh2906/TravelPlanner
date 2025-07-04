@@ -1,5 +1,7 @@
 package com.example.TravelPlanner.entity;
 
+import com.example.TravelPlanner.controller.dto.request.MemberUpdateRequest;
+import com.example.TravelPlanner.global.util.PasswordEncoder;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -44,5 +46,10 @@ public class Member {
 
     public enum Role {
         USER, ADMIN
+    }
+
+    public void updateInfo(MemberUpdateRequest request) {
+        password = PasswordEncoder.encode(request.password());
+        name = request.name();
     }
 }
