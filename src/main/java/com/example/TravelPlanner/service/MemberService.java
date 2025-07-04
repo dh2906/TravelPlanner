@@ -8,14 +8,18 @@ import com.example.TravelPlanner.repository.MemberRepository;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
 public class MemberService {
     private final MemberRepository memberRepository;
 
+    @Transactional
     public MemberResponse updateMember(Member member, MemberUpdateRequest request) {
         member.updateInfo(request);
+
+        memberRepository.save(member);
 
         return MemberResponse.fromEntity(member);
     }

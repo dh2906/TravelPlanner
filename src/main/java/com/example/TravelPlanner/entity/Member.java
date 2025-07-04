@@ -49,7 +49,7 @@ public class Member {
     }
 
     public void updateInfo(MemberUpdateRequest request) {
-        password = PasswordEncoder.encode(request.password());
-        name = request.name();
+        this.password = PasswordEncoder.encode(request.password());
+        this.name = request.name();
     }
 }

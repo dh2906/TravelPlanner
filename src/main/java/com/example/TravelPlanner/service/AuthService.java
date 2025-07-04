@@ -10,6 +10,7 @@ import com.example.TravelPlanner.global.util.PasswordEncoder;
 import com.example.TravelPlanner.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -17,6 +18,7 @@ public class AuthService {
     private final MemberRepository memberRepository;
     private final JwtProvider jwtProvider;
 
+    @Transactional
     public MemberResponse signup(SignupRequest request) {
         String encodedPassword = PasswordEncoder.encode(request.password());
 
@@ -25,6 +27,7 @@ public class AuthService {
         );
     }
 
+    @Transactional
     public LoginResponse login(LoginRequest request) {
         Member member = memberRepository.findByEmail(request.email())
                 .orElseThrow(() -> new RuntimeException("가입되지 않은 이메일입니다."));
