@@ -4,6 +4,7 @@ import com.example.TravelPlanner.controller.dto.request.LoginRequest;
 import com.example.TravelPlanner.controller.dto.request.SignupRequest;
 import com.example.TravelPlanner.controller.dto.response.LoginResponse;
 import com.example.TravelPlanner.controller.dto.response.MemberResponse;
+import com.example.TravelPlanner.global.util.TokenCookieUtil;
 import com.example.TravelPlanner.service.AuthService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
@@ -40,17 +41,8 @@ public class AuthController {
     ) {
         LoginResponse response = authService.login(request);
 
-        Cookie accessTokenCookie = new Cookie("accessToken", response.accessToken());
-        accessTokenCookie.setHttpOnly(true);
-        accessTokenCookie.setSecure(true);
-        accessTokenCookie.setPath("/");
-        accessTokenCookie.setMaxAge(30 * 60);
-
-        Cookie refreshTokenCookie = new Cookie("refreshToken", response.refreshToken());
-        refreshTokenCookie.setHttpOnly(true);
-        refreshTokenCookie.setSecure(true);
-        refreshTokenCookie.setPath("/");
-        refreshTokenCookie.setMaxAge(14 * 24 * 60 * 60);
+        Cookie accessTokenCookie = TokenCookieUtil.createAccessToken(response.accessToken());
+        Cookie refreshTokenCookie = TokenCookieUtil.createRefreshToken(response.refreshToken());
 
         httpServletResponse.addCookie(accessTokenCookie);
         httpServletResponse.addCookie(refreshTokenCookie);
@@ -62,17 +54,8 @@ public class AuthController {
 
     @PostMapping("/logout")
     public ResponseEntity<Void> logout(HttpServletResponse response) {
-        Cookie accessTokenCookie = new Cookie("accessToken", null);
-        accessTokenCookie.setMaxAge(0);
-        accessTokenCookie.setPath("/");
-        accessTokenCookie.setHttpOnly(true);
-        accessTokenCookie.setSecure(true);
-
-        Cookie refreshTokenCookie = new Cookie("refreshToken", null);
-        refreshTokenCookie.setMaxAge(0);
-        refreshTokenCookie.setPath("/");
-        refreshTokenCookie.setHttpOnly(true);
-        refreshTokenCookie.setSecure(true);
+        Cookie accessTokenCookie = TokenCookieUtil.clearAccessToken();
+        Cookie refreshTokenCookie = TokenCookieUtil.clearRefreshToken();
 
         response.addCookie(accessTokenCookie);
         response.addCookie(refreshTokenCookie);
