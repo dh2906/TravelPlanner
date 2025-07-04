@@ -7,7 +7,6 @@ import com.example.TravelPlanner.global.annotation.LoginMember;
 import com.example.TravelPlanner.global.util.TokenCookieUtil;
 import com.example.TravelPlanner.service.MemberService;
 import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -37,8 +36,7 @@ public class MemberController {
         MemberResponse response = memberService.updateMember(member, request);
 
         return ResponseEntity
-                .ok()
-                .body(response);
+                .ok(response);
     }
 
     @DeleteMapping("/me")

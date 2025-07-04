@@ -48,8 +48,7 @@ public class AuthController {
         httpServletResponse.addCookie(refreshTokenCookie);
 
         return ResponseEntity
-                .ok()
-                .body(response);
+                .ok(response);
     }
 
     @PostMapping("/logout")
