@@ -6,7 +6,6 @@ import com.example.TravelPlanner.controller.dto.response.LoginResponse;
 import com.example.TravelPlanner.controller.dto.response.MemberResponse;
 import com.example.TravelPlanner.entity.Member;
 import com.example.TravelPlanner.global.exception.CustomException;
-import com.example.TravelPlanner.global.exception.CustomException;
 import com.example.TravelPlanner.global.exception.ExceptionCode;
 import com.example.TravelPlanner.global.jwt.JwtProvider;
 import com.example.TravelPlanner.global.util.PasswordEncoder;
