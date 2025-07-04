@@ -1,5 +1,6 @@
 package com.example.TravelPlanner.global.jwt;
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
@@ -45,5 +46,15 @@ public class JwtProvider {
                 .setExpiration(new Date(System.currentTimeMillis() + refreshTokenExpirationMillis))
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
+    }
+
+    public Long extractMemberId(String token) {
+        Claims claims = Jwts.parser()
+                .setSigningKey(key)
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
+
+        return Long.valueOf(claims.getSubject());
     }
 }
