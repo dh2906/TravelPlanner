@@ -2,6 +2,8 @@ package com.example.TravelPlanner.global.resolver;
 
 import com.example.TravelPlanner.entity.Member;
 import com.example.TravelPlanner.global.annotation.LoginMember;
+import com.example.TravelPlanner.global.exception.CustomException;
+import com.example.TravelPlanner.global.exception.ExceptionCode;
 import com.example.TravelPlanner.global.jwt.JwtProvider;
 import com.example.TravelPlanner.repository.MemberRepository;
 import jakarta.servlet.http.Cookie;
@@ -40,12 +42,12 @@ public class LoginMemberArgumentResolver implements HandlerMethodArgumentResolve
         String token = getAccessTokenFromCookie(request);
 
         if (token == null)
-            throw new RuntimeException("토큰이 존재하지 않습니다.");
+            throw new CustomException(ExceptionCode.NO_ACCESS_TOKEN);
 
         Long memberId = jwtProvider.extractMemberId(token);
 
         return memberRepository.findById(memberId)
-                .orElseThrow(() -> new RuntimeException("해당 회원을 찾을 수 없습니다."));
+                .orElseThrow(() -> new CustomException(ExceptionCode.MEMBER_NOT_FOUND));
     }
 
     public String getAccessTokenFromCookie(HttpServletRequest httpServletRequest) {

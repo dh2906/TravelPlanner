@@ -5,6 +5,9 @@ import com.example.TravelPlanner.controller.dto.request.SignupRequest;
 import com.example.TravelPlanner.controller.dto.response.LoginResponse;
 import com.example.TravelPlanner.controller.dto.response.MemberResponse;
 import com.example.TravelPlanner.entity.Member;
+import com.example.TravelPlanner.global.exception.CustomException;
+import com.example.TravelPlanner.global.exception.CustomException;
+import com.example.TravelPlanner.global.exception.ExceptionCode;
 import com.example.TravelPlanner.global.jwt.JwtProvider;
 import com.example.TravelPlanner.global.util.PasswordEncoder;
 import com.example.TravelPlanner.repository.MemberRepository;
@@ -30,10 +33,10 @@ public class AuthService {
     @Transactional
     public LoginResponse login(LoginRequest request) {
         Member member = memberRepository.findByEmail(request.email())
-                .orElseThrow(() -> new RuntimeException("가입되지 않은 이메일입니다."));
+                .orElse(null);
 
-        if (!PasswordEncoder.matches(request.password(), member.getPassword()))
-            throw new RuntimeException("비밀번호가 일치하지 않습니다.");
+        if (member == null || !PasswordEncoder.matches(request.password(), member.getPassword()))
+            throw new CustomException(ExceptionCode.LOGIN_FAILED);
 
         String accessToken = jwtProvider.createAccessToken(member.getId(), member.getRole().name());
         String refreshToken = jwtProvider.createRefreshToken();
