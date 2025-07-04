@@ -23,4 +23,9 @@ public class MemberService {
 
         return MemberResponse.fromEntity(member);
     }
+
+    @Transactional
+    public void deleteMember(Member member) {
+        memberRepository.delete(member);
+    }
 }

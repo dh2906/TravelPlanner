@@ -4,9 +4,11 @@ import com.example.TravelPlanner.controller.dto.request.MemberUpdateRequest;
 import com.example.TravelPlanner.controller.dto.response.MemberResponse;
 import com.example.TravelPlanner.entity.Member;
 import com.example.TravelPlanner.global.annotation.LoginMember;
+import com.example.TravelPlanner.global.util.TokenCookieUtil;
 import com.example.TravelPlanner.service.MemberService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -37,5 +39,23 @@ public class MemberController {
         return ResponseEntity
                 .ok()
                 .body(response);
+    }
+
+    @DeleteMapping("/me")
+    public ResponseEntity<Void> deleteMyAccount(
+            @LoginMember Member member,
+            HttpServletResponse httpServletResponse
+    ) {
+        memberService.deleteMember(member);
+
+        Cookie accessTokenCookie = TokenCookieUtil.clearAccessToken();
+        Cookie refreshTokenCookie = TokenCookieUtil.clearRefreshToken();
+
+        httpServletResponse.addCookie(accessTokenCookie);
+        httpServletResponse.addCookie(refreshTokenCookie);
+
+        return ResponseEntity
+                .noContent()
+                .build();
     }
 }
