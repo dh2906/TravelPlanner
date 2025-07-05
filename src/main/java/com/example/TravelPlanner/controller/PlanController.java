@@ -8,10 +8,9 @@ import com.example.TravelPlanner.service.PlanService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/plans")
@@ -25,6 +24,15 @@ public class PlanController {
             @RequestBody @Valid PlanRequest request
     ) {
         PlanResponse response = planService.createPlan(member, request);
+
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/me")
+    public ResponseEntity<List<PlanResponse>> getMyPlans(
+            @LoginMember Member member
+    ) {
+        List<PlanResponse> response = planService.getPlansByMemberId(member.getId());
 
         return ResponseEntity.ok(response);
     }
