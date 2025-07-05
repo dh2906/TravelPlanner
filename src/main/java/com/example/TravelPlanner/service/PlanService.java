@@ -2,8 +2,13 @@ package com.example.TravelPlanner.service;
 
 import com.example.TravelPlanner.controller.dto.request.PlanRequest;
 import com.example.TravelPlanner.controller.dto.response.PlanResponse;
+import com.example.TravelPlanner.controller.dto.response.PlanWithDetailsResponse;
 import com.example.TravelPlanner.entity.Member;
 import com.example.TravelPlanner.entity.Plan;
+import com.example.TravelPlanner.entity.PlanDetail;
+import com.example.TravelPlanner.global.exception.CustomException;
+import com.example.TravelPlanner.global.exception.ExceptionCode;
+import com.example.TravelPlanner.repository.PlanDetailRepository;
 import com.example.TravelPlanner.repository.PlanRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,6 +20,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PlanService {
     private final PlanRepository planRepository;
+    private final PlanDetailRepository planDetailRepository;
 
     @Transactional
     public PlanResponse createPlan(Member member, PlanRequest request) {
@@ -32,5 +38,14 @@ public class PlanService {
         return plans.stream()
                 .map(PlanResponse::fromEntity)
                 .toList();
+    }
+    @Transactional
+    public PlanWithDetailsResponse getPlanWithDetailByPlanId(Long planId) {
+        Plan plan = planRepository.findById(planId)
+                .orElseThrow(() -> new CustomException(ExceptionCode.PLAN_NOT_FOUND));
+
+        List<PlanDetail> planDetails = planDetailRepository.findAllByPlanId(planId);
+
+        return PlanWithDetailsResponse.fromEntities(plan, planDetails);
     }
 }

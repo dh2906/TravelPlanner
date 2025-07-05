@@ -2,6 +2,7 @@ package com.example.TravelPlanner.controller;
 
 import com.example.TravelPlanner.controller.dto.request.PlanRequest;
 import com.example.TravelPlanner.controller.dto.response.PlanResponse;
+import com.example.TravelPlanner.controller.dto.response.PlanWithDetailsResponse;
 import com.example.TravelPlanner.entity.Member;
 import com.example.TravelPlanner.global.annotation.LoginMember;
 import com.example.TravelPlanner.service.PlanService;
@@ -33,6 +34,15 @@ public class PlanController {
             @LoginMember Member member
     ) {
         List<PlanResponse> response = planService.getPlansByMemberId(member.getId());
+
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/{planId}")
+    public ResponseEntity<PlanWithDetailsResponse> getPlanDetailByPlanId(
+            @PathVariable Long planId
+    ) {
+        PlanWithDetailsResponse response = planService.getPlanWithDetailByPlanId(planId);
 
         return ResponseEntity.ok(response);
     }
