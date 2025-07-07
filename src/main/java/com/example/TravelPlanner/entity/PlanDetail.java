@@ -1,6 +1,7 @@
 package com.example.TravelPlanner.entity;
 
 import com.example.TravelPlanner.controller.dto.request.PlanDetailRequest;
+import com.example.TravelPlanner.controller.dto.request.PlanDetailsUpdateRequest;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -54,6 +55,15 @@ public class PlanDetail {
     private LocalDateTime updatedAt;
 
     public void updateInfo(PlanDetailRequest request) {
+        this.dayNumber = request.dayNumber();
+        this.placeName = request.placeName();
+        this.address = request.address();
+        this.memo = request.memo();
+        this.startTime = request.startTime();
+        this.endTime = request.endTime();
+    }
+
+    public void updateInfo(PlanDetailsUpdateRequest request) {
         this.dayNumber = request.dayNumber();
         this.placeName = request.placeName();
         this.address = request.address();

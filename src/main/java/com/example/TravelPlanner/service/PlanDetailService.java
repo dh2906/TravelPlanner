@@ -1,6 +1,7 @@
 package com.example.TravelPlanner.service;
 
 import com.example.TravelPlanner.controller.dto.request.PlanDetailRequest;
+import com.example.TravelPlanner.controller.dto.request.PlanDetailsUpdateRequest;
 import com.example.TravelPlanner.controller.dto.response.PlanDetailResponse;
 import com.example.TravelPlanner.entity.Plan;
 import com.example.TravelPlanner.entity.PlanDetail;
@@ -12,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -48,6 +50,7 @@ public class PlanDetailService {
                 .toList();
     }
 
+    @Transactional
     public PlanDetailResponse updateDetail(Long planId, Long detailId, PlanDetailRequest request) {
         Plan plan = planRepository.findById(planId)
                 .orElseThrow(() -> new CustomException(ExceptionCode.PLAN_NOT_FOUND));
@@ -62,5 +65,27 @@ public class PlanDetailService {
         planDetail.updateInfo(request);
 
         return PlanDetailResponse.fromEntity(planDetail);
+    }
+
+    @Transactional
+    public List<PlanDetailResponse> updateDetails(Long planId, List<PlanDetailsUpdateRequest> request) {
+        Plan plan = planRepository.findById(planId)
+                .orElseThrow(() -> new CustomException(ExceptionCode.PLAN_NOT_FOUND));
+
+        List<PlanDetailResponse> response = new ArrayList<>();
+
+        for (PlanDetailsUpdateRequest req : request) {
+            PlanDetail detail = planDetailRepository.findById(req.detailId())
+                    .orElseThrow(() -> new CustomException(ExceptionCode.PLAN_DETAIL_NOT_FOUND));
+
+            if (!detail.getPlan().getId().equals(plan.getId())) {
+                throw new CustomException(ExceptionCode.RESOURCE_RELATION_MISMATCH);
+            }
+
+            detail.updateInfo(req);
+            response.add(PlanDetailResponse.fromEntity(detail));
+        }
+
+        return response;
     }
 }

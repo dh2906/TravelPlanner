@@ -1,6 +1,7 @@
 package com.example.TravelPlanner.controller;
 
 import com.example.TravelPlanner.controller.dto.request.PlanDetailRequest;
+import com.example.TravelPlanner.controller.dto.request.PlanDetailsUpdateRequest;
 import com.example.TravelPlanner.controller.dto.request.PlanRequest;
 import com.example.TravelPlanner.controller.dto.response.PlanDetailResponse;
 import com.example.TravelPlanner.controller.dto.response.PlanResponse;
@@ -105,6 +106,18 @@ public class PlanController {
             @RequestBody @Valid PlanDetailRequest request
     ) {
         PlanDetailResponse response = planDetailService.updateDetail(planId, detailId, request);
+
+        return ResponseEntity
+                .ok(response);
+    }
+
+
+    @PutMapping("/{planId}/details/bulk")
+    public ResponseEntity<List<PlanDetailResponse>> updatePlanDetails(
+            @PathVariable Long planId,
+            @RequestBody @Valid List<PlanDetailsUpdateRequest> request
+    ) {
+        List<PlanDetailResponse> response = planDetailService.updateDetails(planId, request);
 
         return ResponseEntity
                 .ok(response);
