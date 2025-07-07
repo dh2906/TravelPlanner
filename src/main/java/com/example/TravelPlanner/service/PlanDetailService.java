@@ -47,4 +47,20 @@ public class PlanDetailService {
                 .map(PlanDetailResponse::fromEntity)
                 .toList();
     }
+
+    public PlanDetailResponse updateDetail(Long planId, Long detailId, PlanDetailRequest request) {
+        Plan plan = planRepository.findById(planId)
+                .orElseThrow(() -> new CustomException(ExceptionCode.PLAN_NOT_FOUND));
+
+        PlanDetail planDetail = planDetailRepository.findById(detailId)
+                .orElseThrow(() -> new CustomException(ExceptionCode.PLAN_DETAIL_NOT_FOUND));
+
+        if (!planDetail.getPlan().getId().equals(planId)) {
+            throw new CustomException(ExceptionCode.RESOURCE_RELATION_MISMATCH);
+        }
+
+        planDetail.updateInfo(request);
+
+        return PlanDetailResponse.fromEntity(planDetail);
+    }
 }

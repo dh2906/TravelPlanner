@@ -58,4 +58,9 @@ public class PlanService {
 
         return PlanResponse.fromEntity(plan);
     }
+
+    @Transactional
+    public void deletePlan(Long planId) {
+        planRepository.deleteById(planId);
+    }
 }

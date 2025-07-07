@@ -86,4 +86,27 @@ public class PlanController {
         return ResponseEntity
                 .ok(response);
     }
+
+    @DeleteMapping("/{planId}")
+    public ResponseEntity<Void> deletePlan(
+            @PathVariable Long planId
+    ) {
+        planService.deletePlan(planId);
+
+        return ResponseEntity
+                .noContent()
+                .build();
+    }
+
+    @PutMapping("/{planId}/details/{detailId}")
+    public ResponseEntity<PlanDetailResponse> updatePlanDetail(
+            @PathVariable Long planId,
+            @PathVariable Long detailId,
+            @RequestBody @Valid PlanDetailRequest request
+    ) {
+        PlanDetailResponse response = planDetailService.updateDetail(planId, detailId, request);
+
+        return ResponseEntity
+                .ok(response);
+    }
 }
