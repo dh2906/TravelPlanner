@@ -59,6 +59,9 @@ public class Plan {
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
+    @OneToMany(mappedBy = "plan", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Favorite> favorites = new ArrayList<>();
+
     public enum Visibility {
         PUBLIC,
         PRIVATE,
