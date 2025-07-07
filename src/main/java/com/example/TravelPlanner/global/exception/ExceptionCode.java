@@ -10,6 +10,8 @@ public enum ExceptionCode {
     EMAIL_ALREADY_EXISTS(409, "이미 사용 중인 이메일입니다."),
     LOGIN_FAILED(400, "이메일 또는 비밀번호가 올바르지 않습니다."),
     NO_ACCESS_TOKEN(401, "액세스 토큰이 존재하지 않습니다."),
+    ACCESS_DENIED(403, "접근 권한이 존재하지 않습니다."),
+    UNAUTHORIZED(401, "로그인이 필요합니다."),
     RESOURCE_RELATION_MISMATCH(400, "리소스 간의 관계가 일치하지 않습니다.");
 
     private final int status;
