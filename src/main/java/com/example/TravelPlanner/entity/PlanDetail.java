@@ -51,5 +51,4 @@ public class PlanDetail {
     @UpdateTimestamp
     @Column(nullable = false)
     private LocalDateTime updatedAt;
-
 }
