@@ -21,6 +21,18 @@ public class PlanDetailService {
     private final PlanRepository planRepository;
 
     @Transactional
+    public PlanDetailResponse createDetail(Long planId, PlanDetailRequest request) {
+        Plan plan = planRepository.findById(planId)
+                .orElseThrow(() -> new CustomException(ExceptionCode.PLAN_NOT_FOUND));
+
+        return PlanDetailResponse.fromEntity(
+                planDetailRepository.save(
+                        request.toEntity(plan)
+                )
+        );
+    }
+
+    @Transactional
     public List<PlanDetailResponse> createDetails(Long planId, List<PlanDetailRequest> request) {
         Plan plan = planRepository.findById(planId)
                 .orElseThrow(() -> new CustomException(ExceptionCode.PLAN_NOT_FOUND));
