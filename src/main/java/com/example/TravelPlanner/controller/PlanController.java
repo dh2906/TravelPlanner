@@ -55,7 +55,6 @@ public class PlanController {
     @PostMapping("/{planId}/details")
     public ResponseEntity<PlanDetailResponse> createPlanDetail(
             @PathVariable Long planId,
-            @LoginMember Member member,
             @RequestBody @Valid PlanDetailRequest request
     ) {
         PlanDetailResponse response = planDetailService.createDetail(planId, request);
@@ -68,7 +67,6 @@ public class PlanController {
     @PostMapping("/{planId}/details/bulk")
     public ResponseEntity<List<PlanDetailResponse>> createPlanDetails(
             @PathVariable Long planId,
-            @LoginMember Member member,
             @RequestBody @Valid List<PlanDetailRequest> request
     ) {
         List<PlanDetailResponse> response = planDetailService.createDetails(planId, request);
