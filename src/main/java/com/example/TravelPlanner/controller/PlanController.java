@@ -52,7 +52,7 @@ public class PlanController {
         return ResponseEntity.ok(response);
     }
 
-    @PostMapping("/{planId}/details")
+    @PostMapping("/{planId}/details/bulk")
     public ResponseEntity<List<PlanDetailResponse>> createPlanDetails(
             @PathVariable Long planId,
             @LoginMember Member member,
