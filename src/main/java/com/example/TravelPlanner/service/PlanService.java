@@ -48,4 +48,14 @@ public class PlanService {
 
         return PlanWithDetailsResponse.fromEntities(plan, planDetails);
     }
+
+    @Transactional
+    public PlanResponse updatePlan(Long planId, PlanRequest request) {
+        Plan plan = planRepository.findById(planId)
+                .orElseThrow(() -> new CustomException(ExceptionCode.PLAN_NOT_FOUND));
+
+        plan.updateInfo(request);
+
+        return PlanResponse.fromEntity(plan);
+    }
 }

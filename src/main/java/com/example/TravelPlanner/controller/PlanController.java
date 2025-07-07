@@ -75,4 +75,15 @@ public class PlanController {
                 .status(HttpStatus.CREATED)
                 .body(response);
     }
+
+    @PutMapping("/{planId}")
+    public ResponseEntity<PlanResponse> updatePlan(
+            @PathVariable Long planId,
+            @RequestBody @Valid PlanRequest request
+    ) {
+        PlanResponse response = planService.updatePlan(planId, request);
+
+        return ResponseEntity
+                .ok(response);
+    }
 }

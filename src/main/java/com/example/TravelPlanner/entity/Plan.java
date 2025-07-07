@@ -1,5 +1,6 @@
 package com.example.TravelPlanner.entity;
 
+import com.example.TravelPlanner.controller.dto.request.PlanRequest;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -62,5 +63,13 @@ public class Plan {
         PUBLIC,
         PRIVATE,
         FRIENDS_ONLY
+    }
+
+    public void updateInfo(PlanRequest request) {
+        this.title = request.title();
+        this.description = request.description();
+        this.startDate = request.startDate();
+        this.endDate = request.endDate();
+        this.visibility = request.visibility();
     }
 }
