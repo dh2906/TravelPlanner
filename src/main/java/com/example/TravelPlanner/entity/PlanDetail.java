@@ -29,9 +29,6 @@ public class PlanDetail {
     @Column(nullable = false)
     private int dayNumber;
 
-    @Column(nullable = false)
-    private int sequence;
-
     @Column(length = 100, nullable = false)
     private String placeName;
 
