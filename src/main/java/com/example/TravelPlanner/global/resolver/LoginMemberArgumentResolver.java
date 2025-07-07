@@ -4,9 +4,6 @@ import com.example.TravelPlanner.entity.Member;
 import com.example.TravelPlanner.global.annotation.LoginMember;
 import com.example.TravelPlanner.global.exception.CustomException;
 import com.example.TravelPlanner.global.exception.ExceptionCode;
-import com.example.TravelPlanner.global.jwt.JwtProvider;
-import com.example.TravelPlanner.repository.MemberRepository;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.MethodParameter;
@@ -19,48 +16,24 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 @Component
 @RequiredArgsConstructor
 public class LoginMemberArgumentResolver implements HandlerMethodArgumentResolver {
-    private final JwtProvider jwtProvider;
-    private final MemberRepository memberRepository;
-
     @Override
-    public boolean supportsParameter(
-            MethodParameter parameter
-    ) {
+    public boolean supportsParameter(MethodParameter parameter) {
         return parameter.hasParameterAnnotation(LoginMember.class)
                 && parameter.getParameterType().equals(Member.class);
     }
 
     @Override
-    public Object resolveArgument(
-            MethodParameter parameter,
-            ModelAndViewContainer mavContainer,
-            NativeWebRequest webRequest,
-            WebDataBinderFactory binderFactory
-    ) {
+    public Object resolveArgument(MethodParameter parameter,
+                                  ModelAndViewContainer mavContainer,
+                                  NativeWebRequest webRequest,
+                                  WebDataBinderFactory binderFactory) throws Exception {
         HttpServletRequest request = (HttpServletRequest) webRequest.getNativeRequest();
+        Member member = (Member) request.getAttribute("loginMember");
 
-        String token = getAccessTokenFromCookie(request);
-
-        if (token == null)
-            throw new CustomException(ExceptionCode.NO_ACCESS_TOKEN);
-
-        Long memberId = jwtProvider.extractMemberId(token);
-
-        return memberRepository.findById(memberId)
-                .orElseThrow(() -> new CustomException(ExceptionCode.MEMBER_NOT_FOUND));
-    }
-
-    public String getAccessTokenFromCookie(HttpServletRequest httpServletRequest) {
-        Cookie[] cookies = httpServletRequest.getCookies();
-
-        if (cookies == null)
-            return null;
-
-        for (Cookie cookie : cookies) {
-            if ("accessToken".equals(cookie.getName()))
-                return cookie.getValue();
+        if (member == null) {
+            throw new CustomException(ExceptionCode.UNAUTHORIZED);
         }
 
-        return null;
+        return member;
     }
 }
