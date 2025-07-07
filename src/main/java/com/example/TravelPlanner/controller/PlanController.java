@@ -122,4 +122,16 @@ public class PlanController {
         return ResponseEntity
                 .ok(response);
     }
+
+    @DeleteMapping("/{planId}/details/{detailId}")
+    public ResponseEntity<Void> deletePlanDetail(
+            @PathVariable Long planId,
+            @PathVariable Long detailId
+    ) {
+        planDetailService.deleteDetail(planId, detailId);
+
+        return ResponseEntity
+                .noContent()
+                .build();
+    }
 }

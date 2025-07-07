@@ -88,4 +88,20 @@ public class PlanDetailService {
 
         return response;
     }
+
+    @Transactional
+    public void deleteDetail(Long planId, Long detailId) {
+        Plan plan = planRepository.findById(planId)
+                .orElseThrow(() -> new CustomException(ExceptionCode.PLAN_NOT_FOUND));
+
+        PlanDetail detail = planDetailRepository.findById(detailId)
+                .orElseThrow(() -> new CustomException(ExceptionCode.PLAN_DETAIL_NOT_FOUND));
+
+        if (!detail.getPlan().getId().equals(plan.getId())) {
+            throw new CustomException(ExceptionCode.RESOURCE_RELATION_MISMATCH);
+        }
+
+        planDetailRepository.delete(detail);
+    }
+
 }
