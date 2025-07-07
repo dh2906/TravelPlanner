@@ -13,12 +13,18 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.util.List;
 
 @Component
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter implements Filter {
     private final JwtProvider jwtProvider;
     private final MemberRepository memberRepository;
+
+    private static final List<String> EXCLUDED_PATHS = List.of(
+            "/api/auth/signup",
+            "/api/auth/login"
+    );
 
     @Override
     public void doFilter(ServletRequest servletRequest,
@@ -28,24 +34,29 @@ public class JwtAuthenticationFilter implements Filter {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
 
-        try {
-            String token = extractTokenFromCookie(request);
+        String path = request.getRequestURI();
 
-            if (token != null && jwtProvider.validateToken(token)) {
-                Long memberId = jwtProvider.extractMemberId(token);
-                Member member = memberRepository.findById(memberId)
-                        .orElseThrow(() -> new CustomException(ExceptionCode.MEMBER_NOT_FOUND));
+        if (EXCLUDED_PATHS.stream().noneMatch(path::equals)) {
+            try {
+                String token = extractTokenFromCookie(request);
 
-                // request 속성에 인증된 멤버 저장
-                request.setAttribute("loginMember", member);
+                if (token != null && jwtProvider.validateToken(token)) {
+                    Long memberId = jwtProvider.extractMemberId(token);
+                    Member member = memberRepository.findById(memberId)
+                            .orElseThrow(() -> new CustomException(ExceptionCode.MEMBER_NOT_FOUND));
+
+                    request.setAttribute("loginMember", member);
+                }
+
+            } catch (CustomException ex) {
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                response.setContentType("application/json;charset=UTF-8");
+                response.getWriter().write("{\"error\":\"" + ex.getMessage() + "\"}");
+                return;
             }
-
-            filterChain.doFilter(request, response);
-        } catch (CustomException ex) {
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            response.setContentType("application/json;charset=UTF-8");
-            response.getWriter().write("{\"error\":\"" + ex.getMessage() + "\"}");
         }
+
+        filterChain.doFilter(request, response);
     }
 
     private String extractTokenFromCookie(HttpServletRequest request) {
