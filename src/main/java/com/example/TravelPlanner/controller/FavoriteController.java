@@ -1,14 +1,14 @@
 package com.example.TravelPlanner.controller;
 
+import com.example.TravelPlanner.controller.dto.response.PlanResponse;
 import com.example.TravelPlanner.entity.Member;
 import com.example.TravelPlanner.global.annotation.LoginMember;
 import com.example.TravelPlanner.service.FavoriteService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/favorites")
@@ -26,5 +26,15 @@ public class FavoriteController {
         String message = isFavorited ? "즐겨찾기 추가됨" : "즐겨찾기 해제됨";
         
         return ResponseEntity.ok(message);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<PlanResponse>> getFavoritePlans(
+            @LoginMember Member member
+    ) {
+        List<PlanResponse> response = favoriteService.getFavoritePlansByMember(Member member);
+
+        return ResponseEntity
+                .ok(response);
     }
 }

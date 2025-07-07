@@ -1,5 +1,6 @@
 package com.example.TravelPlanner.service;
 
+import com.example.TravelPlanner.controller.dto.response.PlanResponse;
 import com.example.TravelPlanner.entity.Favorite;
 import com.example.TravelPlanner.entity.Member;
 import com.example.TravelPlanner.entity.Plan;
@@ -10,6 +11,8 @@ import com.example.TravelPlanner.repository.MemberRepository;
 import com.example.TravelPlanner.repository.PlanRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -45,5 +48,13 @@ public class FavoriteService {
 
             return true;
         }
+    }
+
+    public List<PlanResponse> getFavoritePlansByMember(Member member) {
+        List<Favorite> favorites = favoriteRepository.findAllByMember(member);
+
+        return favorites.stream().map(favorite ->
+                        PlanResponse.fromEntity(favorite.getPlan())
+                ).toList();
     }
 }
