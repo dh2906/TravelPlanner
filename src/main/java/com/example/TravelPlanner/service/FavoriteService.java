@@ -19,6 +19,16 @@ public class FavoriteService {
     private final PlanRepository planRepository;
 
     public boolean toggleFavorite(Long memberId, Long planId) {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new CustomException(ExceptionCode.MEMBER_NOT_FOUND));
+
+        Plan plan = planRepository.findById(planId)
+                .orElseThrow(() -> new CustomException(ExceptionCode.PLAN_NOT_FOUND));
+
+        if (!plan.getMember().getId().equals(memberId) && plan.getVisibility() != Plan.Visibility.PUBLIC) {
+            throw new CustomException(ExceptionCode.ACCESS_DENIED);
+        }
+
         Favorite favorite = favoriteRepository.findByMemberIdAndPlanId(memberId, planId)
                 .orElse(null);
 
@@ -26,12 +36,6 @@ public class FavoriteService {
             favoriteRepository.delete(favorite);
             return false;
         } else {
-            Member member = memberRepository.findById(memberId)
-                    .orElseThrow(() -> new CustomException(ExceptionCode.MEMBER_NOT_FOUND));
-
-            Plan plan = planRepository.findById(planId)
-                    .orElseThrow(() -> new CustomException(ExceptionCode.PLAN_NOT_FOUND));
-
             favoriteRepository.save(
                     Favorite.builder()
                             .member(member)
