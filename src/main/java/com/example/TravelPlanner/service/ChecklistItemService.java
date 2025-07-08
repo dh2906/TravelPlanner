@@ -66,8 +66,17 @@ public class ChecklistItemService {
         ChecklistItem checklistItem = checklistItemRepository.findById(id)
                 .orElseThrow(() -> new CustomException(ExceptionCode.CHECKLIST_ITEM_NOT_FOUND));
 
-        checklistItem.toggleChecked();
+        checklistItem.updateChecked(!checklistItem.isChecked());
 
         return checklistItem.isChecked();
+    }
+
+    @Transactional
+    public void clearCheckedAllItems(Member member) {
+        List<ChecklistItem> checklistItems = checklistItemRepository.findAllByMember(member);
+
+        for (ChecklistItem item : checklistItems) {
+            item.updateChecked(false);
+        }
     }
 }

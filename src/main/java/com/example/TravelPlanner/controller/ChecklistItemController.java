@@ -85,4 +85,14 @@ public class ChecklistItemController {
         return ResponseEntity
                 .ok(message);
     }
+
+    @PostMapping("/items/clear")
+    public ResponseEntity<String> clearCheckedAllItems(
+            @LoginMember Member member
+    ) {
+        checklistItemService.clearCheckedAllItems(member);
+
+        return ResponseEntity
+                .ok("모든 항목의 체크가 해제되었습니다.");
+    }
 }
