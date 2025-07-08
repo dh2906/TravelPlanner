@@ -4,7 +4,7 @@ import com.example.TravelPlanner.controller.dto.request.ChecklistItemRequest;
 import com.example.TravelPlanner.controller.dto.response.ChecklistItemResponse;
 import com.example.TravelPlanner.entity.Member;
 import com.example.TravelPlanner.global.annotation.LoginMember;
-import com.example.TravelPlanner.service.ChecklistService;
+import com.example.TravelPlanner.service.ChecklistItemService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -16,14 +16,14 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/checklist")
 @RequiredArgsConstructor
-public class ChecklistController {
-    private final ChecklistService checklistService;
+public class ChecklistItemController {
+    private final ChecklistItemService checklistItemService;
 
     @GetMapping
     public ResponseEntity<List<ChecklistItemResponse>> getMyChecklistItems(
             @LoginMember Member member
     ) {
-        List<ChecklistItemResponse> response = checklistService.getMyChecklistItems(member);
+        List<ChecklistItemResponse> response = checklistItemService.getMyChecklistItems(member);
 
         return ResponseEntity
                 .ok(response);
@@ -33,7 +33,7 @@ public class ChecklistController {
     public ResponseEntity<Void> deleteMyChecklistItems(
             @LoginMember Member member
     ) {
-        checklistService.deleteMyChecklistItems(member);
+        checklistItemService.deleteMyChecklistItems(member);
 
         return ResponseEntity
                 .noContent()
@@ -45,7 +45,7 @@ public class ChecklistController {
             @LoginMember Member member,
             @RequestBody @Valid ChecklistItemRequest request
     ) {
-        ChecklistItemResponse response = checklistService.createChecklistItem(member, request);
+        ChecklistItemResponse response = checklistItemService.createChecklistItem(member, request);
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)
