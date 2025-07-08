@@ -23,7 +23,10 @@ public class JwtAuthenticationFilter implements Filter {
 
     private static final List<String> EXCLUDED_PATHS = List.of(
             "/api/auth/signup",
-            "/api/auth/login"
+            "/api/auth/login",
+            "/swagger-ui/**",
+            "/v3/api-docs",
+            "/swagger-resources"
     );
 
     @Override
@@ -36,24 +39,26 @@ public class JwtAuthenticationFilter implements Filter {
 
         String path = request.getRequestURI();
 
-        if (EXCLUDED_PATHS.stream().noneMatch(path::equals)) {
-            try {
-                String token = extractTokenFromCookie(request);
+        if (isExcludedPath(path)) {
+            filterChain.doFilter(request, response);
+            return;
+        }
 
-                if (token != null && jwtProvider.validateToken(token)) {
-                    Long memberId = jwtProvider.extractMemberId(token);
-                    Member member = memberRepository.findById(memberId)
-                            .orElseThrow(() -> new CustomException(ExceptionCode.MEMBER_NOT_FOUND));
+        try {
+            String token = extractTokenFromCookie(request);
 
-                    request.setAttribute("loginMember", member);
-                }
-
-            } catch (CustomException ex) {
-                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-                response.setContentType("application/json;charset=UTF-8");
-                response.getWriter().write("{\"error\":\"" + ex.getMessage() + "\"}");
-                return;
+            if (token != null && jwtProvider.validateToken(token)) {
+                Long memberId = jwtProvider.extractMemberId(token);
+                Member member = memberRepository.findById(memberId)
+                        .orElseThrow(() -> new CustomException(ExceptionCode.MEMBER_NOT_FOUND));
+                request.setAttribute("loginMember", member);
             }
+
+        } catch (CustomException ex) {
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            response.setContentType("application/json;charset=UTF-8");
+            response.getWriter().write("{\"error\":\"" + ex.getMessage() + "\"}");
+            return;
         }
 
         filterChain.doFilter(request, response);
@@ -69,5 +74,9 @@ public class JwtAuthenticationFilter implements Filter {
         }
 
         return null;
+    }
+
+    private boolean isExcludedPath(String path) {
+        return EXCLUDED_PATHS.stream().anyMatch(path::startsWith);
     }
 }
