@@ -49,6 +49,9 @@ public class Member {
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Plan> plans = new ArrayList<>();
 
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ChecklistItem> checklistItems = new ArrayList<>();
+
     public enum Role {
         USER, ADMIN
     }
