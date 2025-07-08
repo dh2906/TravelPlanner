@@ -19,4 +19,8 @@ public class ChecklistService {
                 .map(ChecklistItemResponse::fromEntity)
                 .toList();
     }
+
+    public void deleteMyChecklistItems(Member member) {
+        checklistRepository.deleteAllByMember(member);
+    }
 }

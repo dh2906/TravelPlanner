@@ -8,4 +8,6 @@ import java.util.List;
 
 public interface ChecklistRepository extends JpaRepository<ChecklistItem, Long> {
     public List<ChecklistItem> findAllByMember(Member member);
+
+    public void deleteAllByMember(Member member);
 }

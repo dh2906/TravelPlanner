@@ -6,6 +6,7 @@ import com.example.TravelPlanner.global.annotation.LoginMember;
 import com.example.TravelPlanner.service.ChecklistService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,5 +27,16 @@ public class ChecklistController {
 
         return ResponseEntity
                 .ok(response);
+    }
+
+    @DeleteMapping
+    public ResponseEntity<Void> deleteMyChecklistItems(
+            @LoginMember Member member
+    ) {
+        checklistService.deleteMyChecklistItems(member);
+
+        return ResponseEntity
+                .noContent()
+                .build();
     }
 }
