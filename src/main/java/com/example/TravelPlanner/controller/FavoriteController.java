@@ -32,7 +32,7 @@ public class FavoriteController {
     public ResponseEntity<List<PlanResponse>> getFavoritePlans(
             @LoginMember Member member
     ) {
-        List<PlanResponse> response = favoriteService.getFavoritePlansByMember(Member member);
+        List<PlanResponse> response = favoriteService.getFavoritePlansByMember(member);
 
         return ResponseEntity
                 .ok(response);
