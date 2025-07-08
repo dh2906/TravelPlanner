@@ -1,15 +1,15 @@
 package com.example.TravelPlanner.controller;
 
+import com.example.TravelPlanner.controller.dto.request.ChecklistItemRequest;
 import com.example.TravelPlanner.controller.dto.response.ChecklistItemResponse;
 import com.example.TravelPlanner.entity.Member;
 import com.example.TravelPlanner.global.annotation.LoginMember;
 import com.example.TravelPlanner.service.ChecklistService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -38,5 +38,17 @@ public class ChecklistController {
         return ResponseEntity
                 .noContent()
                 .build();
+    }
+
+    @PostMapping("/items")
+    public ResponseEntity<ChecklistItemResponse> createChecklistItem(
+            @LoginMember Member member,
+            @RequestBody @Valid ChecklistItemRequest request
+    ) {
+        ChecklistItemResponse response = checklistService.createChecklistItem(member, request);
+
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(response);
     }
 }

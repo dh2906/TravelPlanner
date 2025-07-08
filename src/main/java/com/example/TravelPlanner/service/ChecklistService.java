@@ -1,6 +1,8 @@
 package com.example.TravelPlanner.service;
 
+import com.example.TravelPlanner.controller.dto.request.ChecklistItemRequest;
 import com.example.TravelPlanner.controller.dto.response.ChecklistItemResponse;
+import com.example.TravelPlanner.entity.ChecklistItem;
 import com.example.TravelPlanner.entity.Member;
 import com.example.TravelPlanner.repository.ChecklistRepository;
 import lombok.RequiredArgsConstructor;
@@ -22,5 +24,16 @@ public class ChecklistService {
 
     public void deleteMyChecklistItems(Member member) {
         checklistRepository.deleteAllByMember(member);
+    }
+
+    public ChecklistItemResponse createChecklistItem(
+            Member member,
+            ChecklistItemRequest request
+    ) {
+        return ChecklistItemResponse.fromEntity(
+                checklistRepository.save(
+                        request.toEntity(member)
+                )
+        );
     }
 }
