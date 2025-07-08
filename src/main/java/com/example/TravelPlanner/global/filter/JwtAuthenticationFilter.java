@@ -32,33 +32,30 @@ public class JwtAuthenticationFilter implements Filter {
     @Override
     public void doFilter(ServletRequest servletRequest,
                          ServletResponse servletResponse,
-                         FilterChain filterChain)
-            throws IOException, ServletException {
+                         FilterChain filterChain
+    ) throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
 
         String path = request.getRequestURI();
 
-        if (isExcludedPath(path)) {
-            filterChain.doFilter(request, response);
-            return;
-        }
+        if (EXCLUDED_PATHS.stream().noneMatch(path::equals)) {
+            try {
+                String token = extractTokenFromCookie(request);
 
-        try {
-            String token = extractTokenFromCookie(request);
+                if (token != null && jwtProvider.validateToken(token)) {
+                    Long memberId = jwtProvider.extractMemberId(token);
+                    Member member = memberRepository.findById(memberId)
+                            .orElseThrow(() -> new CustomException(ExceptionCode.MEMBER_NOT_FOUND));
+                    request.setAttribute("loginMember", member);
+                }
 
-            if (token != null && jwtProvider.validateToken(token)) {
-                Long memberId = jwtProvider.extractMemberId(token);
-                Member member = memberRepository.findById(memberId)
-                        .orElseThrow(() -> new CustomException(ExceptionCode.MEMBER_NOT_FOUND));
-                request.setAttribute("loginMember", member);
+            } catch (CustomException ex) {
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                response.setContentType("application/json;charset=UTF-8");
+                response.getWriter().write("{\"error\":\"" + ex.getMessage() + "\"}");
+                return;
             }
-
-        } catch (CustomException ex) {
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            response.setContentType("application/json;charset=UTF-8");
-            response.getWriter().write("{\"error\":\"" + ex.getMessage() + "\"}");
-            return;
         }
 
         filterChain.doFilter(request, response);
