@@ -26,7 +26,7 @@ public class Favorite {
     @JoinColumn(name = "plan_id", nullable = false)
     private Plan plan;
 
-    @Column(name = "created_at", nullable = false)
+    @Column(name = "created_at", nullable = false, updatable = false)
     @CreationTimestamp
     private LocalDateTime createdAt;
 }
