@@ -60,4 +60,14 @@ public class ChecklistItemService {
     public void deleteChecklistItem(Long id) {
         checklistItemRepository.deleteById(id);
     }
+
+    @Transactional
+    public boolean toggleChecklistItem(Long id) {
+        ChecklistItem checklistItem = checklistItemRepository.findById(id)
+                .orElseThrow(() -> new CustomException(ExceptionCode.CHECKLIST_ITEM_NOT_FOUND));
+
+        checklistItem.toggleChecked();
+
+        return checklistItem.isChecked();
+    }
 }

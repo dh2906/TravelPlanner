@@ -73,4 +73,16 @@ public class ChecklistItemController {
                 .noContent()
                 .build();
     }
+
+    @PostMapping("/items/{id}/toggle")
+    public ResponseEntity<String> toggleChecklistItem(
+            @PathVariable Long id
+    ) {
+        boolean isChecked = checklistItemService.toggleChecklistItem(id);
+
+        String message = isChecked ? "항목이 체크되었습니다." : "항목이 체크 해제되었습니다.";
+
+        return ResponseEntity
+                .ok(message);
+    }
 }

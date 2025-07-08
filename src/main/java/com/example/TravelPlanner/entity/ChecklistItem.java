@@ -43,4 +43,8 @@ public class ChecklistItem {
         this.name = request.name();
         this.description = request.description();
     }
+
+    public void toggleChecked() {
+        this.checked = !this.checked;
+    }
 }
