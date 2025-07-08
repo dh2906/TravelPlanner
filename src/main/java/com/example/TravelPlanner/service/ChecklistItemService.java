@@ -55,4 +55,9 @@ public class ChecklistItemService {
 
         return ChecklistItemResponse.fromEntity(checklistItem);
     }
+
+    @Transactional
+    public void deleteChecklistItem(Long id) {
+        checklistItemRepository.deleteById(id);
+    }
 }

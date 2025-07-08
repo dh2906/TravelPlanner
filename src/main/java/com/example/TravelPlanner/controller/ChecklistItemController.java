@@ -62,4 +62,15 @@ public class ChecklistItemController {
         return ResponseEntity
                 .ok(response);
     }
+
+    @DeleteMapping("/items/{id}")
+    public ResponseEntity<Void> deleteChecklistItem(
+            @PathVariable Long id
+    ) {
+        checklistItemService.deleteChecklistItem(id);
+
+        return ResponseEntity
+                .noContent()
+                .build();
+    }
 }
