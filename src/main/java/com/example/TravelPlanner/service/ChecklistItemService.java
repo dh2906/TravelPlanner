@@ -2,7 +2,10 @@ package com.example.TravelPlanner.service;
 
 import com.example.TravelPlanner.controller.dto.request.ChecklistItemRequest;
 import com.example.TravelPlanner.controller.dto.response.ChecklistItemResponse;
+import com.example.TravelPlanner.entity.ChecklistItem;
 import com.example.TravelPlanner.entity.Member;
+import com.example.TravelPlanner.global.exception.CustomException;
+import com.example.TravelPlanner.global.exception.ExceptionCode;
 import com.example.TravelPlanner.repository.ChecklistItemRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -34,5 +37,17 @@ public class ChecklistItemService {
                         request.toEntity(member)
                 )
         );
+    }
+
+    public ChecklistItemResponse updateChecklistItem(
+            Long id,
+            ChecklistItemRequest request
+    ) {
+        ChecklistItem checklistItem = checklistItemRepository.findById(id)
+                .orElseThrow(() -> new CustomException(ExceptionCode.CHECKLIST_ITEM_NOT_FOUND));
+
+        checklistItem.updateInfo(request);
+
+        return ChecklistItemResponse.fromEntity(checklistItem);
     }
 }

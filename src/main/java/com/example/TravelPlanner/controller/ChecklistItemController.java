@@ -51,4 +51,15 @@ public class ChecklistItemController {
                 .status(HttpStatus.CREATED)
                 .body(response);
     }
+
+    @PutMapping("/items/{id}")
+    public ResponseEntity<ChecklistItemResponse> updateChecklistItem(
+            @PathVariable Long id,
+            @RequestBody @Valid ChecklistItemRequest request
+    ) {
+        ChecklistItemResponse response = checklistItemService.updateChecklistItem(id, request);
+
+        return ResponseEntity
+                .ok(response);
+    }
 }

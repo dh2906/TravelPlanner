@@ -1,5 +1,6 @@
 package com.example.TravelPlanner.entity;
 
+import com.example.TravelPlanner.controller.dto.request.ChecklistItemRequest;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -37,4 +38,9 @@ public class ChecklistItem {
 
     @Column(name = "updated_at", nullable = false)
     private LocalDateTime updatedAt;
+
+    public void updateInfo(ChecklistItemRequest request) {
+        this.name = request.name();
+        this.description = request.description();
+    }
 }
