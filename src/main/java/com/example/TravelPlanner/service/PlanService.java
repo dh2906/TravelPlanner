@@ -31,7 +31,7 @@ public class PlanService {
         );
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public List<PlanResponse> getPlansByMemberId(Long memberId) {
         List<Plan> plans = planRepository.findAllByMemberId(memberId);
 
@@ -39,7 +39,8 @@ public class PlanService {
                 .map(PlanResponse::fromEntity)
                 .toList();
     }
-    @Transactional
+
+    @Transactional(readOnly = true)
     public PlanWithDetailsResponse getPlanWithDetailByPlanId(Long planId) {
         Plan plan = planRepository.findById(planId)
                 .orElseThrow(() -> new CustomException(ExceptionCode.PLAN_NOT_FOUND));

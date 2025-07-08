@@ -9,6 +9,7 @@ import com.example.TravelPlanner.global.exception.ExceptionCode;
 import com.example.TravelPlanner.repository.ChecklistItemRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -17,6 +18,7 @@ import java.util.List;
 public class ChecklistItemService {
     private final ChecklistItemRepository checklistItemRepository;
 
+    @Transactional(readOnly = true)
     public List<ChecklistItemResponse> getMyChecklistItems(Member member) {
         return checklistItemRepository.findAllByMember(member)
                 .stream()
@@ -24,10 +26,12 @@ public class ChecklistItemService {
                 .toList();
     }
 
+    @Transactional
     public void deleteMyChecklistItems(Member member) {
         checklistItemRepository.deleteAllByMember(member);
     }
 
+    @Transactional
     public ChecklistItemResponse createChecklistItem(
             Member member,
             ChecklistItemRequest request
@@ -39,6 +43,7 @@ public class ChecklistItemService {
         );
     }
 
+    @Transactional
     public ChecklistItemResponse updateChecklistItem(
             Long id,
             ChecklistItemRequest request

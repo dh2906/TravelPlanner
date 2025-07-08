@@ -11,6 +11,7 @@ import com.example.TravelPlanner.repository.MemberRepository;
 import com.example.TravelPlanner.repository.PlanRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -21,6 +22,7 @@ public class FavoriteService {
     private final MemberRepository memberRepository;
     private final PlanRepository planRepository;
 
+    @Transactional
     public boolean toggleFavorite(Long memberId, Long planId) {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new CustomException(ExceptionCode.MEMBER_NOT_FOUND));
@@ -50,6 +52,7 @@ public class FavoriteService {
         }
     }
 
+    @Transactional(readOnly = true)
     public List<PlanResponse> getFavoritePlansByMember(Member member) {
         List<Favorite> favorites = favoriteRepository.findAllByMember(member);
 
