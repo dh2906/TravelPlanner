@@ -1,8 +1,8 @@
 package com.example.TravelPlanner.service;
 
-import com.example.TravelPlanner.controller.dto.request.PlanDetailRequest;
-import com.example.TravelPlanner.controller.dto.request.PlanDetailsUpdateRequest;
-import com.example.TravelPlanner.controller.dto.response.PlanDetailResponse;
+import com.example.TravelPlanner.dto.request.PlanDetailRequest;
+import com.example.TravelPlanner.dto.request.PlanDetailsUpdateRequest;
+import com.example.TravelPlanner.dto.response.PlanDetailResponse;
 import com.example.TravelPlanner.entity.Plan;
 import com.example.TravelPlanner.entity.PlanDetail;
 import com.example.TravelPlanner.global.exception.CustomException;

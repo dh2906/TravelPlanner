@@ -1,8 +1,8 @@
 package com.example.TravelPlanner.service;
 
-import com.example.TravelPlanner.controller.dto.request.PlanRequest;
-import com.example.TravelPlanner.controller.dto.response.PlanResponse;
-import com.example.TravelPlanner.controller.dto.response.PlanWithDetailsResponse;
+import com.example.TravelPlanner.dto.request.PlanRequest;
+import com.example.TravelPlanner.dto.response.PlanResponse;
+import com.example.TravelPlanner.dto.response.PlanWithDetailsResponse;
 import com.example.TravelPlanner.entity.Member;
 import com.example.TravelPlanner.entity.Plan;
 import com.example.TravelPlanner.entity.PlanDetail;

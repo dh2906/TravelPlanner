@@ -1,6 +1,6 @@
 package com.example.TravelPlanner.entity;
 
-import com.example.TravelPlanner.controller.dto.request.ChecklistItemRequest;
+import com.example.TravelPlanner.dto.request.ChecklistItemRequest;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

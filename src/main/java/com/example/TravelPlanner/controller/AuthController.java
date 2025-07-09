@@ -1,9 +1,9 @@
 package com.example.TravelPlanner.controller;
 
-import com.example.TravelPlanner.controller.dto.request.LoginRequest;
-import com.example.TravelPlanner.controller.dto.request.SignupRequest;
-import com.example.TravelPlanner.controller.dto.response.LoginResponse;
-import com.example.TravelPlanner.controller.dto.response.MemberResponse;
+import com.example.TravelPlanner.dto.request.LoginRequest;
+import com.example.TravelPlanner.dto.request.SignupRequest;
+import com.example.TravelPlanner.dto.response.LoginResponse;
+import com.example.TravelPlanner.dto.response.MemberResponse;
 import com.example.TravelPlanner.global.util.TokenCookieUtil;
 import com.example.TravelPlanner.service.AuthService;
 import jakarta.servlet.http.Cookie;

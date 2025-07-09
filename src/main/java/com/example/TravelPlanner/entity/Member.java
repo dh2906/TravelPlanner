@@ -1,6 +1,6 @@
 package com.example.TravelPlanner.entity;
 
-import com.example.TravelPlanner.controller.dto.request.MemberUpdateRequest;
+import com.example.TravelPlanner.dto.request.MemberUpdateRequest;
 import com.example.TravelPlanner.global.util.PasswordEncoder;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

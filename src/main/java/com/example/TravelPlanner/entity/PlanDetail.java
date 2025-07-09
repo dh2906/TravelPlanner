@@ -1,7 +1,7 @@
 package com.example.TravelPlanner.entity;
 
-import com.example.TravelPlanner.controller.dto.request.PlanDetailRequest;
-import com.example.TravelPlanner.controller.dto.request.PlanDetailsUpdateRequest;
+import com.example.TravelPlanner.dto.request.PlanDetailRequest;
+import com.example.TravelPlanner.dto.request.PlanDetailsUpdateRequest;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

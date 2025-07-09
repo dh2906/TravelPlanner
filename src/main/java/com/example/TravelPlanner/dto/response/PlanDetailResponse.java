@@ -1,4 +1,4 @@
-package com.example.TravelPlanner.controller.dto.response;
+package com.example.TravelPlanner.dto.response;
 
 import com.example.TravelPlanner.entity.PlanDetail;
 import lombok.Builder;

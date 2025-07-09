@@ -1,4 +1,4 @@
-package com.example.TravelPlanner.controller.dto.request;
+package com.example.TravelPlanner.dto.request;
 
 import jakarta.validation.constraints.NotBlank;
 

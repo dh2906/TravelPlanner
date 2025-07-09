@@ -1,6 +1,6 @@
 package com.example.TravelPlanner.service;
 
-import com.example.TravelPlanner.controller.dto.response.PlanResponse;
+import com.example.TravelPlanner.dto.response.PlanResponse;
 import com.example.TravelPlanner.entity.Favorite;
 import com.example.TravelPlanner.entity.Member;
 import com.example.TravelPlanner.entity.Plan;

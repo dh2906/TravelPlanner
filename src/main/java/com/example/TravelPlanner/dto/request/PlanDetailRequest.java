@@ -1,4 +1,4 @@
-package com.example.TravelPlanner.controller.dto.request;
+package com.example.TravelPlanner.dto.request;
 
 import com.example.TravelPlanner.entity.Plan;
 import com.example.TravelPlanner.entity.PlanDetail;

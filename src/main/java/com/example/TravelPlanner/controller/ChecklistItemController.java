@@ -1,7 +1,7 @@
 package com.example.TravelPlanner.controller;
 
-import com.example.TravelPlanner.controller.dto.request.ChecklistItemRequest;
-import com.example.TravelPlanner.controller.dto.response.ChecklistItemResponse;
+import com.example.TravelPlanner.dto.request.ChecklistItemRequest;
+import com.example.TravelPlanner.dto.response.ChecklistItemResponse;
 import com.example.TravelPlanner.entity.Member;
 import com.example.TravelPlanner.global.annotation.LoginMember;
 import com.example.TravelPlanner.service.ChecklistItemService;
