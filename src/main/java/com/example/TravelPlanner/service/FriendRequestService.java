@@ -94,4 +94,19 @@ public class FriendRequestService {
         friendRepository.save(Friend.create(receiver, sender));
         friendRepository.save(Friend.create(sender, receiver));
     }
+
+    @Transactional
+    public void rejectFriendRequest(Member receiver, Long requestId) {
+        FriendRequest friendRequest = friendRequestRepository.findById(requestId)
+                .orElseThrow(() -> new CustomException(ExceptionCode.FRIEND_REQUEST_NOT_FOUND));
+
+        if (!friendRequest.getReceiver()
+                          .getId()
+                          .equals(receiver.getId())
+        ) {
+            throw new CustomException(ExceptionCode.INVALID_FRIEND_REQUEST);
+        }
+
+        friendRequest.reject();
+    }
 }
