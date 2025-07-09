@@ -4,12 +4,12 @@ import com.example.TravelPlanner.entity.FriendRequest;
 import lombok.Builder;
 
 @Builder
-public record FriendRequestResponse(
+public record ReceivedFriendRequestResponse(
         Long senderId,
         String senderName
 ) {
-    public static FriendRequestResponse fromEntity(FriendRequest friendRequest) {
-        return FriendRequestResponse.builder()
+    public static ReceivedFriendRequestResponse fromEntity(FriendRequest friendRequest) {
+        return ReceivedFriendRequestResponse.builder()
                 .senderId(friendRequest.getSender().getId())
                 .senderName(friendRequest.getSender().getName())
                 .build();
