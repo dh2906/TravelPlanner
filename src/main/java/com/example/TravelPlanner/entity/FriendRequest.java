@@ -53,7 +53,7 @@ public class FriendRequest {
         REJECTED
     }
 
-    public void accept() {
+    public void acceptOrThrow() {
         if (this.status != Status.PENDING) {
             throw new CustomException(ExceptionCode.FRIEND_REQUEST_ALREADY_PROCESSED);
         }
@@ -61,7 +61,7 @@ public class FriendRequest {
         this.status = Status.ACCEPTED;
     }
 
-    public void reject() {
+    public void rejectOrThrow() {
         if (this.status != Status.PENDING) {
             throw new CustomException(ExceptionCode.FRIEND_REQUEST_ALREADY_PROCESSED);
         }

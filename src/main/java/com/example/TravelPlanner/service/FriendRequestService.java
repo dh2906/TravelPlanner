@@ -32,13 +32,16 @@ public class FriendRequestService {
         Member receiver = memberRepository.findById(friendId)
                 .orElseThrow(() -> new CustomException(ExceptionCode.MEMBER_NOT_FOUND));
 
-        if (friendRequestRepository.existsBySenderIdAndReceiverId(sender.getId(), receiver.getId())) {
-            throw new CustomException(ExceptionCode.DUPLICATE_FRIEND_REQUEST);
+        if (friendRepository.existsByMemberIdAndFriendId(sender.getId(), receiver.getId())) {
+            throw new CustomException(ExceptionCode.FRIEND_ALREADY_EXISTS);
         }
 
-        if (friendRequestRepository.existsBySenderIdAndReceiverId(receiver.getId(), sender.getId())) {
-            throw new CustomException(ExceptionCode.FRIEND_REQUEST_ALREADY_RECEIVED);
-        }
+        friendRequestRepository.findBySenderIdAndReceiverId(receiver.getId(), sender.getId())
+                               .ifPresent(request -> {
+                                   if (request.getStatus() == FriendRequest.Status.PENDING) {
+                                       throw new CustomException(ExceptionCode.FRIEND_REQUEST_ALREADY_RECEIVED);
+                                   }
+                               });
 
         FriendRequest request = FriendRequest.builder()
                 .sender(sender)
@@ -54,12 +57,16 @@ public class FriendRequestService {
                 .findBySenderIdAndReceiverId(sender.getId(), friendId)
                 .orElseThrow(() -> new CustomException(ExceptionCode.FRIEND_REQUEST_NOT_FOUND));
 
+        if (request.getStatus() != FriendRequest.Status.PENDING) {
+            throw new CustomException(ExceptionCode.FRIEND_REQUEST_ALREADY_PROCESSED);
+        }
+
         friendRequestRepository.delete(request);
     }
 
     @Transactional(readOnly = true)
-    public List<ReceivedFriendRequestResponse> getReceivedFriendRequests(Member member) {
-        List<FriendRequest> friendRequests = friendRequestRepository.findAllByReceiverId(member.getId());
+    public List<ReceivedFriendRequestResponse> getPendingReceivedFriendRequests(Member member) {
+        List<FriendRequest> friendRequests = friendRequestRepository.findAllByReceiverIdAndStatus(member.getId(), FriendRequest.Status.PENDING);
 
         return friendRequests.stream()
                 .map(ReceivedFriendRequestResponse::fromEntity)
@@ -68,7 +75,7 @@ public class FriendRequestService {
 
     @Transactional(readOnly = true)
     public List<SentFriendRequestResponse> getSentFriendRequests(Member member) {
-        List<FriendRequest> friendRequests = friendRequestRepository.findAllBySenderId(member.getId());
+        List<FriendRequest> friendRequests = friendRequestRepository.findAllBySenderIdAndStatus(member.getId(), FriendRequest.Status.PENDING);
 
         return friendRequests.stream()
                 .map(SentFriendRequestResponse::fromEntity)
@@ -89,7 +96,7 @@ public class FriendRequestService {
 
         Member sender = friendRequest.getSender();
 
-        friendRequest.accept();
+        friendRequest.acceptOrThrow();
 
         friendRepository.save(Friend.create(receiver, sender));
         friendRepository.save(Friend.create(sender, receiver));
@@ -107,6 +114,6 @@ public class FriendRequestService {
             throw new CustomException(ExceptionCode.INVALID_FRIEND_REQUEST);
         }
 
-        friendRequest.reject();
+        friendRequest.rejectOrThrow();
     }
 }

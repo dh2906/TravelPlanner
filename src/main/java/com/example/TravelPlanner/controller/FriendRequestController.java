@@ -46,7 +46,7 @@ public class FriendRequestController {
     public ResponseEntity<List<ReceivedFriendRequestResponse>> getReceivedFriendRequests(
             @LoginMember Member member
     ) {
-        List<ReceivedFriendRequestResponse> response = friendRequestService.getReceivedFriendRequests(member);
+        List<ReceivedFriendRequestResponse> response = friendRequestService.getPendingReceivedFriendRequests(member);
 
         return ResponseEntity
                 .ok(response);
