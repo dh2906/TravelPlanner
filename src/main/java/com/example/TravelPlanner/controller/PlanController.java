@@ -44,6 +44,14 @@ public class PlanController {
         return ResponseEntity.ok(response);
     }
 
+    @GetMapping
+    public ResponseEntity<List<PlanResponse>> getPublicPlans() {
+        List<PlanResponse> response = planService.getPublicPlans();
+
+        return ResponseEntity
+                .ok(response);
+    }
+
     @GetMapping("/{planId}")
     public ResponseEntity<PlanWithDetailsResponse> getPlanDetailByPlanId(
             @PathVariable Long planId

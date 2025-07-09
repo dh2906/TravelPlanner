@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface PlanRepository extends JpaRepository<Plan, Long> {
     public List<Plan> findAllByMemberId(Long id);
+
+    public List<Plan> findAllByVisibility(Plan.Visibility visibility);
 }

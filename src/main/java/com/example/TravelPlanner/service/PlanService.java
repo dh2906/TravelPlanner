@@ -41,6 +41,15 @@ public class PlanService {
     }
 
     @Transactional(readOnly = true)
+    public List<PlanResponse> getPublicPlans() {
+        List<Plan> plans = planRepository.findAllByVisibility(Plan.Visibility.PUBLIC);
+
+        return plans.stream()
+                .map(PlanResponse::fromEntity)
+                .toList();
+    }
+
+    @Transactional(readOnly = true)
     public PlanWithDetailsResponse getPlanWithDetailByPlanId(Long planId) {
         Plan plan = planRepository.findById(planId)
                 .orElseThrow(() -> new CustomException(ExceptionCode.PLAN_NOT_FOUND));
