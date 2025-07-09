@@ -1,6 +1,7 @@
 package com.example.TravelPlanner.service;
 
-import com.example.TravelPlanner.dto.response.FriendRequestResponse;
+import com.example.TravelPlanner.dto.response.ReceivedFriendRequestResponse;
+import com.example.TravelPlanner.dto.response.SentFriendRequestResponse;
 import com.example.TravelPlanner.entity.FriendRequest;
 import com.example.TravelPlanner.entity.Member;
 import com.example.TravelPlanner.global.exception.CustomException;
@@ -54,11 +55,20 @@ public class FriendRequestService {
     }
 
     @Transactional(readOnly = true)
-    public List<FriendRequestResponse> getReceivedFriendRequests(Member member) {
+    public List<ReceivedFriendRequestResponse> getReceivedFriendRequests(Member member) {
         List<FriendRequest> friendRequests = friendRequestRepository.findAllByReceiverId(member.getId());
 
         return friendRequests.stream()
-                .map(FriendRequestResponse::fromEntity)
+                .map(ReceivedFriendRequestResponse::fromEntity)
+                .toList();
+    }
+
+    @Transactional(readOnly = true)
+    public List<SentFriendRequestResponse> getSentFriendRequests(Member member) {
+        List<FriendRequest> friendRequests = friendRequestRepository.findAllBySenderId(member.getId());
+
+        return friendRequests.stream()
+                .map(SentFriendRequestResponse::fromEntity)
                 .toList();
     }
 }

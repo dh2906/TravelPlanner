@@ -1,10 +1,12 @@
 package com.example.TravelPlanner.controller;
 
-import com.example.TravelPlanner.dto.response.FriendRequestResponse;
+import com.example.TravelPlanner.dto.response.ReceivedFriendRequestResponse;
+import com.example.TravelPlanner.dto.response.SentFriendRequestResponse;
 import com.example.TravelPlanner.entity.Member;
 import com.example.TravelPlanner.global.annotation.LoginMember;
 import com.example.TravelPlanner.service.FriendRequestService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.java.Log;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -41,10 +43,20 @@ public class FriendRequestController {
     }
 
     @GetMapping("/received")
-    public ResponseEntity<List<FriendRequestResponse>> getReceivedFriendRequests(
+    public ResponseEntity<List<ReceivedFriendRequestResponse>> getReceivedFriendRequests(
             @LoginMember Member member
     ) {
-        List<FriendRequestResponse> response = friendRequestService.getReceivedFriendRequests(member);
+        List<ReceivedFriendRequestResponse> response = friendRequestService.getReceivedFriendRequests(member);
+
+        return ResponseEntity
+                .ok(response);
+    }
+
+    @GetMapping("/sent")
+    public ResponseEntity<List<SentFriendRequestResponse>> getSentFriendRequests(
+            @LoginMember Member member
+    ) {
+        List<SentFriendRequestResponse> response = friendRequestService.getSentFriendRequests(member);
 
         return ResponseEntity
                 .ok(response);
