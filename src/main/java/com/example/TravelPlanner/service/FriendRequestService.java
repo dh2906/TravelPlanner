@@ -84,15 +84,8 @@ public class FriendRequestService {
 
     @Transactional
     public void acceptFriendRequest(Member receiver, Long requestId) {
-        FriendRequest friendRequest = friendRequestRepository.findById(requestId)
-                .orElseThrow(() -> new CustomException(ExceptionCode.FRIEND_REQUEST_NOT_FOUND));
-
-        if (!friendRequest.getReceiver()
-                .getId()
-                .equals(receiver.getId())
-        ) {
-            throw new CustomException(ExceptionCode.INVALID_FRIEND_REQUEST);
-        }
+        FriendRequest friendRequest = findFriendRequestOrThrow(requestId);
+        validateOwnership(receiver, friendRequest);
 
         Member sender = friendRequest.getSender();
 
@@ -104,16 +97,23 @@ public class FriendRequestService {
 
     @Transactional
     public void rejectFriendRequest(Member receiver, Long requestId) {
-        FriendRequest friendRequest = friendRequestRepository.findById(requestId)
-                .orElseThrow(() -> new CustomException(ExceptionCode.FRIEND_REQUEST_NOT_FOUND));
+        FriendRequest friendRequest = findFriendRequestOrThrow(requestId);
+        validateOwnership(receiver, friendRequest);
 
+        friendRequest.rejectOrThrow();
+    }
+
+    private FriendRequest findFriendRequestOrThrow(Long requestId) {
+        return friendRequestRepository.findById(requestId)
+                                      .orElseThrow(() -> new CustomException(ExceptionCode.FRIEND_REQUEST_NOT_FOUND));
+    }
+
+    private void validateOwnership(Member receiver, FriendRequest friendRequest) {
         if (!friendRequest.getReceiver()
                           .getId()
                           .equals(receiver.getId())
         ) {
             throw new CustomException(ExceptionCode.INVALID_FRIEND_REQUEST);
         }
-
-        friendRequest.rejectOrThrow();
     }
 }
