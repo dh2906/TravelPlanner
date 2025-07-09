@@ -36,12 +36,10 @@ public class PlanAccessInterceptor implements HandlerInterceptor {
                 .orElseThrow(() -> new CustomException(ExceptionCode.PLAN_NOT_FOUND));
 
         if (!plan.getMember().getId().equals(loginMember.getId())) {
-            if ("PUT".equalsIgnoreCase(method) || "DELETE".equalsIgnoreCase(method)) {
+            if (!"GET".equalsIgnoreCase(method)) {
                 throw new CustomException(ExceptionCode.ACCESS_DENIED);
-            } else {
-                if (plan.getVisibility() != Plan.Visibility.PUBLIC) {
-                    throw new CustomException(ExceptionCode.ACCESS_DENIED);
-                }
+            } else if (plan.getVisibility() != Plan.Visibility.PUBLIC) {
+                throw new CustomException(ExceptionCode.ACCESS_DENIED);
             }
         }
 
