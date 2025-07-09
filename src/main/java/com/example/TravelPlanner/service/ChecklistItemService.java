@@ -49,12 +49,8 @@ public class ChecklistItemService {
             Long id,
             ChecklistItemRequest request
     ) {
-        ChecklistItem checklistItem = checklistItemRepository.findById(id)
-                .orElseThrow(() -> new CustomException(ExceptionCode.CHECKLIST_ITEM_NOT_FOUND));
-
-        if (!checklistItem.getMember().getId().equals(member.getId())) {
-            throw new CustomException(ExceptionCode.ACCESS_DENIED);
-        }
+        ChecklistItem checklistItem = findChecklistItemOrThrow(id);
+        validateOwnership(member, checklistItem);
 
         checklistItem.updateInfo(request);
 
@@ -66,12 +62,8 @@ public class ChecklistItemService {
             Member member,
             Long id
     ) {
-        ChecklistItem checklistItem = checklistItemRepository.findById(id)
-                                                             .orElseThrow(() -> new CustomException(ExceptionCode.CHECKLIST_ITEM_NOT_FOUND));
-
-        if (!checklistItem.getMember().getId().equals(member.getId())) {
-            throw new CustomException(ExceptionCode.ACCESS_DENIED);
-        }
+        ChecklistItem checklistItem = findChecklistItemOrThrow(id);
+        validateOwnership(member, checklistItem);
 
         checklistItemRepository.deleteById(id);
     }
@@ -81,12 +73,8 @@ public class ChecklistItemService {
             Member member,
             Long id
     ) {
-        ChecklistItem checklistItem = checklistItemRepository.findById(id)
-                .orElseThrow(() -> new CustomException(ExceptionCode.CHECKLIST_ITEM_NOT_FOUND));
-
-        if (!checklistItem.getMember().getId().equals(member.getId())) {
-            throw new CustomException(ExceptionCode.ACCESS_DENIED);
-        }
+        ChecklistItem checklistItem = findChecklistItemOrThrow(id);
+        validateOwnership(member, checklistItem);
 
         checklistItem.updateChecked(!checklistItem.isChecked());
 
@@ -99,6 +87,19 @@ public class ChecklistItemService {
 
         for (ChecklistItem item : checklistItems) {
             item.updateChecked(false);
+        }
+    }
+
+    private ChecklistItem findChecklistItemOrThrow(Long id) {
+        return checklistItemRepository.findById(id)
+                                      .orElseThrow(() -> new CustomException(ExceptionCode.CHECKLIST_ITEM_NOT_FOUND));
+    }
+
+    private void validateOwnership(Member member,
+                                   ChecklistItem checklistItem
+    ) {
+        if (!checklistItem.getMember().getId().equals(member.getId())) {
+            throw new CustomException(ExceptionCode.ACCESS_DENIED);
         }
     }
 }
