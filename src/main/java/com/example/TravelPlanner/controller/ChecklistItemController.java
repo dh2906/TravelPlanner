@@ -19,7 +19,7 @@ import java.util.List;
 public class ChecklistItemController {
     private final ChecklistItemService checklistItemService;
 
-    @GetMapping
+    @GetMapping("/me")
     public ResponseEntity<List<ChecklistItemResponse>> getMyChecklistItems(
             @LoginMember Member member
     ) {
@@ -29,7 +29,7 @@ public class ChecklistItemController {
                 .ok(response);
     }
 
-    @DeleteMapping
+    @DeleteMapping("/items")
     public ResponseEntity<Void> deleteMyChecklistItems(
             @LoginMember Member member
     ) {
