@@ -1,5 +1,6 @@
 package com.example.TravelPlanner.controller;
 
+import com.example.TravelPlanner.dto.response.FriendRequestResponse;
 import com.example.TravelPlanner.entity.Member;
 import com.example.TravelPlanner.global.annotation.LoginMember;
 import com.example.TravelPlanner.service.FriendRequestService;
@@ -7,6 +8,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/friends/requests")
@@ -35,5 +38,15 @@ public class FriendRequestController {
 
         return ResponseEntity
                 .ok("친구 요청이 취소되었습니다.");
+    }
+
+    @GetMapping("/received")
+    public ResponseEntity<List<FriendRequestResponse>> getReceivedFriendRequests(
+            @LoginMember Member member
+    ) {
+        List<FriendRequestResponse> response = friendRequestService.getReceivedFriendRequests(member);
+
+        return ResponseEntity
+                .ok(response);
     }
 }

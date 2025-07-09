@@ -1,5 +1,6 @@
 package com.example.TravelPlanner.service;
 
+import com.example.TravelPlanner.dto.response.FriendRequestResponse;
 import com.example.TravelPlanner.entity.FriendRequest;
 import com.example.TravelPlanner.entity.Member;
 import com.example.TravelPlanner.global.exception.CustomException;
@@ -9,6 +10,8 @@ import com.example.TravelPlanner.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -48,5 +51,14 @@ public class FriendRequestService {
                 .orElseThrow(() -> new CustomException(ExceptionCode.FRIEND_REQUEST_NOT_FOUND));
 
         friendRequestRepository.delete(request);
+    }
+
+    @Transactional(readOnly = true)
+    public List<FriendRequestResponse> getReceivedFriendRequests(Member member) {
+        List<FriendRequest> friendRequests = friendRequestRepository.findAllByReceiverId(member.getId());
+
+        return friendRequests.stream()
+                .map(FriendRequestResponse::fromEntity)
+                .toList();
     }
 }
