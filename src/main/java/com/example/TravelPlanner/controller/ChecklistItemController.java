@@ -54,10 +54,11 @@ public class ChecklistItemController {
 
     @PutMapping("/items/{id}")
     public ResponseEntity<ChecklistItemResponse> updateChecklistItem(
+            @LoginMember Member member,
             @PathVariable Long id,
             @RequestBody @Valid ChecklistItemRequest request
     ) {
-        ChecklistItemResponse response = checklistItemService.updateChecklistItem(id, request);
+        ChecklistItemResponse response = checklistItemService.updateChecklistItem(member, id, request);
 
         return ResponseEntity
                 .ok(response);
@@ -65,9 +66,10 @@ public class ChecklistItemController {
 
     @DeleteMapping("/items/{id}")
     public ResponseEntity<Void> deleteChecklistItem(
+            @LoginMember Member member,
             @PathVariable Long id
     ) {
-        checklistItemService.deleteChecklistItem(id);
+        checklistItemService.deleteChecklistItem(member, id);
 
         return ResponseEntity
                 .noContent()
@@ -76,9 +78,10 @@ public class ChecklistItemController {
 
     @PostMapping("/items/{id}/toggle")
     public ResponseEntity<String> toggleChecklistItem(
+            @LoginMember Member member,
             @PathVariable Long id
     ) {
-        boolean isChecked = checklistItemService.toggleChecklistItem(id);
+        boolean isChecked = checklistItemService.toggleChecklistItem(member, id);
 
         String message = isChecked ? "항목이 체크되었습니다." : "항목이 체크 해제되었습니다.";
 

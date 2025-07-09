@@ -45,11 +45,16 @@ public class ChecklistItemService {
 
     @Transactional
     public ChecklistItemResponse updateChecklistItem(
+            Member member,
             Long id,
             ChecklistItemRequest request
     ) {
         ChecklistItem checklistItem = checklistItemRepository.findById(id)
                 .orElseThrow(() -> new CustomException(ExceptionCode.CHECKLIST_ITEM_NOT_FOUND));
+
+        if (!checklistItem.getMember().getId().equals(member.getId())) {
+            throw new CustomException(ExceptionCode.ACCESS_DENIED);
+        }
 
         checklistItem.updateInfo(request);
 
@@ -57,14 +62,31 @@ public class ChecklistItemService {
     }
 
     @Transactional
-    public void deleteChecklistItem(Long id) {
+    public void deleteChecklistItem(
+            Member member,
+            Long id
+    ) {
+        ChecklistItem checklistItem = checklistItemRepository.findById(id)
+                                                             .orElseThrow(() -> new CustomException(ExceptionCode.CHECKLIST_ITEM_NOT_FOUND));
+
+        if (!checklistItem.getMember().getId().equals(member.getId())) {
+            throw new CustomException(ExceptionCode.ACCESS_DENIED);
+        }
+
         checklistItemRepository.deleteById(id);
     }
 
     @Transactional
-    public boolean toggleChecklistItem(Long id) {
+    public boolean toggleChecklistItem(
+            Member member,
+            Long id
+    ) {
         ChecklistItem checklistItem = checklistItemRepository.findById(id)
                 .orElseThrow(() -> new CustomException(ExceptionCode.CHECKLIST_ITEM_NOT_FOUND));
+
+        if (!checklistItem.getMember().getId().equals(member.getId())) {
+            throw new CustomException(ExceptionCode.ACCESS_DENIED);
+        }
 
         checklistItem.updateChecked(!checklistItem.isChecked());
 
