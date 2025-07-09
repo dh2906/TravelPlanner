@@ -13,6 +13,7 @@ public enum ExceptionCode {
     INVALID_FRIEND_REQUEST(400, "잘못된 친구 요청입니다."),
     DUPLICATE_FRIEND_REQUEST(400, "이미 친구 요청을 보냈습니다."),
     FRIEND_REQUEST_ALREADY_RECEIVED(400, "상대방이 이미 친구 요청을 보냈습니다."),
+    FRIEND_REQUEST_NOT_FOUND(404, "친구 요청 정보를 찾을 수 없습니다."),
     NO_ACCESS_TOKEN(401, "액세스 토큰이 존재하지 않습니다."),
     ACCESS_DENIED(403, "접근 권한이 존재하지 않습니다."),
     UNAUTHORIZED(401, "로그인이 필요합니다."),

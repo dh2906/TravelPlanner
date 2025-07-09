@@ -26,4 +26,14 @@ public class FriendRequestController {
                 .body("친구 요청이 전송되었습니다.");
     }
 
+    @DeleteMapping("/{friendId}")
+    public ResponseEntity<String> cancleFriendRequest(
+            @LoginMember Member member,
+            @PathVariable Long friendId
+    ) {
+        friendRequestService.cancleFriendRequest(member, friendId);
+
+        return ResponseEntity
+                .ok("친구 요청이 취소되었습니다.");
+    }
 }
