@@ -32,11 +32,11 @@ public class FriendRequestController {
     }
 
     @DeleteMapping("/{friendId}")
-    public ResponseEntity<String> cancleFriendRequest(
+    public ResponseEntity<String> cancelFriendRequest(
             @LoginMember Member member,
             @PathVariable Long friendId
     ) {
-        friendRequestService.cancleFriendRequest(member, friendId);
+        friendRequestService.cancelFriendRequest(member, friendId);
 
         return ResponseEntity
                 .ok("친구 요청이 취소되었습니다.");

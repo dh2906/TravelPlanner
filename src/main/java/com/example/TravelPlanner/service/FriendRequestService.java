@@ -49,7 +49,7 @@ public class FriendRequestService {
     }
 
     @Transactional
-    public void cancleFriendRequest(Member sender, Long friendId) {
+    public void cancelFriendRequest(Member sender, Long friendId) {
         FriendRequest request = friendRequestRepository
                 .findBySenderIdAndReceiverId(sender.getId(), friendId)
                 .orElseThrow(() -> new CustomException(ExceptionCode.FRIEND_REQUEST_NOT_FOUND));
