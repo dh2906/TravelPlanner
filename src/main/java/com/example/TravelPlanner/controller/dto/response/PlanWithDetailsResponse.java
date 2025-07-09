@@ -9,7 +9,7 @@ import java.util.List;
 @Builder
 public record PlanWithDetailsResponse(
         PlanResponse plan,
-        List<PlanDetail> planDetailsResponses
+        List<PlanDetailResponse> planDetailsResponses
 ) {
     public static PlanWithDetailsResponse fromEntities(
             Plan plan,
@@ -17,7 +17,11 @@ public record PlanWithDetailsResponse(
     ) {
         return PlanWithDetailsResponse.builder()
                 .plan(PlanResponse.fromEntity(plan))
-                .planDetailsResponses(planDetails)
+                .planDetailsResponses(
+                        planDetails.stream()
+                                .map(PlanDetailResponse::fromEntity)
+                                .toList()
+                )
                 .build();
     }
 }
