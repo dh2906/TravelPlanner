@@ -2,10 +2,12 @@ package com.example.TravelPlanner.service;
 
 import com.example.TravelPlanner.dto.response.ReceivedFriendRequestResponse;
 import com.example.TravelPlanner.dto.response.SentFriendRequestResponse;
+import com.example.TravelPlanner.entity.Friend;
 import com.example.TravelPlanner.entity.FriendRequest;
 import com.example.TravelPlanner.entity.Member;
 import com.example.TravelPlanner.global.exception.CustomException;
 import com.example.TravelPlanner.global.exception.ExceptionCode;
+import com.example.TravelPlanner.repository.FriendRepository;
 import com.example.TravelPlanner.repository.FriendRequestRepository;
 import com.example.TravelPlanner.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +21,7 @@ import java.util.List;
 public class FriendRequestService {
     private final MemberRepository memberRepository;
     private final FriendRequestRepository friendRequestRepository;
+    private final FriendRepository friendRepository;
 
     @Transactional
     public void sendFriendRequest(Member sender, Long friendId) {
@@ -70,5 +73,25 @@ public class FriendRequestService {
         return friendRequests.stream()
                 .map(SentFriendRequestResponse::fromEntity)
                 .toList();
+    }
+
+    @Transactional
+    public void acceptFriendRequest(Member receiver, Long requestId) {
+        FriendRequest friendRequest = friendRequestRepository.findById(requestId)
+                .orElseThrow(() -> new CustomException(ExceptionCode.FRIEND_REQUEST_NOT_FOUND));
+
+        if (!friendRequest.getReceiver()
+                .getId()
+                .equals(receiver.getId())
+        ) {
+            throw new CustomException(ExceptionCode.INVALID_FRIEND_REQUEST);
+        }
+
+        Member sender = friendRequest.getSender();
+
+        friendRequest.accept();
+
+        friendRepository.save(Friend.create(receiver, sender));
+        friendRepository.save(Friend.create(sender, receiver));
     }
 }

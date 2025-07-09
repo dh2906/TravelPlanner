@@ -61,4 +61,15 @@ public class FriendRequestController {
         return ResponseEntity
                 .ok(response);
     }
+
+    @PostMapping("/{requestId}/accept")
+    public ResponseEntity<String> acceptFriendRequest(
+            @LoginMember Member member,
+            @PathVariable Long requestId
+    ) {
+            friendRequestService.acceptFriendRequest(member, requestId);
+
+            return ResponseEntity
+                    .ok("친구 요청을 수락하였습니다.");
+    }
 }
