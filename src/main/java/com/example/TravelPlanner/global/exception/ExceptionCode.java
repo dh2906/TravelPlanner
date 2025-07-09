@@ -4,6 +4,7 @@ import lombok.Getter;
 
 @Getter
 public enum ExceptionCode {
+    DUPLICATE_EMAIL(409, "이미 사용 중인 이메일입니다."),
     MEMBER_NOT_FOUND(404, "회원 정보를 찾을 수 없습니다."),
     PLAN_NOT_FOUND(404, "일정 정보를 찾을 수 없습니다."),
     PLAN_DETAIL_NOT_FOUND(404, "상세 일정을 찾을 수 없습니다."),

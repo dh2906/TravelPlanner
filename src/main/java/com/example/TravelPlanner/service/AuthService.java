@@ -22,6 +22,10 @@ public class AuthService {
 
     @Transactional
     public MemberResponse signup(SignupRequest request) {
+        if (memberRepository.existsByEmail(request.email())) {
+            throw new CustomException(ExceptionCode.DUPLICATE_EMAIL);
+        }
+
         String encodedPassword = PasswordEncoder.encode(request.password());
 
         return MemberResponse.fromEntity(
