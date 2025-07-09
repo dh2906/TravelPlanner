@@ -56,8 +56,13 @@ public class FavoriteService {
     public List<PlanResponse> getFavoritePlansByMember(Member member) {
         List<Favorite> favorites = favoriteRepository.findAllByMember(member);
 
-        return favorites.stream().map(favorite ->
-                        PlanResponse.fromEntity(favorite.getPlan())
-                ).toList();
+        return favorites.stream()
+                        .map(Favorite::getPlan)
+                        .filter(plan ->
+                                plan.getVisibility() == Plan.Visibility.PUBLIC ||
+                                plan.getMember().getId().equals(member.getId())
+                        )
+                        .map(PlanResponse::fromEntity)
+                        .toList();
     }
 }
