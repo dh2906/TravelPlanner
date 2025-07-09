@@ -6,10 +6,7 @@ import com.example.TravelPlanner.service.FriendRequestService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/friends/requests")
@@ -26,7 +23,7 @@ public class FriendRequestController {
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body("친구 요청이 정상적으로 전송되었습니다.");
+                .body("친구 요청이 전송되었습니다.");
     }
 
 }
