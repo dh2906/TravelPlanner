@@ -8,6 +8,7 @@ public enum ExceptionCode {
     MEMBER_NOT_FOUND(404, "회원 정보를 찾을 수 없습니다."),
     PLAN_NOT_FOUND(404, "일정 정보를 찾을 수 없습니다."),
     PLAN_DETAIL_NOT_FOUND(404, "상세 일정을 찾을 수 없습니다."),
+    PLAN_DETAIL_TIME_CONFLICT(400, "상세 일정의 시간이 겹칩니다."),
     CHECKLIST_ITEM_NOT_FOUND(404, "체크리스트 항목을 찾을 수 없습니다."),
     EMAIL_ALREADY_EXISTS(409, "이미 사용 중인 이메일입니다."),
     LOGIN_FAILED(400, "이메일 또는 비밀번호가 올바르지 않습니다."),

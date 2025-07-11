@@ -27,6 +27,10 @@ public class PlanDetailService {
         Plan plan = planRepository.findById(planId)
                 .orElseThrow(() -> new CustomException(ExceptionCode.PLAN_NOT_FOUND));
 
+        if (planDetailRepository.existsByPlanIdAndConflictTime(planId, request.startTime(), request.endTime())) {
+            throw new CustomException(ExceptionCode.PLAN_DETAIL_TIME_CONFLICT);
+        }
+
         return PlanDetailResponse.fromEntity(
                 planDetailRepository.save(
                         request.toEntity(plan)
