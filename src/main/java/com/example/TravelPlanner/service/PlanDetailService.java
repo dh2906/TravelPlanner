@@ -120,6 +120,41 @@ public class PlanDetailService {
         Plan plan = planRepository.findById(planId)
                 .orElseThrow(() -> new CustomException(ExceptionCode.PLAN_NOT_FOUND));
 
+        List<PlanDetailBulkUpdateRequest> sorted = new ArrayList<>(request);
+
+        sorted.sort(Comparator.comparingInt(PlanDetailBulkUpdateRequest::dayNumber)
+                .thenComparing(PlanDetailBulkUpdateRequest::startTime));
+
+        for (int i = 0; i < sorted.size() - 1; i++) {
+            PlanDetailBulkUpdateRequest current = sorted.get(i);
+            PlanDetailBulkUpdateRequest next = sorted.get(i + 1);
+
+            if (current.dayNumber().equals(next.dayNumber()) && current.endTime().isAfter(next.startTime())) {
+                throw new CustomException(ExceptionCode.PLAN_DETAIL_TIME_CONFLICT);
+            }
+        }
+
+        Set<Long> ids = request.stream()
+                .map(PlanDetailBulkUpdateRequest::detailId)
+                .collect(Collectors.toSet());
+
+        Set<Integer> dayNumbers = request.stream()
+                .map(PlanDetailBulkUpdateRequest::dayNumber)
+                .collect(Collectors.toSet());
+
+        List<PlanDetail> existing = planDetailRepository
+                .findAllByPlanIdAndDayNumberInAndExcludeIds(planId, dayNumbers, ids);
+
+        for (PlanDetailBulkUpdateRequest req : request) {
+            for (PlanDetail exist : existing) {
+                if (req.dayNumber().equals(exist.getDayNumber())
+                        && req.startTime().isBefore(exist.getEndTime())
+                        && req.endTime().isAfter(exist.getStartTime())) {
+                    throw new CustomException(ExceptionCode.PLAN_DETAIL_TIME_CONFLICT);
+                }
+            }
+        }
+
         List<PlanDetailResponse> response = new ArrayList<>();
 
         for (PlanDetailBulkUpdateRequest req : request) {

@@ -48,5 +48,21 @@ public interface PlanDetailRepository extends JpaRepository<PlanDetail, Long> {
             @Param("detailId") Long detailId
     );
 
-    public List<PlanDetail> findAllByPlanIdAndDayNumberIn(Long planId, Collection<Integer> dayNumbers);
+    public List<PlanDetail> findAllByPlanIdAndDayNumberIn(
+            Long planId,
+            Collection<Integer> dayNumbers
+    );
+
+    @Query(value = """
+            SELECT pd
+            FROM PlanDetail pd
+            WHERE pd.plan.id = :planId
+            AND pd.dayNumber in :dayNumbers
+            AND pd.id NOT IN :ids
+            """)
+    public List<PlanDetail> findAllByPlanIdAndDayNumberInAndExcludeIds(
+            @Param("planId") Long planId,
+            @Param("dayNumbers") Collection<Integer> dayNumbers,
+            @Param("ids") Collection<Long> ids
+    );
 }
