@@ -76,7 +76,7 @@ public class PlanController {
     @PostMapping("/{planId}/details/bulk")
     public ResponseEntity<List<PlanDetailResponse>> createPlanDetails(
             @PathVariable Long planId,
-            @RequestBody @Valid List<PlanDetailRequest> request
+            @RequestBody List<@Valid PlanDetailRequest> request
     ) {
         List<PlanDetailResponse> response = planDetailService.createDetails(planId, request);
 
@@ -123,7 +123,7 @@ public class PlanController {
     @PutMapping("/{planId}/details/bulk")
     public ResponseEntity<List<PlanDetailResponse>> updatePlanDetails(
             @PathVariable Long planId,
-            @RequestBody @Valid List<PlanDetailBulkUpdateRequest> request
+            @RequestBody List<@Valid PlanDetailBulkUpdateRequest> request
     ) {
         List<PlanDetailResponse> response = planDetailService.updateDetails(planId, request);
 
