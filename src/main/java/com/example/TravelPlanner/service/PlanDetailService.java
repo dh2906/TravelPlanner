@@ -96,7 +96,7 @@ public class PlanDetailService {
 
     @Transactional
     public PlanDetailResponse updateDetail(Long planId, Long detailId, PlanDetailRequest request) {
-        Plan plan = planRepository.findById(planId)
+        planRepository.findById(planId)
                 .orElseThrow(() -> new CustomException(ExceptionCode.PLAN_NOT_FOUND));
 
         PlanDetail planDetail = planDetailRepository.findById(detailId)
