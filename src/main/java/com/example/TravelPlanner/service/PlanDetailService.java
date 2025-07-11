@@ -76,7 +76,7 @@ public class PlanDetailService {
 
         for (Integer day : groupedRequest.keySet()) {
             List<PlanDetailRequest> requestList = groupedRequest.get(day);
-            List<PlanDetail> existList = groupedExist.get(day);
+            List<PlanDetail> existList = groupedExist.getOrDefault(day, Collections.emptyList());
 
             for (PlanDetailRequest req : requestList) {
                 for (PlanDetail exist : existList) {
