@@ -1,7 +1,7 @@
 package com.example.TravelPlanner.controller;
 
 import com.example.TravelPlanner.dto.request.PlanDetailRequest;
-import com.example.TravelPlanner.dto.request.PlanDetailsUpdateRequest;
+import com.example.TravelPlanner.dto.request.PlanDetailBulkUpdateRequest;
 import com.example.TravelPlanner.dto.request.PlanRequest;
 import com.example.TravelPlanner.dto.response.PlanDetailResponse;
 import com.example.TravelPlanner.dto.response.PlanResponse;
@@ -123,7 +123,7 @@ public class PlanController {
     @PutMapping("/{planId}/details/bulk")
     public ResponseEntity<List<PlanDetailResponse>> updatePlanDetails(
             @PathVariable Long planId,
-            @RequestBody @Valid List<PlanDetailsUpdateRequest> request
+            @RequestBody @Valid List<PlanDetailBulkUpdateRequest> request
     ) {
         List<PlanDetailResponse> response = planDetailService.updateDetails(planId, request);
 

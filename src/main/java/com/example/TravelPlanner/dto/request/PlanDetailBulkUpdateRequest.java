@@ -5,7 +5,7 @@ import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalTime;
 
-public record PlanDetailsUpdateRequest(
+public record PlanDetailBulkUpdateRequest(
         @NotNull Long detailId,          // 수정 대상 상세 일정 ID
         @NotNull Integer dayNumber,
         @NotBlank String placeName,

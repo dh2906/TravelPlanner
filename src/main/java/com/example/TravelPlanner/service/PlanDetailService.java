@@ -1,7 +1,7 @@
 package com.example.TravelPlanner.service;
 
 import com.example.TravelPlanner.dto.request.PlanDetailRequest;
-import com.example.TravelPlanner.dto.request.PlanDetailsUpdateRequest;
+import com.example.TravelPlanner.dto.request.PlanDetailBulkUpdateRequest;
 import com.example.TravelPlanner.dto.response.PlanDetailResponse;
 import com.example.TravelPlanner.entity.Plan;
 import com.example.TravelPlanner.entity.PlanDetail;
@@ -68,13 +68,13 @@ public class PlanDetailService {
     }
 
     @Transactional
-    public List<PlanDetailResponse> updateDetails(Long planId, List<PlanDetailsUpdateRequest> request) {
+    public List<PlanDetailResponse> updateDetails(Long planId, List<PlanDetailBulkUpdateRequest> request) {
         Plan plan = planRepository.findById(planId)
                 .orElseThrow(() -> new CustomException(ExceptionCode.PLAN_NOT_FOUND));
 
         List<PlanDetailResponse> response = new ArrayList<>();
 
-        for (PlanDetailsUpdateRequest req : request) {
+        for (PlanDetailBulkUpdateRequest req : request) {
             PlanDetail detail = planDetailRepository.findById(req.detailId())
                     .orElseThrow(() -> new CustomException(ExceptionCode.PLAN_DETAIL_NOT_FOUND));
 

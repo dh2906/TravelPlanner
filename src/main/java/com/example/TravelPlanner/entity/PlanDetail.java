@@ -1,7 +1,7 @@
 package com.example.TravelPlanner.entity;
 
 import com.example.TravelPlanner.dto.request.PlanDetailRequest;
-import com.example.TravelPlanner.dto.request.PlanDetailsUpdateRequest;
+import com.example.TravelPlanner.dto.request.PlanDetailBulkUpdateRequest;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -63,7 +63,7 @@ public class PlanDetail {
         this.endTime = request.endTime();
     }
 
-    public void updateInfo(PlanDetailsUpdateRequest request) {
+    public void updateInfo(PlanDetailBulkUpdateRequest request) {
         this.dayNumber = request.dayNumber();
         this.placeName = request.placeName();
         this.address = request.address();
