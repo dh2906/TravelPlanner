@@ -16,12 +16,14 @@ public interface PlanDetailRepository extends JpaRepository<PlanDetail, Long> {
                 SELECT 1
                 FROM PlanDetail as pd
                 WHERE pd.plan.id = :planId
+                AND pd.dayNumber = :dayNumber
                 AND pd.startTime < :endTime
                 AND pd.endTime > :startTime
             )
             """)
-    public boolean existsByPlanIdAndConflictTime(
+    public boolean existsByPlanIdAndDayNumberAndConflictTime(
             @Param("planId") Long planId,
+            @Param("dayNumber") Integer dayNumber,
             @Param("startTime") LocalTime startTime,
             @Param("endTime") LocalTime endTime
     );
