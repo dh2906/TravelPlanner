@@ -14,6 +14,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,6 +22,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/plans")
 @RequiredArgsConstructor
+@Validated
 public class PlanController {
     private final PlanService planService;
     private final PlanDetailService planDetailService;
@@ -76,7 +78,7 @@ public class PlanController {
     @PostMapping("/{planId}/details/bulk")
     public ResponseEntity<List<PlanDetailResponse>> createPlanDetails(
             @PathVariable Long planId,
-            @RequestBody List<@Valid PlanDetailRequest> request
+            @RequestBody @Valid List<PlanDetailRequest> request
     ) {
         List<PlanDetailResponse> response = planDetailService.createDetails(planId, request);
 
@@ -123,7 +125,7 @@ public class PlanController {
     @PutMapping("/{planId}/details/bulk")
     public ResponseEntity<List<PlanDetailResponse>> updatePlanDetails(
             @PathVariable Long planId,
-            @RequestBody List<@Valid PlanDetailBulkUpdateRequest> request
+            @RequestBody @Valid List<PlanDetailBulkUpdateRequest> request
     ) {
         List<PlanDetailResponse> response = planDetailService.updateDetails(planId, request);
 
