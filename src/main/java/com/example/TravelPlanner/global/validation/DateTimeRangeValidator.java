@@ -8,7 +8,7 @@ import java.lang.reflect.Field;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-public class DateTimeRangeValidator implements ConstraintValidator<ValidDateTimeRange, Object> {
+public class DateTimeRangeValidator implements ConstraintValidator<ValidDateOrTimeRange, Object> {
     @Override
     public boolean isValid(Object o, ConstraintValidatorContext constraintValidatorContext) {
         LocalDate startDate = null;

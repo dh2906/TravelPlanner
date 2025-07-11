@@ -2,11 +2,15 @@ package com.example.TravelPlanner.dto.request;
 
 import com.example.TravelPlanner.entity.Plan;
 import com.example.TravelPlanner.entity.PlanDetail;
+import com.example.TravelPlanner.global.annotation.EndTime;
+import com.example.TravelPlanner.global.annotation.StartTime;
+import com.example.TravelPlanner.global.annotation.ValidDateOrTimeRange;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalTime;
 
+@ValidDateOrTimeRange
 public record PlanDetailRequest(
         @NotNull Integer dayNumber,
 
@@ -16,9 +20,9 @@ public record PlanDetailRequest(
 
         String memo, // optional
 
-        @NotNull LocalTime startTime,
+        @NotNull @StartTime LocalTime startTime,
 
-        @NotNull LocalTime endTime
+        @NotNull @EndTime LocalTime endTime
 ) {
     public PlanDetail toEntity(Plan plan) {
         return PlanDetail.builder()
