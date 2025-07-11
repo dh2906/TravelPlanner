@@ -40,6 +40,10 @@ public class PlanDetailService {
 
     @Transactional
     public List<PlanDetailResponse> createDetails(Long planId, List<PlanDetailRequest> request) {
+        if (request == null || request.isEmpty()) {
+            throw new CustomException(ExceptionCode.REQUEST_LIST_EMPTY);
+        }
+
         Plan plan = planRepository.findById(planId)
                 .orElseThrow(() -> new CustomException(ExceptionCode.PLAN_NOT_FOUND));
 
@@ -117,6 +121,10 @@ public class PlanDetailService {
 
     @Transactional
     public List<PlanDetailResponse> updateDetails(Long planId, List<PlanDetailBulkUpdateRequest> request) {
+        if (request == null || request.isEmpty()) {
+            throw new CustomException(ExceptionCode.REQUEST_LIST_EMPTY);
+        }
+
         Plan plan = planRepository.findById(planId)
                 .orElseThrow(() -> new CustomException(ExceptionCode.PLAN_NOT_FOUND));
 

@@ -22,7 +22,8 @@ public enum ExceptionCode {
     NO_ACCESS_TOKEN(401, "액세스 토큰이 존재하지 않습니다."),
     ACCESS_DENIED(403, "접근 권한이 존재하지 않습니다."),
     UNAUTHORIZED(401, "로그인이 필요합니다."),
-    RESOURCE_RELATION_MISMATCH(400, "리소스 간의 관계가 일치하지 않습니다.");
+    RESOURCE_RELATION_MISMATCH(400, "리소스 간의 관계가 일치하지 않습니다."),
+    REQUEST_LIST_EMPTY(400, "요청 리스트가 비어있습니다.");
 
     private final int status;
     private final String message;
