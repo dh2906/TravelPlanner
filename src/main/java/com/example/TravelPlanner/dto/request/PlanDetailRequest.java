@@ -12,17 +12,24 @@ import java.time.LocalTime;
 
 @ValidDateOrTimeRange
 public record PlanDetailRequest(
-        @NotNull Integer dayNumber,
+        @NotNull(message = "여행 일차를 입력해주세요.")
+        Integer dayNumber,
 
-        @NotBlank String placeName,
+        @NotBlank(message = "장소 명을 입력해주세요.")
+        String placeName,
 
-        @NotBlank String address,
+        @NotBlank(message = "주소를 입력해주세요.")
+        String address,
 
-        String memo, // optional
+        String memo,
 
-        @NotNull @StartTime LocalTime startTime,
+        @NotNull(message = "시작 시간을 입력해주세요")
+        @StartTime
+        LocalTime startTime,
 
-        @NotNull @EndTime LocalTime endTime
+        @NotNull(message = "종료 시간을 입력해주세요")
+        @EndTime
+        LocalTime endTime
 ) {
     public PlanDetail toEntity(Plan plan) {
         return PlanDetail.builder()
