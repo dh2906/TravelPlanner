@@ -40,6 +40,6 @@ public class DateTimeRangeValidator implements ConstraintValidator<ValidDateOrTi
             return startTime.isBefore(endTime);
         }
 
-        return false;
+        return true;
     }
 }
