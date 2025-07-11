@@ -27,4 +27,23 @@ public interface PlanDetailRepository extends JpaRepository<PlanDetail, Long> {
             @Param("startTime") LocalTime startTime,
             @Param("endTime") LocalTime endTime
     );
+
+    @Query(value = """
+            SELECT EXISTS (
+                SELECT 1
+                FROM PlanDetail as pd
+                WHERE pd.plan.id = :planId
+                AND pd.id <> :detailId
+                AND pd.dayNumber = :dayNumber
+                AND pd.startTime < :endTime
+                AND pd.endTime > :startTime
+            )
+            """)
+    public boolean existsByPlanIdAndDayNumberAndConflictTimeExcludeDetailId(
+            @Param("planId") Long planId,
+            @Param("dayNumber") Integer dayNumber,
+            @Param("startTime") LocalTime startTime,
+            @Param("endTime") LocalTime endTime,
+            @Param("detailId") Long detailId
+    );
 }

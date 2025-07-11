@@ -66,6 +66,10 @@ public class PlanDetailService {
             throw new CustomException(ExceptionCode.RESOURCE_RELATION_MISMATCH);
         }
 
+        if (planDetailRepository.existsByPlanIdAndDayNumberAndConflictTimeExcludeDetailId(planId, request.dayNumber(), request.startTime(), request.endTime(), detailId)) {
+            throw new CustomException(ExceptionCode.PLAN_DETAIL_TIME_CONFLICT);
+        }
+
         planDetail.updateInfo(request);
 
         return PlanDetailResponse.fromEntity(planDetail);
