@@ -13,8 +13,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -42,6 +42,46 @@ public class PlanDetailService {
     public List<PlanDetailResponse> createDetails(Long planId, List<PlanDetailRequest> request) {
         Plan plan = planRepository.findById(planId)
                 .orElseThrow(() -> new CustomException(ExceptionCode.PLAN_NOT_FOUND));
+
+        List<PlanDetailRequest> sorted = new ArrayList<>(request);
+
+        sorted.sort(Comparator.comparingInt(PlanDetailRequest::dayNumber)
+                .thenComparing(PlanDetailRequest::startTime)
+        );
+
+        for (int i = 0; i < sorted.size() - 1; i++) {
+            PlanDetailRequest current = sorted.get(i);
+            PlanDetailRequest next = sorted.get(i + 1);
+
+            if (current.dayNumber().equals(next.dayNumber()) && current.endTime().isAfter(next.startTime())) {
+                throw new CustomException(ExceptionCode.PLAN_DETAIL_TIME_CONFLICT);
+            }
+        }
+
+        Set<Integer> dayNumbers = request.stream()
+                .map(PlanDetailRequest::dayNumber)
+                .collect(Collectors.toSet());
+
+        List<PlanDetail> existDetails = planDetailRepository.findAllByPlanIdAndDayNumberIn(planId, dayNumbers);
+
+        Map<Integer, List<PlanDetailRequest>> groupedRequest = request.stream()
+                .collect(Collectors.groupingBy(PlanDetailRequest::dayNumber));
+
+        Map<Integer, List<PlanDetail>> groupedExist = existDetails.stream()
+                .collect(Collectors.groupingBy(PlanDetail::getDayNumber));
+
+        for (Integer day : groupedRequest.keySet()) {
+            List<PlanDetailRequest> requestList = groupedRequest.get(day);
+            List<PlanDetail> existList = groupedExist.get(day);
+
+            for (PlanDetailRequest req : requestList) {
+                for (PlanDetail exist : existList) {
+                    if (req.startTime().isBefore(exist.getEndTime()) && req.endTime().isAfter(exist.getStartTime())) {
+                        throw new CustomException(ExceptionCode.PLAN_DETAIL_TIME_CONFLICT);
+                    }
+                }
+            }
+        }
 
         List<PlanDetail> planDetails = request.stream()
                 .map(planDetail -> planDetail.toEntity(plan))

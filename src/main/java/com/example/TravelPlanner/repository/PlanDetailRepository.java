@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.time.LocalTime;
+import java.util.Collection;
 import java.util.List;
 
 public interface PlanDetailRepository extends JpaRepository<PlanDetail, Long> {
@@ -46,4 +47,6 @@ public interface PlanDetailRepository extends JpaRepository<PlanDetail, Long> {
             @Param("endTime") LocalTime endTime,
             @Param("detailId") Long detailId
     );
+
+    public List<PlanDetail> findAllByPlanIdAndDayNumberIn(Long planId, Collection<Integer> dayNumbers);
 }
