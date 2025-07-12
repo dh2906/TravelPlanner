@@ -18,6 +18,7 @@ public record ChecklistItemResponse(
         return ChecklistItemResponse.builder()
                 .id(checklistItem.getId())
                 .name(checklistItem.getName())
+                .is_checked(checklistItem.isChecked())
                 .description(checklistItem.getDescription())
                 .createdAt(checklistItem.getCreatedAt())
                 .updatedAt(checklistItem.getUpdatedAt())
