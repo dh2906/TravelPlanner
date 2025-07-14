@@ -18,9 +18,9 @@ public class FriendController {
 
     @GetMapping("/me")
     public ResponseEntity<List<FriendResponse>> getMyFriends(
-            @LoginMember Member member
+            @LoginMember Long memberId
     ) {
-        List<FriendResponse> response = friendService.getMyFriends(member);
+        List<FriendResponse> response = friendService.getMyFriends(memberId);
 
         return ResponseEntity
                 .ok(response);
@@ -28,10 +28,10 @@ public class FriendController {
 
     @DeleteMapping("/{friendId}")
     public ResponseEntity<String> deleteFriend(
-            @LoginMember Member member,
+            @LoginMember Long memberId,
             @PathVariable Long friendId
     ) {
-        friendService.deleteFriend(member, friendId);
+        friendService.deleteFriend(memberId, friendId);
 
         return ResponseEntity
                 .noContent()

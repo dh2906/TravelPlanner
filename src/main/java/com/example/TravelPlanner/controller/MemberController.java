@@ -21,19 +21,19 @@ public class MemberController {
 
     @GetMapping("/me")
     public ResponseEntity<MemberResponse> getMyInfo(
-            @LoginMember Member member
+            @LoginMember Long memberId
     ) {
-        return ResponseEntity.ok(
-                MemberResponse.fromEntity(member)
-        );
+        MemberResponse response = memberService.getMemberInfo(memberId);
+        return ResponseEntity
+                .ok(response);
     }
 
     @PutMapping("/me")
     public ResponseEntity<MemberResponse> updateMyInfo(
-            @LoginMember Member member,
+            @LoginMember Long memberId,
             @RequestBody @Valid MemberUpdateRequest request
     ) {
-        MemberResponse response = memberService.updateMember(member, request);
+        MemberResponse response = memberService.updateMember(memberId, request);
 
         return ResponseEntity
                 .ok(response);
@@ -41,10 +41,10 @@ public class MemberController {
 
     @DeleteMapping("/me")
     public ResponseEntity<Void> deleteMyAccount(
-            @LoginMember Member member,
+            @LoginMember Long memberId,
             HttpServletResponse httpServletResponse
     ) {
-        memberService.deleteMember(member);
+        memberService.deleteMember(memberId);
 
         Cookie accessTokenCookie = TokenCookieUtil.clearAccessToken();
         Cookie refreshTokenCookie = TokenCookieUtil.clearRefreshToken();

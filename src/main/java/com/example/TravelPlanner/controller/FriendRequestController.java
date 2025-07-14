@@ -21,10 +21,10 @@ public class FriendRequestController {
 
     @PostMapping("/{friendId}")
     public ResponseEntity<String> sendFriendRequest(
-            @LoginMember Member member,
+            @LoginMember Long memberId,
             @PathVariable Long friendId
     ) {
-        friendRequestService.sendFriendRequest(member, friendId);
+        friendRequestService.sendFriendRequest(memberId, friendId);
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)
@@ -33,10 +33,10 @@ public class FriendRequestController {
 
     @DeleteMapping("/{friendId}")
     public ResponseEntity<String> cancelFriendRequest(
-            @LoginMember Member member,
+            @LoginMember Long memberId,
             @PathVariable Long friendId
     ) {
-        friendRequestService.cancelFriendRequest(member, friendId);
+        friendRequestService.cancelFriendRequest(memberId, friendId);
 
         return ResponseEntity
                 .ok("친구 요청이 취소되었습니다.");
@@ -44,9 +44,9 @@ public class FriendRequestController {
 
     @GetMapping("/received")
     public ResponseEntity<List<ReceivedFriendRequestResponse>> getReceivedFriendRequests(
-            @LoginMember Member member
+            @LoginMember Long memberId
     ) {
-        List<ReceivedFriendRequestResponse> response = friendRequestService.getPendingReceivedFriendRequests(member);
+        List<ReceivedFriendRequestResponse> response = friendRequestService.getPendingReceivedFriendRequests(memberId);
 
         return ResponseEntity
                 .ok(response);
@@ -54,9 +54,9 @@ public class FriendRequestController {
 
     @GetMapping("/sent")
     public ResponseEntity<List<SentFriendRequestResponse>> getSentFriendRequests(
-            @LoginMember Member member
+            @LoginMember Long memberId
     ) {
-        List<SentFriendRequestResponse> response = friendRequestService.getSentFriendRequests(member);
+        List<SentFriendRequestResponse> response = friendRequestService.getSentFriendRequests(memberId);
 
         return ResponseEntity
                 .ok(response);
@@ -64,10 +64,10 @@ public class FriendRequestController {
 
     @PostMapping("/{requestId}/accept")
     public ResponseEntity<String> acceptFriendRequest(
-            @LoginMember Member member,
+            @LoginMember Long memberId,
             @PathVariable Long requestId
     ) {
-            friendRequestService.acceptFriendRequest(member, requestId);
+            friendRequestService.acceptFriendRequest(memberId, requestId);
 
             return ResponseEntity
                     .ok("친구 요청을 수락하였습니다.");
@@ -75,10 +75,10 @@ public class FriendRequestController {
 
     @PostMapping("/{requestId}/reject")
     public ResponseEntity<String> rejectFrinedRequest(
-            @LoginMember Member member,
+            @LoginMember Long memberId,
             @PathVariable Long requestId
     ) {
-        friendRequestService.rejectFriendRequest(member, requestId);
+        friendRequestService.rejectFriendRequest(memberId, requestId);
 
         return ResponseEntity
                 .ok("친구 요청을 거절하였습니다.");

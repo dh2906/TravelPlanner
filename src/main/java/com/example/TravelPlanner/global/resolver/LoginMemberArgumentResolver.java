@@ -19,7 +19,7 @@ public class LoginMemberArgumentResolver implements HandlerMethodArgumentResolve
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
         return parameter.hasParameterAnnotation(LoginMember.class)
-                && parameter.getParameterType().equals(Member.class);
+                && parameter.getParameterType().equals(Long.class);
     }
 
     @Override
@@ -28,12 +28,12 @@ public class LoginMemberArgumentResolver implements HandlerMethodArgumentResolve
                                   NativeWebRequest webRequest,
                                   WebDataBinderFactory binderFactory) throws Exception {
         HttpServletRequest request = (HttpServletRequest) webRequest.getNativeRequest();
-        Member member = (Member) request.getAttribute("loginMember");
+        Long memberId = (Long) request.getAttribute("loginMemberId");
 
-        if (member == null) {
+        if (memberId == null) {
             throw new CustomException(ExceptionCode.UNAUTHORIZED);
         }
 
-        return member;
+        return memberId;
     }
 }

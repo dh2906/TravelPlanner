@@ -18,9 +18,9 @@ public class PlanAccessInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        Member loginMember = (Member) request.getAttribute("loginMember");
+        Long loginMemberId = (Long) request.getAttribute("loginMemberId");
 
-        if (loginMember == null) {
+        if (loginMemberId == null) {
             throw new CustomException(ExceptionCode.UNAUTHORIZED);
         }
 
@@ -35,7 +35,7 @@ public class PlanAccessInterceptor implements HandlerInterceptor {
         Plan plan = planRepository.findById(planId)
                 .orElseThrow(() -> new CustomException(ExceptionCode.PLAN_NOT_FOUND));
 
-        if (!plan.getMember().getId().equals(loginMember.getId())) {
+        if (!plan.getMember().getId().equals(loginMemberId)) {
             if (!"GET".equalsIgnoreCase(method)) {
                 throw new CustomException(ExceptionCode.ACCESS_DENIED);
             } else if (plan.getVisibility() != Plan.Visibility.PUBLIC) {

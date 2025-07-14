@@ -8,6 +8,7 @@ import com.example.TravelPlanner.entity.Plan;
 import com.example.TravelPlanner.entity.PlanDetail;
 import com.example.TravelPlanner.global.exception.CustomException;
 import com.example.TravelPlanner.global.exception.ExceptionCode;
+import com.example.TravelPlanner.repository.MemberRepository;
 import com.example.TravelPlanner.repository.PlanDetailRepository;
 import com.example.TravelPlanner.repository.PlanRepository;
 import lombok.RequiredArgsConstructor;
@@ -21,9 +22,13 @@ import java.util.List;
 public class PlanService {
     private final PlanRepository planRepository;
     private final PlanDetailRepository planDetailRepository;
+    private final MemberRepository memberRepository;
 
     @Transactional
-    public PlanResponse createPlan(Member member, PlanRequest request) {
+    public PlanResponse createPlan(Long memberId, PlanRequest request) {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new CustomException(ExceptionCode.MEMBER_NOT_FOUND));
+
         return PlanResponse.fromEntity(
                 planRepository.save(
                         request.toEntity(member)

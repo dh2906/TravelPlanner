@@ -3,6 +3,8 @@ package com.example.TravelPlanner.service;
 import com.example.TravelPlanner.dto.request.MemberUpdateRequest;
 import com.example.TravelPlanner.dto.response.MemberResponse;
 import com.example.TravelPlanner.entity.Member;
+import com.example.TravelPlanner.global.exception.CustomException;
+import com.example.TravelPlanner.global.exception.ExceptionCode;
 import com.example.TravelPlanner.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -13,17 +15,26 @@ import org.springframework.transaction.annotation.Transactional;
 public class MemberService {
     private final MemberRepository memberRepository;
 
-    @Transactional
-    public MemberResponse updateMember(Member member, MemberUpdateRequest request) {
-        member.updateInfo(request);
-
-        memberRepository.save(member);
+    @Transactional(readOnly = true)
+    public MemberResponse getMemberInfo(Long memberId) {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new CustomException(ExceptionCode.MEMBER_NOT_FOUND));
 
         return MemberResponse.fromEntity(member);
     }
 
     @Transactional
-    public void deleteMember(Member member) {
-        memberRepository.delete(member);
+    public MemberResponse updateMember(Long memberId, MemberUpdateRequest request) {
+        Member member = memberRepository.findById(memberId)
+                        .orElseThrow(() -> new CustomException(ExceptionCode.MEMBER_NOT_FOUND));
+
+        member.updateInfo(request);
+
+        return MemberResponse.fromEntity(member);
+    }
+
+    @Transactional
+    public void deleteMember(Long memberId) {
+        memberRepository.deleteById(memberId);
     }
 }

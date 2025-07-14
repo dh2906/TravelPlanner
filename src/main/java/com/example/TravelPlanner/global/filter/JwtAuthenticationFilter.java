@@ -45,9 +45,11 @@ public class JwtAuthenticationFilter implements Filter {
 
                 if (token != null && jwtProvider.validateToken(token)) {
                     Long memberId = jwtProvider.extractMemberId(token);
+
                     Member member = memberRepository.findById(memberId)
                             .orElseThrow(() -> new CustomException(ExceptionCode.MEMBER_NOT_FOUND));
-                    request.setAttribute("loginMember", member);
+
+                    request.setAttribute("loginMemberId", memberId);
                 }
 
             } catch (CustomException ex) {

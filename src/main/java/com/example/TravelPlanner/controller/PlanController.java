@@ -29,19 +29,19 @@ public class PlanController {
 
     @PostMapping
     public ResponseEntity<PlanResponse> createPlan(
-            @LoginMember Member member,
+            @LoginMember Long memberId,
             @RequestBody @Valid PlanRequest request
     ) {
-        PlanResponse response = planService.createPlan(member, request);
+        PlanResponse response = planService.createPlan(memberId, request);
 
         return ResponseEntity.ok(response);
     }
 
     @GetMapping("/me")
     public ResponseEntity<List<PlanResponse>> getMyPlans(
-            @LoginMember Member member
+            @LoginMember Long memberId
     ) {
-        List<PlanResponse> response = planService.getPlansByMemberId(member.getId());
+        List<PlanResponse> response = planService.getPlansByMemberId(memberId);
 
         return ResponseEntity.ok(response);
     }

@@ -7,6 +7,7 @@ import com.example.TravelPlanner.entity.Member;
 import com.example.TravelPlanner.global.exception.CustomException;
 import com.example.TravelPlanner.global.exception.ExceptionCode;
 import com.example.TravelPlanner.repository.ChecklistItemRepository;
+import com.example.TravelPlanner.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,25 +18,29 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ChecklistItemService {
     private final ChecklistItemRepository checklistItemRepository;
+    private final MemberRepository memberRepository;
 
     @Transactional(readOnly = true)
-    public List<ChecklistItemResponse> getMyChecklistItems(Member member) {
-        return checklistItemRepository.findAllByMember(member)
+    public List<ChecklistItemResponse> getMyChecklistItems(Long memberId) {
+        return checklistItemRepository.findAllByMemberId(memberId)
                 .stream()
                 .map(ChecklistItemResponse::fromEntity)
                 .toList();
     }
 
     @Transactional
-    public void deleteMyChecklistItems(Member member) {
-        checklistItemRepository.deleteAllByMember(member);
+    public void deleteMyChecklistItems(Long memberId) {
+        checklistItemRepository.deleteAllByMemberId(memberId);
     }
 
     @Transactional
     public ChecklistItemResponse createChecklistItem(
-            Member member,
+            Long memberId,
             ChecklistItemRequest request
     ) {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new CustomException(ExceptionCode.MEMBER_NOT_FOUND));
+
         return ChecklistItemResponse.fromEntity(
                 checklistItemRepository.save(
                         request.toEntity(member)
@@ -45,12 +50,12 @@ public class ChecklistItemService {
 
     @Transactional
     public ChecklistItemResponse updateChecklistItem(
-            Member member,
+            Long memberId,
             Long id,
             ChecklistItemRequest request
     ) {
         ChecklistItem checklistItem = findChecklistItemOrThrow(id);
-        validateOwnership(member, checklistItem);
+        validateOwnership(memberId, checklistItem);
 
         checklistItem.updateInfo(request);
 
@@ -59,22 +64,22 @@ public class ChecklistItemService {
 
     @Transactional
     public void deleteChecklistItem(
-            Member member,
+            Long memberId,
             Long id
     ) {
         ChecklistItem checklistItem = findChecklistItemOrThrow(id);
-        validateOwnership(member, checklistItem);
+        validateOwnership(memberId, checklistItem);
 
         checklistItemRepository.deleteById(id);
     }
 
     @Transactional
     public boolean toggleChecklistItem(
-            Member member,
+            Long memberId,
             Long id
     ) {
         ChecklistItem checklistItem = findChecklistItemOrThrow(id);
-        validateOwnership(member, checklistItem);
+        validateOwnership(memberId, checklistItem);
 
         checklistItem.updateChecked(!checklistItem.isChecked());
 
@@ -82,8 +87,8 @@ public class ChecklistItemService {
     }
 
     @Transactional
-    public void clearCheckedAllItems(Member member) {
-        List<ChecklistItem> checklistItems = checklistItemRepository.findAllByMember(member);
+    public void clearCheckedAllItems(Long memberId) {
+        List<ChecklistItem> checklistItems = checklistItemRepository.findAllByMemberId(memberId);
 
         for (ChecklistItem item : checklistItems) {
             item.updateChecked(false);
@@ -95,10 +100,10 @@ public class ChecklistItemService {
                                       .orElseThrow(() -> new CustomException(ExceptionCode.CHECKLIST_ITEM_NOT_FOUND));
     }
 
-    private void validateOwnership(Member member,
+    private void validateOwnership(Long memberId,
                                    ChecklistItem checklistItem
     ) {
-        if (!checklistItem.getMember().getId().equals(member.getId())) {
+        if (!checklistItem.getMember().getId().equals(memberId)) {
             throw new CustomException(ExceptionCode.ACCESS_DENIED);
         }
     }

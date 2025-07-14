@@ -18,10 +18,10 @@ public class FavoriteController {
 
     @PostMapping("/{planId}")
     public ResponseEntity<String> toggleFavorite(
-            @LoginMember Member member,
+            @LoginMember Long memberId,
             @PathVariable Long planId
     ) {
-        boolean isFavorited = favoriteService.toggleFavorite(member.getId(), planId);
+        boolean isFavorited = favoriteService.toggleFavorite(memberId, planId);
 
         String message = isFavorited ? "즐겨찾기 추가됨" : "즐겨찾기 해제됨";
         
@@ -30,9 +30,9 @@ public class FavoriteController {
 
     @GetMapping
     public ResponseEntity<List<PlanResponse>> getFavoritePlans(
-            @LoginMember Member member
+            @LoginMember Long memberId
     ) {
-        List<PlanResponse> response = favoriteService.getFavoritePlansByMember(member);
+        List<PlanResponse> response = favoriteService.getFavoritePlansByMember(memberId);
 
         return ResponseEntity
                 .ok(response);

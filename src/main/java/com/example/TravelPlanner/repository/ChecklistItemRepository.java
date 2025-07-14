@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface ChecklistItemRepository extends JpaRepository<ChecklistItem, Long> {
-    public List<ChecklistItem> findAllByMember(Member member);
+    public List<ChecklistItem> findAllByMemberId(Long memberId);
 
-    public void deleteAllByMember(Member member);
+    public void deleteAllByMemberId(Long memberId);
 }

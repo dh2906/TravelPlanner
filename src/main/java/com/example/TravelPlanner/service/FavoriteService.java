@@ -53,14 +53,14 @@ public class FavoriteService {
     }
 
     @Transactional(readOnly = true)
-    public List<PlanResponse> getFavoritePlansByMember(Member member) {
-        List<Favorite> favorites = favoriteRepository.findAllByMember(member);
+    public List<PlanResponse> getFavoritePlansByMember(Long memberId) {
+        List<Favorite> favorites = favoriteRepository.findAllByMemberId(memberId);
 
         return favorites.stream()
                         .map(Favorite::getPlan)
                         .filter(plan ->
                                 plan.getVisibility() == Plan.Visibility.PUBLIC ||
-                                plan.getMember().getId().equals(member.getId())
+                                plan.getMember().getId().equals(memberId)
                         )
                         .map(PlanResponse::fromEntity)
                         .toList();

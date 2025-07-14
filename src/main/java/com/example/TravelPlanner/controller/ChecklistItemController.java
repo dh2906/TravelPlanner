@@ -21,9 +21,9 @@ public class ChecklistItemController {
 
     @GetMapping("/me")
     public ResponseEntity<List<ChecklistItemResponse>> getMyChecklistItems(
-            @LoginMember Member member
+            @LoginMember Long memberId
     ) {
-        List<ChecklistItemResponse> response = checklistItemService.getMyChecklistItems(member);
+        List<ChecklistItemResponse> response = checklistItemService.getMyChecklistItems(memberId);
 
         return ResponseEntity
                 .ok(response);
@@ -31,9 +31,9 @@ public class ChecklistItemController {
 
     @DeleteMapping("/items")
     public ResponseEntity<Void> deleteMyChecklistItems(
-            @LoginMember Member member
+            @LoginMember Long memberId
     ) {
-        checklistItemService.deleteMyChecklistItems(member);
+        checklistItemService.deleteMyChecklistItems(memberId);
 
         return ResponseEntity
                 .noContent()
@@ -42,10 +42,10 @@ public class ChecklistItemController {
 
     @PostMapping("/items")
     public ResponseEntity<ChecklistItemResponse> createChecklistItem(
-            @LoginMember Member member,
+            @LoginMember Long memberId,
             @RequestBody @Valid ChecklistItemRequest request
     ) {
-        ChecklistItemResponse response = checklistItemService.createChecklistItem(member, request);
+        ChecklistItemResponse response = checklistItemService.createChecklistItem(memberId, request);
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)
@@ -54,11 +54,11 @@ public class ChecklistItemController {
 
     @PutMapping("/items/{id}")
     public ResponseEntity<ChecklistItemResponse> updateChecklistItem(
-            @LoginMember Member member,
+            @LoginMember Long memberId,
             @PathVariable Long id,
             @RequestBody @Valid ChecklistItemRequest request
     ) {
-        ChecklistItemResponse response = checklistItemService.updateChecklistItem(member, id, request);
+        ChecklistItemResponse response = checklistItemService.updateChecklistItem(memberId, id, request);
 
         return ResponseEntity
                 .ok(response);
@@ -66,10 +66,10 @@ public class ChecklistItemController {
 
     @DeleteMapping("/items/{id}")
     public ResponseEntity<Void> deleteChecklistItem(
-            @LoginMember Member member,
+            @LoginMember Long memberId,
             @PathVariable Long id
     ) {
-        checklistItemService.deleteChecklistItem(member, id);
+        checklistItemService.deleteChecklistItem(memberId, id);
 
         return ResponseEntity
                 .noContent()
@@ -78,10 +78,10 @@ public class ChecklistItemController {
 
     @PostMapping("/items/{id}/toggle")
     public ResponseEntity<String> toggleChecklistItem(
-            @LoginMember Member member,
+            @LoginMember Long memberId,
             @PathVariable Long id
     ) {
-        boolean isChecked = checklistItemService.toggleChecklistItem(member, id);
+        boolean isChecked = checklistItemService.toggleChecklistItem(memberId, id);
 
         String message = isChecked ? "항목이 체크되었습니다." : "항목이 체크 해제되었습니다.";
 
@@ -91,9 +91,9 @@ public class ChecklistItemController {
 
     @PostMapping("/items/clear")
     public ResponseEntity<String> clearCheckedAllItems(
-            @LoginMember Member member
+            @LoginMember Long memberId
     ) {
-        checklistItemService.clearCheckedAllItems(member);
+        checklistItemService.clearCheckedAllItems(memberId);
 
         return ResponseEntity
                 .ok("모든 항목의 체크가 해제되었습니다.");

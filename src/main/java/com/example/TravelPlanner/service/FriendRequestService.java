@@ -24,23 +24,26 @@ public class FriendRequestService {
     private final FriendRepository friendRepository;
 
     @Transactional
-    public void sendFriendRequest(Member sender, Long friendId) {
-        if (sender.getId().equals(friendId)) {
+    public void sendFriendRequest(Long senderId, Long receiverId) {
+        if (senderId.equals(receiverId)) {
             throw new CustomException(ExceptionCode.INVALID_FRIEND_REQUEST);
         }
 
-        Member receiver = memberRepository.findById(friendId)
+        Member sender = memberRepository.findById(senderId)
                 .orElseThrow(() -> new CustomException(ExceptionCode.MEMBER_NOT_FOUND));
 
-        if (friendRepository.existsByMemberIdAndFriendId(sender.getId(), receiver.getId())) {
+        Member receiver = memberRepository.findById(receiverId)
+                .orElseThrow(() -> new CustomException(ExceptionCode.MEMBER_NOT_FOUND));
+
+        if (friendRepository.existsByMemberIdAndFriendId(senderId, receiverId)) {
             throw new CustomException(ExceptionCode.FRIEND_ALREADY_EXISTS);
         }
 
-        if (friendRequestRepository.existsBySenderIdAndReceiverIdAndStatus(sender.getId(), receiver.getId(), FriendRequest.Status.PENDING)) {
+        if (friendRequestRepository.existsBySenderIdAndReceiverIdAndStatus(senderId, receiverId, FriendRequest.Status.PENDING)) {
             throw new CustomException(ExceptionCode.FRIEND_REQUEST_ALREADY_SENT);
         }
 
-        if (friendRequestRepository.existsBySenderIdAndReceiverIdAndStatus(receiver.getId(), sender.getId(), FriendRequest.Status.PENDING)) {
+        if (friendRequestRepository.existsBySenderIdAndReceiverIdAndStatus(receiverId, senderId, FriendRequest.Status.PENDING)) {
             throw new CustomException(ExceptionCode.FRIEND_REQUEST_ALREADY_RECEIVED);
         }
 
@@ -53,9 +56,9 @@ public class FriendRequestService {
     }
 
     @Transactional
-    public void cancelFriendRequest(Member sender, Long friendId) {
+    public void cancelFriendRequest(Long senderId, Long friendId) {
         FriendRequest request = friendRequestRepository
-                .findBySenderIdAndReceiverId(sender.getId(), friendId)
+                .findBySenderIdAndReceiverId(senderId, friendId)
                 .orElseThrow(() -> new CustomException(ExceptionCode.FRIEND_REQUEST_NOT_FOUND));
 
         if (request.getStatus() != FriendRequest.Status.PENDING) {
@@ -66,8 +69,8 @@ public class FriendRequestService {
     }
 
     @Transactional(readOnly = true)
-    public List<ReceivedFriendRequestResponse> getPendingReceivedFriendRequests(Member member) {
-        List<FriendRequest> friendRequests = friendRequestRepository.findAllByReceiverIdAndStatus(member.getId(), FriendRequest.Status.PENDING);
+    public List<ReceivedFriendRequestResponse> getPendingReceivedFriendRequests(Long memberId) {
+        List<FriendRequest> friendRequests = friendRequestRepository.findAllByReceiverIdAndStatus(memberId, FriendRequest.Status.PENDING);
 
         return friendRequests.stream()
                 .map(ReceivedFriendRequestResponse::fromEntity)
@@ -75,8 +78,8 @@ public class FriendRequestService {
     }
 
     @Transactional(readOnly = true)
-    public List<SentFriendRequestResponse> getSentFriendRequests(Member member) {
-        List<FriendRequest> friendRequests = friendRequestRepository.findAllBySenderIdAndStatus(member.getId(), FriendRequest.Status.PENDING);
+    public List<SentFriendRequestResponse> getSentFriendRequests(Long memberId) {
+        List<FriendRequest> friendRequests = friendRequestRepository.findAllBySenderIdAndStatus(memberId, FriendRequest.Status.PENDING);
 
         return friendRequests.stream()
                 .map(SentFriendRequestResponse::fromEntity)
@@ -84,10 +87,11 @@ public class FriendRequestService {
     }
 
     @Transactional
-    public void acceptFriendRequest(Member receiver, Long requestId) {
+    public void acceptFriendRequest(Long receiverId, Long requestId) {
         FriendRequest friendRequest = findFriendRequestOrThrow(requestId);
-        validateOwnership(receiver, friendRequest);
+        validateOwnership(receiverId, friendRequest);
 
+        Member receiver = friendRequest.getReceiver();
         Member sender = friendRequest.getSender();
 
         friendRequest.acceptOrThrow();
@@ -97,9 +101,9 @@ public class FriendRequestService {
     }
 
     @Transactional
-    public void rejectFriendRequest(Member receiver, Long requestId) {
+    public void rejectFriendRequest(Long receiverId, Long requestId) {
         FriendRequest friendRequest = findFriendRequestOrThrow(requestId);
-        validateOwnership(receiver, friendRequest);
+        validateOwnership(receiverId, friendRequest);
 
         friendRequest.rejectOrThrow();
     }
@@ -109,10 +113,10 @@ public class FriendRequestService {
                                       .orElseThrow(() -> new CustomException(ExceptionCode.FRIEND_REQUEST_NOT_FOUND));
     }
 
-    private void validateOwnership(Member receiver, FriendRequest friendRequest) {
+    private void validateOwnership(Long receiverId, FriendRequest friendRequest) {
         if (!friendRequest.getReceiver()
                           .getId()
-                          .equals(receiver.getId())
+                          .equals(receiverId)
         ) {
             throw new CustomException(ExceptionCode.INVALID_FRIEND_REQUEST);
         }
