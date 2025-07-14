@@ -36,16 +36,13 @@ public class FriendRequestService {
             throw new CustomException(ExceptionCode.FRIEND_ALREADY_EXISTS);
         }
 
-        if (friendRequestRepository.existsBySenderIdAndReceiverId(sender.getId(), receiver.getId())) {
+        if (friendRequestRepository.existsBySenderIdAndReceiverIdAndStatus(sender.getId(), receiver.getId(), FriendRequest.Status.PENDING)) {
             throw new CustomException(ExceptionCode.FRIEND_REQUEST_ALREADY_SENT);
         }
 
-        friendRequestRepository.findBySenderIdAndReceiverId(receiver.getId(), sender.getId())
-                               .ifPresent(request -> {
-                                   if (request.getStatus() == FriendRequest.Status.PENDING) {
-                                       throw new CustomException(ExceptionCode.FRIEND_REQUEST_ALREADY_RECEIVED);
-                                   }
-                               });
+        if (friendRequestRepository.existsBySenderIdAndReceiverIdAndStatus(receiver.getId(), sender.getId(), FriendRequest.Status.PENDING)) {
+            throw new CustomException(ExceptionCode.FRIEND_REQUEST_ALREADY_RECEIVED);
+        }
 
         FriendRequest request = FriendRequest.builder()
                 .sender(sender)
