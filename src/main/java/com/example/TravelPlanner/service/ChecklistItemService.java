@@ -88,11 +88,7 @@ public class ChecklistItemService {
 
     @Transactional
     public void clearCheckedAllItems(Long memberId) {
-        List<ChecklistItem> checklistItems = checklistItemRepository.findAllByMemberId(memberId);
-
-        for (ChecklistItem item : checklistItems) {
-            item.updateChecked(false);
-        }
+        checklistItemRepository.clearCheckedAllItems(memberId);
     }
 
     private ChecklistItem findChecklistItemOrThrow(Long id) {
