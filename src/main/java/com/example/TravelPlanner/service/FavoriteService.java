@@ -54,7 +54,7 @@ public class FavoriteService {
 
     @Transactional(readOnly = true)
     public List<PlanResponse> getFavoritePlans(Long memberId) {
-        List<Favorite> favorites = favoriteRepository.findAllByMemberId(memberId);
+        List<Favorite> favorites = favoriteRepository.findAllByMemberIdWithPlan(memberId);
 
         return favorites.stream()
                         .map(Favorite::getPlan)
