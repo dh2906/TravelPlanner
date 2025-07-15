@@ -10,14 +10,14 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface ChecklistItemRepository extends JpaRepository<ChecklistItem, Long> {
-    public List<ChecklistItem> findAllByMemberId(Long memberId);
+    List<ChecklistItem> findAllByMemberId(Long memberId);
 
     @Modifying
     @Query(value = """
             DELETE FROM ChecklistItem c
             WHERE c.member.id = :memberId
             """)
-    public void deleteAllByMemberId(@Param("memberId") Long memberId);
+    void deleteAllByMemberId(@Param("memberId") Long memberId);
 
     @Modifying
     @Query(value = """
@@ -25,5 +25,5 @@ public interface ChecklistItemRepository extends JpaRepository<ChecklistItem, Lo
             SET c.checked = false
             WHERE c.member.id = :memberId
             """)
-    public void clearCheckedAllItems(@Param("memberId") Long memberId);
+    void clearCheckedAllItems(@Param("memberId") Long memberId);
 }

@@ -9,9 +9,9 @@ import java.util.List;
 import java.util.Optional;
 
 public interface FriendRequestRepository extends JpaRepository<FriendRequest, Long> {
-    public boolean existsBySenderIdAndReceiverIdAndStatus(Long senderId, Long receiverId, FriendRequest.Status status);
+    boolean existsBySenderIdAndReceiverIdAndStatus(Long senderId, Long receiverId, FriendRequest.Status status);
 
-    public Optional<FriendRequest> findBySenderIdAndReceiverId(Long senderId, Long ReceiverId);
+    Optional<FriendRequest> findBySenderIdAndReceiverId(Long senderId, Long ReceiverId);
 
     @Query(value = """
             SELECT fr
@@ -20,7 +20,7 @@ public interface FriendRequestRepository extends JpaRepository<FriendRequest, Lo
             WHERE fr.receiver.id = :receiverId
             AND fr.status = :status
             """)
-    public List<FriendRequest> findAllByReceiverIdAndStatusWithMember(
+    List<FriendRequest> findAllByReceiverIdAndStatusWithMember(
             @Param("receiverId") Long receiverId,
             @Param("status") FriendRequest.Status status
     );
@@ -31,7 +31,7 @@ public interface FriendRequestRepository extends JpaRepository<FriendRequest, Lo
             JOIN FETCH fr.receiver
             WHERE fr.sender.id = :senderId
             """)
-    public List<FriendRequest> findAllBySenderIdAndStatusWithMember(
+    List<FriendRequest> findAllBySenderIdAndStatusWithMember(
             @Param("senderId") Long senderId,
             @Param("status") FriendRequest.Status status
     );

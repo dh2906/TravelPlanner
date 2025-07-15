@@ -16,9 +16,9 @@ public interface FriendRepository extends JpaRepository<Friend, Long> {
             JOIN FETCH f.friend
             WHERE f.member.id = :memberId
             """)
-    public List<Friend> findAllByMemberId(@Param("memberId") Long memberId);
+    List<Friend> findAllByMemberId(@Param("memberId") Long memberId);
 
-    public Optional<Friend> findByMemberIdAndFriendId(Long memberId, Long friendId);
+    Optional<Friend> findByMemberIdAndFriendId(Long memberId, Long friendId);
 
     @Modifying
     @Query(value = """
@@ -26,10 +26,10 @@ public interface FriendRepository extends JpaRepository<Friend, Long> {
             WHERE f.member.id = :memberId
             AND f.friend.id = :friendId
             """)
-    public void deleteByMemberIdAndFriendId(
+    void deleteByMemberIdAndFriendId(
             @Param("memberId") Long memberId,
             @Param("friendId") Long friendId
     );
 
-    public boolean existsByMemberIdAndFriendId(Long memberId, Long friendId);
+    boolean existsByMemberIdAndFriendId(Long memberId, Long friendId);
 }

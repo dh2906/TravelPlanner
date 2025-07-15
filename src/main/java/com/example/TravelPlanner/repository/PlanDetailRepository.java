@@ -10,7 +10,7 @@ import java.util.Collection;
 import java.util.List;
 
 public interface PlanDetailRepository extends JpaRepository<PlanDetail, Long> {
-    public List<PlanDetail> findAllByPlanId(Long planId);
+    List<PlanDetail> findAllByPlanId(Long planId);
 
     @Query(value = """
             SELECT EXISTS (
@@ -22,7 +22,7 @@ public interface PlanDetailRepository extends JpaRepository<PlanDetail, Long> {
                 AND pd.endTime > :startTime
             )
             """)
-    public boolean existsByPlanIdAndDayNumberAndConflictTime(
+    boolean existsByPlanIdAndDayNumberAndConflictTime(
             @Param("planId") Long planId,
             @Param("dayNumber") Integer dayNumber,
             @Param("startTime") LocalTime startTime,
@@ -40,7 +40,7 @@ public interface PlanDetailRepository extends JpaRepository<PlanDetail, Long> {
                 AND pd.endTime > :startTime
             )
             """)
-    public boolean existsByPlanIdAndDayNumberAndConflictTimeExcludeDetailId(
+    boolean existsByPlanIdAndDayNumberAndConflictTimeExcludeDetailId(
             @Param("planId") Long planId,
             @Param("dayNumber") Integer dayNumber,
             @Param("startTime") LocalTime startTime,
@@ -48,7 +48,7 @@ public interface PlanDetailRepository extends JpaRepository<PlanDetail, Long> {
             @Param("detailId") Long detailId
     );
 
-    public List<PlanDetail> findAllByPlanIdAndDayNumberIn(
+    List<PlanDetail> findAllByPlanIdAndDayNumberIn(
             Long planId,
             Collection<Integer> dayNumbers
     );
@@ -60,7 +60,7 @@ public interface PlanDetailRepository extends JpaRepository<PlanDetail, Long> {
             AND pd.dayNumber in :dayNumbers
             AND pd.id NOT IN :ids
             """)
-    public List<PlanDetail> findAllByPlanIdAndDayNumberInAndExcludeIds(
+    List<PlanDetail> findAllByPlanIdAndDayNumberInAndExcludeIds(
             @Param("planId") Long planId,
             @Param("dayNumbers") Collection<Integer> dayNumbers,
             @Param("ids") Collection<Long> ids

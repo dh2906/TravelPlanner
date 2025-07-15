@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface FavoriteRepository extends JpaRepository<Favorite, Long> {
-    public Optional<Favorite> findByMemberIdAndPlanId(Long memberId, Long planId);
+    Optional<Favorite> findByMemberIdAndPlanId(Long memberId, Long planId);
 
     @Query(value = """
             SELECT f
@@ -18,5 +18,5 @@ public interface FavoriteRepository extends JpaRepository<Favorite, Long> {
             JOIN FETCH f.plan p
             WHERE f.member.id = :memberId
             """)
-    public List<Favorite> findAllByMemberIdWithPlan(@Param("memberId") Long memberId);
+    List<Favorite> findAllByMemberIdWithPlan(@Param("memberId") Long memberId);
 }
