@@ -2,11 +2,12 @@ package com.example.TravelPlanner.controller;
 
 import com.example.TravelPlanner.dto.request.LoginRequest;
 import com.example.TravelPlanner.dto.request.SignupRequest;
-import com.example.TravelPlanner.dto.response.LoginResponse;
+import com.example.TravelPlanner.dto.response.TokenResponse;
 import com.example.TravelPlanner.dto.response.MemberResponse;
 import com.example.TravelPlanner.global.util.TokenCookieUtil;
 import com.example.TravelPlanner.service.AuthService;
 import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -35,11 +36,11 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<LoginResponse> login(
+    public ResponseEntity<TokenResponse> login(
             @RequestBody @Valid LoginRequest request,
             HttpServletResponse httpServletResponse
     ) {
-        LoginResponse response = authService.login(request);
+        TokenResponse response = authService.login(request);
 
         Cookie accessTokenCookie = TokenCookieUtil.createAccessToken(response.accessToken());
         Cookie refreshTokenCookie = TokenCookieUtil.createRefreshToken(response.refreshToken());
@@ -64,4 +65,22 @@ public class AuthController {
                 .build();
     }
 
+    @PostMapping("/refresh")
+    public ResponseEntity<TokenResponse> refresh(
+            HttpServletRequest httpServletRequest,
+            HttpServletResponse httpServletResponse
+    ) {
+        String refreshToken = TokenCookieUtil.getRefreshTokenFromRequest(httpServletRequest);
+
+        TokenResponse response = authService.refresh(refreshToken);
+
+        Cookie accessTokenCookie = TokenCookieUtil.createAccessToken(response.accessToken());
+        Cookie refreshTokenCookie = TokenCookieUtil.createRefreshToken(response.refreshToken());
+
+        httpServletResponse.addCookie(accessTokenCookie);
+        httpServletResponse.addCookie(refreshTokenCookie);
+
+        return ResponseEntity
+                .ok(response);
+    }
 }

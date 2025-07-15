@@ -1,6 +1,7 @@
 package com.example.TravelPlanner.global.util;
 
 import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 
 public class TokenCookieUtil {
     private static final String ACCESS_TOKEN_COOKIE_NAME = "accessToken";
@@ -44,5 +45,30 @@ public class TokenCookieUtil {
         refreshTokenCookie.setSecure(true);
 
         return refreshTokenCookie;
+    }
+
+
+    public static String getAccessTokenFromRequest(HttpServletRequest request) {
+        if (request.getCookies() == null) return null;
+
+        for (Cookie cookie : request.getCookies()) {
+            if ("accessToken".equals(cookie.getName())) {
+                return cookie.getValue();
+            }
+        }
+
+        return null;
+    }
+
+    public static String getRefreshTokenFromRequest(HttpServletRequest request) {
+        if (request.getCookies() == null) return null;
+
+        for (Cookie cookie : request.getCookies()) {
+            if ("refreshToken".equals(cookie.getName())) {
+                return cookie.getValue();
+            }
+        }
+
+        return null;
     }
 }

@@ -20,6 +20,7 @@ public enum ExceptionCode {
     FRIEND_RELATION_NOT_FOUND(404, "친구 관계를 찾을 수 없습니다."),
     FRIEND_ALREADY_EXISTS(400, "이미 친구 관계입니다."),
     NO_ACCESS_TOKEN(401, "액세스 토큰이 존재하지 않습니다."),
+    INVALID_REFRESH_TOKEN(402, "리프레시 토큰이 유효하지 않습니다."),
     ACCESS_DENIED(403, "접근 권한이 존재하지 않습니다."),
     UNAUTHORIZED(401, "로그인이 필요합니다."),
     RESOURCE_RELATION_MISMATCH(400, "리소스 간의 관계가 일치하지 않습니다."),

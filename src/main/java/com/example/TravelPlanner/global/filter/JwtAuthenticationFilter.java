@@ -4,6 +4,7 @@ import com.example.TravelPlanner.entity.Member;
 import com.example.TravelPlanner.global.exception.CustomException;
 import com.example.TravelPlanner.global.exception.ExceptionCode;
 import com.example.TravelPlanner.global.jwt.JwtProvider;
+import com.example.TravelPlanner.global.util.TokenCookieUtil;
 import com.example.TravelPlanner.repository.MemberRepository;
 import jakarta.servlet.*;
 import jakarta.servlet.http.Cookie;
@@ -41,7 +42,7 @@ public class JwtAuthenticationFilter implements Filter {
 
         if (EXCLUDED_PATHS.stream().noneMatch(path::equals)) {
             try {
-                String token = extractTokenFromCookie(request);
+                String token = TokenCookieUtil.getAccessTokenFromRequest(request);
 
                 if (token != null && jwtProvider.validateToken(token)) {
                     Long memberId = jwtProvider.extractMemberId(token);
@@ -61,18 +62,6 @@ public class JwtAuthenticationFilter implements Filter {
         }
 
         filterChain.doFilter(request, response);
-    }
-
-    private String extractTokenFromCookie(HttpServletRequest request) {
-        if (request.getCookies() == null) return null;
-
-        for (Cookie cookie : request.getCookies()) {
-            if ("accessToken".equals(cookie.getName())) {
-                return cookie.getValue();
-            }
-        }
-
-        return null;
     }
 
     private boolean isExcludedPath(String path) {
