@@ -74,7 +74,7 @@ public class FriendRequestController {
     }
 
     @PostMapping("/{requestId}/reject")
-    public ResponseEntity<String> rejectFrinedRequest(
+    public ResponseEntity<String> rejectFriendRequest(
             @LoginMember Long memberId,
             @PathVariable Long requestId
     ) {
