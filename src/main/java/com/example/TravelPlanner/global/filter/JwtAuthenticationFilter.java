@@ -62,8 +62,4 @@ public class JwtAuthenticationFilter implements Filter {
 
         filterChain.doFilter(request, response);
     }
-
-    private boolean isExcludedPath(String path) {
-        return EXCLUDED_PATHS.stream().anyMatch(path::startsWith);
-    }
 }
