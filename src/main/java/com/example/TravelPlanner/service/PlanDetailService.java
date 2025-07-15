@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -26,6 +27,8 @@ public class PlanDetailService {
     public PlanDetailResponse createDetail(Long planId, PlanDetailRequest request) {
         Plan plan = planRepository.findById(planId)
                 .orElseThrow(() -> new CustomException(ExceptionCode.PLAN_NOT_FOUND));
+
+        validateDayNumberRange(plan, request.dayNumber());
 
         if (planDetailRepository.existsByPlanIdAndDayNumberAndConflictTime(planId, request.dayNumber(), request.startTime(), request.endTime())) {
             throw new CustomException(ExceptionCode.PLAN_DETAIL_TIME_CONFLICT);
@@ -46,6 +49,10 @@ public class PlanDetailService {
 
         Plan plan = planRepository.findById(planId)
                 .orElseThrow(() -> new CustomException(ExceptionCode.PLAN_NOT_FOUND));
+
+        for (PlanDetailRequest req : request) {
+            validateDayNumberRange(plan, req.dayNumber());
+        }
 
         List<PlanDetailRequest> sorted = new ArrayList<>(request);
 
@@ -100,11 +107,13 @@ public class PlanDetailService {
 
     @Transactional
     public PlanDetailResponse updateDetail(Long planId, Long detailId, PlanDetailRequest request) {
-        planRepository.findById(planId)
+        Plan plan = planRepository.findById(planId)
                 .orElseThrow(() -> new CustomException(ExceptionCode.PLAN_NOT_FOUND));
 
         PlanDetail planDetail = planDetailRepository.findById(detailId)
                 .orElseThrow(() -> new CustomException(ExceptionCode.PLAN_DETAIL_NOT_FOUND));
+
+        validateDayNumberRange(plan, request.dayNumber());
 
         if (!planDetail.getPlan().getId().equals(planId)) {
             throw new CustomException(ExceptionCode.RESOURCE_RELATION_MISMATCH);
@@ -127,6 +136,10 @@ public class PlanDetailService {
 
         Plan plan = planRepository.findById(planId)
                 .orElseThrow(() -> new CustomException(ExceptionCode.PLAN_NOT_FOUND));
+
+        for (PlanDetailBulkUpdateRequest req : request) {
+            validateDayNumberRange(plan, req.dayNumber());
+        }
 
         List<PlanDetailBulkUpdateRequest> sorted = new ArrayList<>(request);
 
@@ -195,4 +208,11 @@ public class PlanDetailService {
         planDetailRepository.delete(detail);
     }
 
+    private void validateDayNumberRange(Plan plan, int dayNumber) {
+        int travelDay = (int) ChronoUnit.DAYS.between(plan.getStartDate(), plan.getEndDate()) + 1;
+
+        if (dayNumber < 1 || dayNumber > travelDay) {
+            throw new CustomException(ExceptionCode.INVALID_DAY_NUMBER);
+        }
+    }
 }
