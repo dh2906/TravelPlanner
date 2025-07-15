@@ -2,16 +2,34 @@ package com.example.TravelPlanner.repository;
 
 import com.example.TravelPlanner.entity.Friend;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface FriendRepository extends JpaRepository<Friend, Long> {
-    public List<Friend> findAllByMemberId(Long memberId);
+    @Query("""
+            SELECT f
+            FROM Friend f
+            JOIN FETCH f.friend
+            WHERE f.member.id = :memberId
+            """)
+    public List<Friend> findAllByMemberId(@Param("memberId") Long memberId);
 
     public Optional<Friend> findByMemberIdAndFriendId(Long memberId, Long friendId);
 
-    public void deleteByMemberIdAndFriendId(Long memberId, Long friendId);
+    @Modifying
+    @Query(value = """
+            DELETE FROM Friend f
+            WHERE f.member.id = :memberId
+            AND f.friend.id = :friendId
+            """)
+    public void deleteByMemberIdAndFriendId(
+            @Param("memberId") Long memberId,
+            @Param("friendId") Long friendId
+    );
 
     public boolean existsByMemberIdAndFriendId(Long memberId, Long friendId);
 }
