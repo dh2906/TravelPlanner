@@ -95,6 +95,7 @@ public class FriendRequestService {
         Member sender = friendRequest.getSender();
 
         friendRequest.acceptOrThrow();
+        friendRequestRepository.delete(friendRequest);
 
         friendRepository.save(Friend.create(receiver, sender));
         friendRepository.save(Friend.create(sender, receiver));
