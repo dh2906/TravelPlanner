@@ -2,6 +2,8 @@ package com.example.TravelPlanner.repository;
 
 import com.example.TravelPlanner.entity.FriendRequest;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 import java.util.Optional;
@@ -11,7 +13,26 @@ public interface FriendRequestRepository extends JpaRepository<FriendRequest, Lo
 
     public Optional<FriendRequest> findBySenderIdAndReceiverId(Long senderId, Long ReceiverId);
 
-    public List<FriendRequest> findAllByReceiverIdAndStatus(Long receiverId, FriendRequest.Status status);
+    @Query(value = """
+            SELECT fr
+            FROM FriendRequest fr
+            JOIN FETCH fr.sender
+            WHERE fr.receiver.id = :receiverId
+            AND fr.status = :status
+            """)
+    public List<FriendRequest> findAllByReceiverIdAndStatusWithMember(
+            @Param("receiverId") Long receiverId,
+            @Param("status") FriendRequest.Status status
+    );
 
-    public List<FriendRequest> findAllBySenderIdAndStatus(Long senderId, FriendRequest.Status status);
+    @Query(value = """
+            SELECT fr
+            FROM FriendRequest fr
+            JOIN FETCH fr.receiver
+            WHERE fr.sender.id = :senderId
+            """)
+    public List<FriendRequest> findAllBySenderIdAndStatusWithMember(
+            @Param("senderId") Long senderId,
+            @Param("status") FriendRequest.Status status
+    );
 }

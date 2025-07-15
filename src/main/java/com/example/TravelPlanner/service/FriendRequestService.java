@@ -70,7 +70,7 @@ public class FriendRequestService {
 
     @Transactional(readOnly = true)
     public List<ReceivedFriendRequestResponse> getPendingReceivedFriendRequests(Long memberId) {
-        List<FriendRequest> friendRequests = friendRequestRepository.findAllByReceiverIdAndStatus(memberId, FriendRequest.Status.PENDING);
+        List<FriendRequest> friendRequests = friendRequestRepository.findAllByReceiverIdAndStatusWithMember(memberId, FriendRequest.Status.PENDING);
 
         return friendRequests.stream()
                 .map(ReceivedFriendRequestResponse::fromEntity)
@@ -79,7 +79,7 @@ public class FriendRequestService {
 
     @Transactional(readOnly = true)
     public List<SentFriendRequestResponse> getSentFriendRequests(Long memberId) {
-        List<FriendRequest> friendRequests = friendRequestRepository.findAllBySenderIdAndStatus(memberId, FriendRequest.Status.PENDING);
+        List<FriendRequest> friendRequests = friendRequestRepository.findAllBySenderIdAndStatusWithMember(memberId, FriendRequest.Status.PENDING);
 
         return friendRequests.stream()
                 .map(SentFriendRequestResponse::fromEntity)
