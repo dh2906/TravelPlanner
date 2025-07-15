@@ -12,14 +12,14 @@ import java.util.List;
 public interface ChecklistItemRepository extends JpaRepository<ChecklistItem, Long> {
     public List<ChecklistItem> findAllByMemberId(Long memberId);
 
-    @Modifying(clearAutomatically = true)
+    @Modifying
     @Query(value = """
             DELETE FROM ChecklistItem c
             WHERE c.member.id = :memberId
             """)
     public void deleteAllByMemberId(@Param("memberId") Long memberId);
 
-    @Modifying(clearAutomatically = true)
+    @Modifying
     @Query(value = """
             UPDATE ChecklistItem c
             SET c.checked = false
