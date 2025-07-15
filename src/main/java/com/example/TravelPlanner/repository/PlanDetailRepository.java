@@ -65,4 +65,6 @@ public interface PlanDetailRepository extends JpaRepository<PlanDetail, Long> {
             @Param("dayNumbers") Collection<Integer> dayNumbers,
             @Param("ids") Collection<Long> ids
     );
+
+    List<PlanDetail> findAllByPlanIdOrderByDayNumberAscStartTimeAsc(Long planId);
 }

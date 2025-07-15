@@ -59,7 +59,7 @@ public class PlanService {
         Plan plan = planRepository.findById(planId)
                 .orElseThrow(() -> new CustomException(ExceptionCode.PLAN_NOT_FOUND));
 
-        List<PlanDetail> planDetails = planDetailRepository.findAllByPlanId(planId);
+        List<PlanDetail> planDetails = planDetailRepository.findAllByPlanIdOrderByDayNumberAscStartTimeAsc(planId);
 
         return PlanWithDetailsResponse.fromEntities(plan, planDetails);
     }
