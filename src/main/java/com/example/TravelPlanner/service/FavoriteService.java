@@ -53,7 +53,7 @@ public class FavoriteService {
     }
 
     @Transactional(readOnly = true)
-    public List<PlanResponse> getFavoritePlansByMember(Long memberId) {
+    public List<PlanResponse> getFavoritePlans(Long memberId) {
         List<Favorite> favorites = favoriteRepository.findAllByMemberId(memberId);
 
         return favorites.stream()
