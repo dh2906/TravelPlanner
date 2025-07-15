@@ -1,7 +1,6 @@
 package com.example.TravelPlanner.repository;
 
 import com.example.TravelPlanner.entity.Favorite;
-import com.example.TravelPlanner.entity.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

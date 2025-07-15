@@ -2,7 +2,6 @@ package com.example.TravelPlanner.service;
 
 import com.example.TravelPlanner.dto.response.FriendResponse;
 import com.example.TravelPlanner.entity.Friend;
-import com.example.TravelPlanner.entity.Member;
 import com.example.TravelPlanner.global.exception.CustomException;
 import com.example.TravelPlanner.global.exception.ExceptionCode;
 import com.example.TravelPlanner.repository.FriendRepository;

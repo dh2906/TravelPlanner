@@ -2,11 +2,9 @@ package com.example.TravelPlanner.controller;
 
 import com.example.TravelPlanner.dto.response.ReceivedFriendRequestResponse;
 import com.example.TravelPlanner.dto.response.SentFriendRequestResponse;
-import com.example.TravelPlanner.entity.Member;
 import com.example.TravelPlanner.global.annotation.LoginMember;
 import com.example.TravelPlanner.service.FriendRequestService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.java.Log;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

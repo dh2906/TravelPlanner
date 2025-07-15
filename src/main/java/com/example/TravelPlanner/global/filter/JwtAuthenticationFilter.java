@@ -7,7 +7,6 @@ import com.example.TravelPlanner.global.jwt.JwtProvider;
 import com.example.TravelPlanner.global.util.TokenCookieUtil;
 import com.example.TravelPlanner.repository.MemberRepository;
 import jakarta.servlet.*;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;

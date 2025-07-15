@@ -2,7 +2,6 @@ package com.example.TravelPlanner.controller;
 
 import com.example.TravelPlanner.dto.request.MemberUpdateRequest;
 import com.example.TravelPlanner.dto.response.MemberResponse;
-import com.example.TravelPlanner.entity.Member;
 import com.example.TravelPlanner.global.annotation.LoginMember;
 import com.example.TravelPlanner.global.util.TokenCookieUtil;
 import com.example.TravelPlanner.service.MemberService;

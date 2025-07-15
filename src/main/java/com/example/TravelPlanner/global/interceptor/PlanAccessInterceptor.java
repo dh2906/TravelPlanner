@@ -1,6 +1,5 @@
 package com.example.TravelPlanner.global.interceptor;
 
-import com.example.TravelPlanner.entity.Member;
 import com.example.TravelPlanner.entity.Plan;
 import com.example.TravelPlanner.global.exception.CustomException;
 import com.example.TravelPlanner.global.exception.ExceptionCode;

@@ -2,16 +2,14 @@ package com.example.TravelPlanner.service;
 
 import com.example.TravelPlanner.dto.request.LoginRequest;
 import com.example.TravelPlanner.dto.request.SignupRequest;
-import com.example.TravelPlanner.dto.response.TokenResponse;
 import com.example.TravelPlanner.dto.response.MemberResponse;
+import com.example.TravelPlanner.dto.response.TokenResponse;
 import com.example.TravelPlanner.entity.Member;
 import com.example.TravelPlanner.global.exception.CustomException;
 import com.example.TravelPlanner.global.exception.ExceptionCode;
 import com.example.TravelPlanner.global.jwt.JwtProvider;
 import com.example.TravelPlanner.global.util.PasswordEncoder;
 import com.example.TravelPlanner.repository.MemberRepository;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
