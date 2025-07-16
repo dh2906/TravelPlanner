@@ -143,4 +143,14 @@ public class PlanController {
                 .noContent()
                 .build();
     }
+
+    @PostMapping("/{planId}/share")
+    public ResponseEntity<String> getPlanShareUrl(
+            @PathVariable Long planId
+    ) {
+        String shareUrl = planService.getPlanShareUrl(planId);
+
+        return ResponseEntity
+                .ok(shareUrl);
+    }
 }

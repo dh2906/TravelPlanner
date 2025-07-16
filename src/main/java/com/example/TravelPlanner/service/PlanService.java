@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -77,5 +78,20 @@ public class PlanService {
     @Transactional
     public void deletePlan(Long planId) {
         planRepository.deleteById(planId);
+    }
+
+    @Transactional
+    public String getPlanShareUrl(Long planId) {
+        Plan plan = planRepository.findById(planId)
+                .orElseThrow(() -> new CustomException(ExceptionCode.PLAN_NOT_FOUND));
+
+        if (plan.getShareUrl() != null) {
+            return plan.getShareUrl();
+        }
+
+        String shareUrl = UUID.randomUUID().toString();
+        plan.assignShareUrl(shareUrl);
+
+        return shareUrl;
     }
 }
