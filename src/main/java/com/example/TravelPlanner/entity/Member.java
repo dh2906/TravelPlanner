@@ -3,10 +3,7 @@ package com.example.TravelPlanner.entity;
 import com.example.TravelPlanner.dto.request.MemberUpdateRequest;
 import com.example.TravelPlanner.global.util.PasswordEncoder;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -16,9 +13,9 @@ import java.util.List;
 
 @Entity
 @Table(name = "member")
-@Builder
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-@NoArgsConstructor
+@Builder
 @Getter
 public class Member {
     @Id

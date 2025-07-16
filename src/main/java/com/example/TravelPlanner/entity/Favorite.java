@@ -9,10 +9,10 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "favorite",
         uniqueConstraints = @UniqueConstraint(name = "unique_member_plan", columnNames = {"member_id", "plan_id"}))
-@Getter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
+@Getter
 public class Favorite {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

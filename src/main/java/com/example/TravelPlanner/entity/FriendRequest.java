@@ -3,10 +3,7 @@ package com.example.TravelPlanner.entity;
 import com.example.TravelPlanner.global.exception.CustomException;
 import com.example.TravelPlanner.global.exception.ExceptionCode;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -18,10 +15,10 @@ import java.time.LocalDateTime;
                 columnNames = {"sender_id", "receiver_id"}
         )
 )
-@Getter
-@Builder
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-@NoArgsConstructor
+@Builder
+@Getter
 public class FriendRequest {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

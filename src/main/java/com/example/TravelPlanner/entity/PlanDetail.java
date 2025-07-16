@@ -3,10 +3,7 @@ package com.example.TravelPlanner.entity;
 import com.example.TravelPlanner.dto.request.PlanDetailRequest;
 import com.example.TravelPlanner.dto.request.PlanDetailBulkUpdateRequest;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -15,9 +12,9 @@ import java.time.LocalTime;
 
 @Entity
 @Table(name = "plan_detail")
-@Builder
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
+@Builder
 @Getter
 public class PlanDetail {
     @Id

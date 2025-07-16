@@ -1,17 +1,14 @@
 package com.example.TravelPlanner.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
 @Table(name = "friend")
-@Getter
-@Builder
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
+@Builder
+@Getter
 public class Friend {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
