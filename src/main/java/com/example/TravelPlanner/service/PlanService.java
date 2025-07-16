@@ -99,6 +99,7 @@ public class PlanService {
         return sharePath;
     }
 
+    @Transactional(readOnly = true)
     public PlanWithDetailsResponse getSharedPlan(String sharePath) {
         Plan plan = planRepository.findBySharePath(sharePath)
                 .orElseThrow(() -> new CustomException(ExceptionCode.PLAN_NOT_FOUND));
