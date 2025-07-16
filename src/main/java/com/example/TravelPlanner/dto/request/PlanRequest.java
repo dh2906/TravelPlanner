@@ -30,7 +30,9 @@ public record PlanRequest(
         @NotNull(message = "공개 여부는 필수 입력값입니다.")
         Plan.Visibility visibility
 ) {
-    public Plan toEntity(Member member) {
+    public Plan toEntity(
+            Member member
+    ) {
         return Plan.builder()
                 .member(member)
                 .title(title)

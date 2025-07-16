@@ -23,7 +23,10 @@ public class FriendRequestService {
     private final FriendRepository friendRepository;
 
     @Transactional
-    public void sendFriendRequest(Long senderId, Long receiverId) {
+    public void sendFriendRequest(
+            Long senderId,
+            Long receiverId
+    ) {
         if (senderId.equals(receiverId)) {
             throw new CustomException(ExceptionCode.INVALID_FRIEND_REQUEST);
         }
@@ -52,7 +55,10 @@ public class FriendRequestService {
     }
 
     @Transactional
-    public void cancelFriendRequest(Long senderId, Long friendId) {
+    public void cancelFriendRequest(
+            Long senderId,
+            Long friendId
+    ) {
         FriendRequest request = friendRequestRepository
                 .findBySenderIdAndReceiverId(senderId, friendId)
                 .orElseThrow(() -> new CustomException(ExceptionCode.FRIEND_REQUEST_NOT_FOUND));
@@ -85,7 +91,10 @@ public class FriendRequestService {
     }
 
     @Transactional
-    public void acceptFriendRequest(Long receiverId, Long requestId) {
+    public void acceptFriendRequest(
+            Long receiverId,
+            Long requestId
+    ) {
         FriendRequest friendRequest = findFriendRequestOrThrow(requestId);
         validateOwnership(receiverId, friendRequest);
 
@@ -100,24 +109,34 @@ public class FriendRequestService {
     }
 
     @Transactional
-    public void rejectFriendRequest(Long receiverId, Long requestId) {
+    public void rejectFriendRequest(
+            Long receiverId,
+            Long requestId
+    ) {
         FriendRequest friendRequest = findFriendRequestOrThrow(requestId);
         validateOwnership(receiverId, friendRequest);
 
         friendRequest.rejectOrThrow();
     }
 
-    private Member findMemberOrThrow(Long memberId) {
+    private Member findMemberOrThrow(
+            Long memberId
+    ) {
         return memberRepository.findById(memberId)
                 .orElseThrow(() -> new CustomException(ExceptionCode.MEMBER_NOT_FOUND));
     }
 
-    private FriendRequest findFriendRequestOrThrow(Long requestId) {
+    private FriendRequest findFriendRequestOrThrow(
+            Long requestId
+    ) {
         return friendRequestRepository.findById(requestId)
                                       .orElseThrow(() -> new CustomException(ExceptionCode.FRIEND_REQUEST_NOT_FOUND));
     }
 
-    private void validateOwnership(Long receiverId, FriendRequest friendRequest) {
+    private void validateOwnership(
+            Long receiverId,
+            FriendRequest friendRequest
+    ) {
         if (!friendRequest.getReceiver()
                           .getId()
                           .equals(receiverId)

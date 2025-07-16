@@ -26,7 +26,10 @@ public class PlanService {
     private final MemberRepository memberRepository;
 
     @Transactional
-    public PlanResponse createPlan(Long memberId, PlanRequest request) {
+    public PlanResponse createPlan(
+            Long memberId,
+            PlanRequest request
+    ) {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new CustomException(ExceptionCode.MEMBER_NOT_FOUND));
 
@@ -38,7 +41,9 @@ public class PlanService {
     }
 
     @Transactional(readOnly = true)
-    public List<PlanResponse> getPlansByMemberId(Long memberId) {
+    public List<PlanResponse> getPlansByMemberId(
+            Long memberId
+    ) {
         List<Plan> plans = planRepository.findAllByMemberId(memberId);
 
         return plans.stream()
@@ -56,7 +61,9 @@ public class PlanService {
     }
 
     @Transactional(readOnly = true)
-    public PlanWithDetailsResponse getPlanWithDetails(Long planId) {
+    public PlanWithDetailsResponse getPlanWithDetails(
+            Long planId
+    ) {
         Plan plan = findPlanOrThrow(planId);
 
         List<PlanDetail> planDetails = planDetailRepository.findAllByPlanIdOrderByDayNumberAscStartTimeAsc(planId);
@@ -65,7 +72,10 @@ public class PlanService {
     }
 
     @Transactional
-    public PlanResponse updatePlan(Long planId, PlanRequest request) {
+    public PlanResponse updatePlan(
+            Long planId,
+            PlanRequest request
+    ) {
         Plan plan = findPlanOrThrow(planId);
 
         plan.updateInfo(request);
@@ -74,12 +84,16 @@ public class PlanService {
     }
 
     @Transactional
-    public void deletePlan(Long planId) {
+    public void deletePlan(
+            Long planId
+    ) {
         planRepository.deleteById(planId);
     }
 
     @Transactional
-    public String getPlanSharePath(Long planId) {
+    public String getPlanSharePath(
+            Long planId
+    ) {
         Plan plan = findPlanOrThrow(planId);
 
         if (!plan.getVisibility().equals(Plan.Visibility.PRIVATE)) {
@@ -97,7 +111,9 @@ public class PlanService {
     }
 
     @Transactional(readOnly = true)
-    public PlanWithDetailsResponse getSharedPlan(String sharePath) {
+    public PlanWithDetailsResponse getSharedPlan(
+            String sharePath
+    ) {
         Plan plan = planRepository.findBySharePath(sharePath)
                 .orElseThrow(() -> new CustomException(ExceptionCode.PLAN_NOT_FOUND));
 
@@ -106,7 +122,9 @@ public class PlanService {
         return PlanWithDetailsResponse.fromEntities(plan, planDetails);
     }
 
-    private Plan findPlanOrThrow(Long planId) {
+    private Plan findPlanOrThrow(
+            Long planId
+    ) {
         return planRepository.findById(planId)
                 .orElseThrow(() -> new CustomException(ExceptionCode.PLAN_NOT_FOUND));
     }

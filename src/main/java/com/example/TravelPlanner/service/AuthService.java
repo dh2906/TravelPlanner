@@ -21,7 +21,9 @@ public class AuthService {
     private final JwtProvider jwtProvider;
 
     @Transactional
-    public MemberResponse signup(SignupRequest request) {
+    public MemberResponse signup(
+            SignupRequest request
+    ) {
         if (memberRepository.existsByEmail(request.email())) {
             throw new CustomException(ExceptionCode.DUPLICATE_EMAIL);
         }
@@ -34,7 +36,9 @@ public class AuthService {
     }
 
     @Transactional
-    public TokenResponse login(LoginRequest request) {
+    public TokenResponse login(
+            LoginRequest request
+    ) {
         Member member = memberRepository.findByEmail(request.email())
                 .orElse(null);
 

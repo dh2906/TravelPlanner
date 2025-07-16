@@ -30,7 +30,10 @@ public class JwtProvider {
         this.key = Keys.hmacShaKeyFor(secret.getBytes());
     }
 
-    public String createAccessToken(Long memberId, String role) {
+    public String createAccessToken(
+            Long memberId,
+            String role
+    ) {
         return Jwts.builder()
                 .setSubject(String.valueOf(memberId))
                 .claim("role", role)
@@ -40,7 +43,9 @@ public class JwtProvider {
                 .compact();
     }
 
-    public String createRefreshToken(Long memberId) {
+    public String createRefreshToken(
+            Long memberId
+    ) {
         return Jwts.builder()
                 .setSubject(String.valueOf(memberId))
                 .setIssuedAt(new Date())
@@ -49,7 +54,9 @@ public class JwtProvider {
                 .compact();
     }
 
-    public Long extractMemberId(String token) {
+    public Long extractMemberId(
+            String token
+    ) {
         Claims claims = Jwts.parser()
                 .setSigningKey(key)
                 .build()
@@ -59,7 +66,9 @@ public class JwtProvider {
         return Long.valueOf(claims.getSubject());
     }
 
-    public boolean validateToken(String token) {
+    public boolean validateToken(
+            String token
+    ) {
         try {
             Jwts.parser()
                     .setSigningKey(key)

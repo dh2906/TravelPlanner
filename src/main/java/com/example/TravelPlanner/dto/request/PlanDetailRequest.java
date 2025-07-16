@@ -31,7 +31,9 @@ public record PlanDetailRequest(
         @EndTime
         LocalTime endTime
 ) {
-    public PlanDetail toEntity(Plan plan) {
+    public PlanDetail toEntity(
+            Plan plan
+    ) {
         return PlanDetail.builder()
                 .plan(plan)
                 .dayNumber(dayNumber)

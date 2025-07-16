@@ -8,7 +8,9 @@ public record FriendResponse(
         Long id,
         String name
 ) {
-    public static FriendResponse fromEntity(Friend friend) {
+    public static FriendResponse fromEntity(
+            Friend friend
+    ) {
         return FriendResponse.builder()
                 .id(friend.getFriend().getId())
                 .name(friend.getFriend().getName())

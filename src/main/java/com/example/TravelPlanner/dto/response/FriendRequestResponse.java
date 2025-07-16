@@ -9,7 +9,9 @@ public record FriendRequestResponse(
         Long memberId,
         String memberName
 ) {
-    public static FriendRequestResponse fromEntity(FriendRequest friendRequest) {
+    public static FriendRequestResponse fromEntity(
+            FriendRequest friendRequest
+    ) {
         return FriendRequestResponse.builder()
                 .id(friendRequest.getId())
                 .memberId(friendRequest.getSender().getId())
@@ -17,7 +19,10 @@ public record FriendRequestResponse(
                 .build();
     }
 
-    public static FriendRequestResponse fromEntity(FriendRequest friendRequest, String type) {
+    public static FriendRequestResponse fromEntity(
+            FriendRequest friendRequest,
+            String type
+    ) {
         Long targetId = null;
         String targetName = null;
 

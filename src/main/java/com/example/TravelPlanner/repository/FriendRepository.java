@@ -18,7 +18,10 @@ public interface FriendRepository extends JpaRepository<Friend, Long> {
             """)
     List<Friend> findAllByMemberId(@Param("memberId") Long memberId);
 
-    Optional<Friend> findByMemberIdAndFriendId(Long memberId, Long friendId);
+    Optional<Friend> findByMemberIdAndFriendId(
+            Long memberId,
+            Long friendId
+    );
 
     @Modifying
     @Query(value = """
@@ -31,5 +34,8 @@ public interface FriendRepository extends JpaRepository<Friend, Long> {
             @Param("friendId") Long friendId
     );
 
-    boolean existsByMemberIdAndFriendId(Long memberId, Long friendId);
+    boolean existsByMemberIdAndFriendId(
+            Long memberId,
+            Long friendId
+    );
 }

@@ -18,7 +18,9 @@ public record PlanDetailResponse(
         LocalDateTime createdAt,
         LocalDateTime updatedAt
 ) {
-    public static PlanDetailResponse fromEntity(PlanDetail planDetail) {
+    public static PlanDetailResponse fromEntity(
+            PlanDetail planDetail
+    ) {
         return PlanDetailResponse.builder()
                 .id(planDetail.getId())
                 .dayNumber(planDetail.getDayNumber())

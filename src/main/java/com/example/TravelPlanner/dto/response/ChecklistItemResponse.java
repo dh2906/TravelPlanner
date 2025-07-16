@@ -14,7 +14,9 @@ public record ChecklistItemResponse(
         LocalDateTime createdAt,
         LocalDateTime updatedAt
 ) {
-    public static ChecklistItemResponse fromEntity(ChecklistItem checklistItem) {
+    public static ChecklistItemResponse fromEntity(
+            ChecklistItem checklistItem
+    ) {
         return ChecklistItemResponse.builder()
                 .id(checklistItem.getId())
                 .name(checklistItem.getName())

@@ -9,7 +9,9 @@ public record MemberResponse(
         String email,
         String name
 ) {
-    public static MemberResponse fromEntity(Member member) {
+    public static MemberResponse fromEntity(
+            Member member
+    ) {
         return MemberResponse.builder()
                 .id(member.getId())
                 .email(member.getEmail())

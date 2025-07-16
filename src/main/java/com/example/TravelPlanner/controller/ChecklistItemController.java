@@ -51,36 +51,36 @@ public class ChecklistItemController {
                 .body(response);
     }
 
-    @PutMapping("/items/{id}")
+    @PutMapping("/items/{itemId}")
     public ResponseEntity<ChecklistItemResponse> updateChecklistItem(
             @LoginMember Long memberId,
-            @PathVariable Long id,
+            @PathVariable Long itemId,
             @RequestBody @Valid ChecklistItemRequest request
     ) {
-        ChecklistItemResponse response = checklistItemService.updateChecklistItem(memberId, id, request);
+        ChecklistItemResponse response = checklistItemService.updateChecklistItem(memberId, itemId, request);
 
         return ResponseEntity
                 .ok(response);
     }
 
-    @DeleteMapping("/items/{id}")
+    @DeleteMapping("/items/{itemId}")
     public ResponseEntity<Void> deleteChecklistItem(
             @LoginMember Long memberId,
-            @PathVariable Long id
+            @PathVariable Long itemId
     ) {
-        checklistItemService.deleteChecklistItem(memberId, id);
+        checklistItemService.deleteChecklistItem(memberId, itemId);
 
         return ResponseEntity
                 .noContent()
                 .build();
     }
 
-    @PatchMapping("/items/{id}/checked/toggle")
+    @PatchMapping("/items/{itemId}/checked/toggle")
     public ResponseEntity<String> toggleChecklistItemChecked(
             @LoginMember Long memberId,
-            @PathVariable Long id
+            @PathVariable Long itemId
     ) {
-        boolean isChecked = checklistItemService.toggleChecklistItemChecked(memberId, id);
+        boolean isChecked = checklistItemService.toggleChecklistItemChecked(memberId, itemId);
 
         String message = isChecked ? "항목이 체크되었습니다." : "항목이 체크 해제되었습니다.";
 

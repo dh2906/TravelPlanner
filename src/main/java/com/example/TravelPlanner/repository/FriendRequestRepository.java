@@ -9,9 +9,16 @@ import java.util.List;
 import java.util.Optional;
 
 public interface FriendRequestRepository extends JpaRepository<FriendRequest, Long> {
-    boolean existsBySenderIdAndReceiverIdAndStatus(Long senderId, Long receiverId, FriendRequest.Status status);
+    boolean existsBySenderIdAndReceiverIdAndStatus(
+            Long senderId,
+            Long receiverId,
+            FriendRequest.Status status
+    );
 
-    Optional<FriendRequest> findBySenderIdAndReceiverId(Long senderId, Long ReceiverId);
+    Optional<FriendRequest> findBySenderIdAndReceiverId(
+            Long senderId,
+            Long ReceiverId
+    );
 
     @Query(value = """
             SELECT fr

@@ -16,7 +16,11 @@ public class PlanAccessInterceptor implements HandlerInterceptor {
     private final PlanRepository planRepository;
 
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+    public boolean preHandle(
+            HttpServletRequest request,
+            HttpServletResponse response,
+            Object handler
+    ) throws Exception {
         Long loginMemberId = (Long) request.getAttribute("loginMemberId");
 
         if (loginMemberId == null) {
@@ -45,7 +49,9 @@ public class PlanAccessInterceptor implements HandlerInterceptor {
         return true;
     }
 
-    private Long extractPlanIdFromPath(String path) {
+    private Long extractPlanIdFromPath(
+            String path
+    ) {
         try {
             String[] parts = path.split("/");
 

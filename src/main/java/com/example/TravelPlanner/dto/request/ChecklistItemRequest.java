@@ -12,7 +12,9 @@ public record ChecklistItemRequest(
 
         String description
 ) {
-    public ChecklistItem toEntity(Member member) {
+    public ChecklistItem toEntity(
+            Member member
+    ) {
         return ChecklistItem.builder()
                 .member(member)
                 .name(name)

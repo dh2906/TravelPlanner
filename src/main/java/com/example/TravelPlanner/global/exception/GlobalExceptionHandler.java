@@ -14,7 +14,9 @@ import java.util.stream.Collectors;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
     @ExceptionHandler(CustomException.class)
-    public ResponseEntity<String> ExceptionHandle(CustomException ex) {
+    public ResponseEntity<String> ExceptionHandle(
+            CustomException ex
+    ) {
         return ResponseEntity.status(
                         ex.getExceptionCode()
                                 .getStatus()
@@ -23,7 +25,9 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<List<String>> ExceptionHandle(MethodArgumentNotValidException ex) {
+    public ResponseEntity<List<String>> ExceptionHandle(
+            MethodArgumentNotValidException ex
+    ) {
         List<String> errorMessages = ex.getBindingResult()
                 .getFieldErrors()
                 .stream()
@@ -34,7 +38,9 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(ConstraintViolationException.class)
-    public ResponseEntity<List<String>> handleConstraintViolationException(ConstraintViolationException ex) {
+    public ResponseEntity<List<String>> handleConstraintViolationException(
+            ConstraintViolationException ex
+    ) {
         List<String> errors = ex.getConstraintViolations()
                 .stream()
                 .map(ConstraintViolation::getMessage)

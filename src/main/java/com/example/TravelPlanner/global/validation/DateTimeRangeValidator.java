@@ -10,7 +10,10 @@ import java.time.LocalTime;
 
 public class DateTimeRangeValidator implements ConstraintValidator<ValidDateOrTimeRange, Object> {
     @Override
-    public boolean isValid(Object o, ConstraintValidatorContext constraintValidatorContext) {
+    public boolean isValid(
+            Object o,
+            ConstraintValidatorContext constraintValidatorContext
+    ) {
         LocalDate startDate = null;
         LocalDate endDate = null;
         LocalTime startTime = null;

@@ -18,7 +18,9 @@ public record SignupRequest(
         @Size(min = 2, max = 8, message = "이름은 2자 이상 8자 이내여야 합니다.")
         String name
 ) {
-        public Member toEntity(String encodedPassword) {
+        public Member toEntity(
+                String encodedPassword
+        ) {
                 return Member.builder()
                         .email(email)
                         .password(encodedPassword)

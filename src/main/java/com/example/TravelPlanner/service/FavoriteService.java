@@ -23,7 +23,10 @@ public class FavoriteService {
     private final PlanRepository planRepository;
 
     @Transactional
-    public boolean toggleFavorite(Long memberId, Long planId) {
+    public boolean toggleFavorite(
+            Long memberId,
+            Long planId
+    ) {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new CustomException(ExceptionCode.MEMBER_NOT_FOUND));
 
@@ -53,7 +56,9 @@ public class FavoriteService {
     }
 
     @Transactional(readOnly = true)
-    public List<PlanResponse> getFavoritePlans(Long memberId) {
+    public List<PlanResponse> getFavoritePlans(
+            Long memberId
+    ) {
         List<Favorite> favorites = favoriteRepository.findAllByMemberIdWithPlan(memberId);
 
         return favorites.stream()
