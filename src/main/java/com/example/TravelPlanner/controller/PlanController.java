@@ -54,10 +54,10 @@ public class PlanController {
     }
 
     @GetMapping("/{planId}")
-    public ResponseEntity<PlanWithDetailsResponse> getPlanDetailByPlanId(
+    public ResponseEntity<PlanWithDetailsResponse> getPlanDetail(
             @PathVariable Long planId
     ) {
-        PlanWithDetailsResponse response = planService.getPlanWithDetailByPlanId(planId);
+        PlanWithDetailsResponse response = planService.getPlanWithDetails(planId);
 
         return ResponseEntity.ok(response);
     }

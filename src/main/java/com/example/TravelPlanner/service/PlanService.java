@@ -56,7 +56,7 @@ public class PlanService {
     }
 
     @Transactional(readOnly = true)
-    public PlanWithDetailsResponse getPlanWithDetailByPlanId(Long planId) {
+    public PlanWithDetailsResponse getPlanWithDetails(Long planId) {
         Plan plan = findPlanOrThrow(planId);
 
         List<PlanDetail> planDetails = planDetailRepository.findAllByPlanIdOrderByDayNumberAscStartTimeAsc(planId);
