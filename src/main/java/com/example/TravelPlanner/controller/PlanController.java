@@ -153,4 +153,14 @@ public class PlanController {
         return ResponseEntity
                 .ok(sharePath);
     }
+
+    @GetMapping("/share/{sharePath}")
+    public ResponseEntity<PlanWithDetailsResponse> getSharedPlan(
+            @PathVariable String sharePath
+    ) {
+        PlanWithDetailsResponse response = planService.getSharedPlan(sharePath);
+
+        return ResponseEntity
+                .ok(response);
+    }
 }

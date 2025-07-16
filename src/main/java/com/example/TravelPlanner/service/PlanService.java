@@ -98,4 +98,13 @@ public class PlanService {
 
         return sharePath;
     }
+
+    public PlanWithDetailsResponse getSharedPlan(String sharePath) {
+        Plan plan = planRepository.findBySharePath(sharePath)
+                .orElseThrow(() -> new CustomException(ExceptionCode.PLAN_NOT_FOUND));
+
+        List<PlanDetail> planDetails = planDetailRepository.findAllByPlanIdOrderByDayNumberAscStartTimeAsc(plan.getId());
+
+        return PlanWithDetailsResponse.fromEntities(plan, planDetails);
+    }
 }
