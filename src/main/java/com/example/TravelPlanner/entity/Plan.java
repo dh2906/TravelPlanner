@@ -64,8 +64,7 @@ public class Plan {
 
     public enum Visibility {
         PUBLIC,
-        PRIVATE,
-        FRIENDS_ONLY
+        PRIVATE
     }
 
     public void updateInfo(PlanRequest request) {
@@ -74,5 +73,9 @@ public class Plan {
         this.startDate = request.startDate();
         this.endDate = request.endDate();
         this.visibility = request.visibility();
+    }
+
+    public void assignShareUrl(String shareUrl) {
+        this.shareUrl = shareUrl;
     }
 }
