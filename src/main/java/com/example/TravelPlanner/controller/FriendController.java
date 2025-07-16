@@ -15,11 +15,11 @@ import java.util.List;
 public class FriendController {
     private final FriendService friendService;
 
-    @GetMapping("/me")
-    public ResponseEntity<List<FriendResponse>> getMyFriends(
+    @GetMapping
+    public ResponseEntity<List<FriendResponse>> getFriends(
             @LoginMember Long memberId
     ) {
-        List<FriendResponse> response = friendService.getMyFriends(memberId);
+        List<FriendResponse> response = friendService.getFriends(memberId);
 
         return ResponseEntity
                 .ok(response);

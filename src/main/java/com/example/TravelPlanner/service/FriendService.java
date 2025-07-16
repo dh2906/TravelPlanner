@@ -17,7 +17,7 @@ public class FriendService {
     private final FriendRepository friendRepository;
 
     @Transactional(readOnly = true)
-    public List<FriendResponse> getMyFriends(Long memberId) {
+    public List<FriendResponse> getFriends(Long memberId) {
         List<Friend> friends = friendRepository.findAllByMemberId(memberId);
 
         return friends.stream()
