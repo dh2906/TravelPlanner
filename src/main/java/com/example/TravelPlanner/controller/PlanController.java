@@ -162,4 +162,14 @@ public class PlanController {
         return ResponseEntity
                 .ok(response);
     }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<PlanResponse>> searchPlans(
+            @RequestParam String keyword
+    ) {
+        List<PlanResponse> response = planService.searchPlans(keyword);
+
+        return ResponseEntity
+                .ok(response);
+    }
 }

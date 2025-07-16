@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 @Builder
 public record PlanResponse(
         Long id,
+        Long memberId,
         String title,
         String description,
         LocalDate startDate,
@@ -22,6 +23,7 @@ public record PlanResponse(
     ) {
         return PlanResponse.builder()
                 .id(plan.getId())
+                .memberId(plan.getMember().getId())
                 .title(plan.getTitle())
                 .description(plan.getDescription())
                 .startDate(plan.getStartDate())

@@ -122,6 +122,17 @@ public class PlanService {
         return PlanWithDetailsResponse.fromEntities(plan, planDetails);
     }
 
+    @Transactional(readOnly = true)
+    public List<PlanResponse> searchPlans(
+            String keyword
+    ) {
+        List<Plan> plans = planRepository.searchPublicPlansByKeyword(keyword);
+
+        return plans.stream()
+                .map(PlanResponse::fromEntity)
+                .toList();
+    }
+
     private Plan findPlanOrThrow(
             Long planId
     ) {
