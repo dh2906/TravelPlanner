@@ -29,11 +29,8 @@ public class FriendRequestService {
             throw new CustomException(ExceptionCode.INVALID_FRIEND_REQUEST);
         }
 
-        Member sender = memberRepository.findById(senderId)
-                .orElseThrow(() -> new CustomException(ExceptionCode.MEMBER_NOT_FOUND));
-
-        Member receiver = memberRepository.findById(receiverId)
-                .orElseThrow(() -> new CustomException(ExceptionCode.MEMBER_NOT_FOUND));
+        Member sender = findMemberOrThrow(senderId);
+        Member receiver = findMemberOrThrow(receiverId);
 
         if (friendRepository.existsByMemberIdAndFriendId(senderId, receiverId)) {
             throw new CustomException(ExceptionCode.FRIEND_ALREADY_EXISTS);
@@ -107,6 +104,11 @@ public class FriendRequestService {
         validateOwnership(receiverId, friendRequest);
 
         friendRequest.rejectOrThrow();
+    }
+
+    private Member findMemberOrThrow(Long memberId) {
+        return memberRepository.findById(memberId)
+                .orElseThrow(() -> new CustomException(ExceptionCode.MEMBER_NOT_FOUND));
     }
 
     private FriendRequest findFriendRequestOrThrow(Long requestId) {

@@ -17,16 +17,14 @@ public class MemberService {
 
     @Transactional(readOnly = true)
     public MemberResponse getMemberInfo(Long memberId) {
-        Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new CustomException(ExceptionCode.MEMBER_NOT_FOUND));
+        Member member = findMemberOrThrow(memberId);
 
         return MemberResponse.fromEntity(member);
     }
 
     @Transactional
     public MemberResponse updateMember(Long memberId, MemberUpdateRequest request) {
-        Member member = memberRepository.findById(memberId)
-                        .orElseThrow(() -> new CustomException(ExceptionCode.MEMBER_NOT_FOUND));
+        Member member = findMemberOrThrow(memberId);
 
         member.updateInfo(request);
 
@@ -36,5 +34,10 @@ public class MemberService {
     @Transactional
     public void deleteMember(Long memberId) {
         memberRepository.deleteById(memberId);
+    }
+
+    private Member findMemberOrThrow(Long memberId) {
+        return memberRepository.findById(memberId)
+                .orElseThrow(() -> new CustomException(ExceptionCode.MEMBER_NOT_FOUND));
     }
 }

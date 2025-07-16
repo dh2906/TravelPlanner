@@ -27,7 +27,7 @@ public class FriendService {
 
     @Transactional
     public void deleteFriend(Long memberId, Long friendId) {
-        Friend friend = friendRepository.findByMemberIdAndFriendId(memberId, friendId)
+        friendRepository.findByMemberIdAndFriendId(memberId, friendId)
                 .orElseThrow(() -> new CustomException(ExceptionCode.FRIEND_RELATION_NOT_FOUND));
 
         friendRepository.deleteByMemberIdAndFriendId(memberId, friendId);

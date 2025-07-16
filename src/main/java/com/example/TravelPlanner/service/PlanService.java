@@ -57,8 +57,7 @@ public class PlanService {
 
     @Transactional(readOnly = true)
     public PlanWithDetailsResponse getPlanWithDetailByPlanId(Long planId) {
-        Plan plan = planRepository.findById(planId)
-                .orElseThrow(() -> new CustomException(ExceptionCode.PLAN_NOT_FOUND));
+        Plan plan = findPlanOrThrow(planId);
 
         List<PlanDetail> planDetails = planDetailRepository.findAllByPlanIdOrderByDayNumberAscStartTimeAsc(planId);
 
@@ -67,8 +66,7 @@ public class PlanService {
 
     @Transactional
     public PlanResponse updatePlan(Long planId, PlanRequest request) {
-        Plan plan = planRepository.findById(planId)
-                .orElseThrow(() -> new CustomException(ExceptionCode.PLAN_NOT_FOUND));
+        Plan plan = findPlanOrThrow(planId);
 
         plan.updateInfo(request);
 
@@ -82,8 +80,7 @@ public class PlanService {
 
     @Transactional
     public String getPlanSharePath(Long planId) {
-        Plan plan = planRepository.findById(planId)
-                .orElseThrow(() -> new CustomException(ExceptionCode.PLAN_NOT_FOUND));
+        Plan plan = findPlanOrThrow(planId);
 
         if (!plan.getVisibility().equals(Plan.Visibility.PRIVATE)) {
             throw new CustomException(ExceptionCode.SHARING_NOT_ALLOWED);
@@ -107,5 +104,10 @@ public class PlanService {
         List<PlanDetail> planDetails = planDetailRepository.findAllByPlanIdOrderByDayNumberAscStartTimeAsc(plan.getId());
 
         return PlanWithDetailsResponse.fromEntities(plan, planDetails);
+    }
+
+    private Plan findPlanOrThrow(Long planId) {
+        return planRepository.findById(planId)
+                .orElseThrow(() -> new CustomException(ExceptionCode.PLAN_NOT_FOUND));
     }
 }
