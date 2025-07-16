@@ -44,7 +44,7 @@ public class Plan {
     @Column(name = "end_date", nullable = false)
     private LocalDate endDate;
 
-    @Column(name = "share_url", length = 255)
+    @Column(name = "share_url")
     private String shareUrl;
 
     @Enumerated(EnumType.STRING)
