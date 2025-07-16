@@ -1,7 +1,6 @@
 package com.example.TravelPlanner.service;
 
-import com.example.TravelPlanner.dto.response.ReceivedFriendRequestResponse;
-import com.example.TravelPlanner.dto.response.SentFriendRequestResponse;
+import com.example.TravelPlanner.dto.response.FriendRequestResponse;
 import com.example.TravelPlanner.entity.Friend;
 import com.example.TravelPlanner.entity.FriendRequest;
 import com.example.TravelPlanner.entity.Member;
@@ -66,20 +65,22 @@ public class FriendRequestService {
     }
 
     @Transactional(readOnly = true)
-    public List<ReceivedFriendRequestResponse> getPendingReceivedFriendRequests(Long memberId) {
-        List<FriendRequest> friendRequests = friendRequestRepository.findAllByReceiverIdAndStatusWithMember(memberId, FriendRequest.Status.PENDING);
+    public List<FriendRequestResponse> getFriendRequests(
+            Long memberId,
+            String type
+    ) {
+        List<FriendRequest> friendRequests;
+
+        if ("sent".equalsIgnoreCase(type)) {
+            friendRequests = friendRequestRepository.findAllBySenderIdAndStatusWithMember(memberId, FriendRequest.Status.PENDING);
+        } else if("received".equalsIgnoreCase(type)) {
+            friendRequests = friendRequestRepository.findAllByReceiverIdAndStatusWithMember(memberId, FriendRequest.Status.PENDING);
+        } else {
+            throw new CustomException(ExceptionCode.INVALID_QUERY_PARAMETER);
+        }
 
         return friendRequests.stream()
-                .map(ReceivedFriendRequestResponse::fromEntity)
-                .toList();
-    }
-
-    @Transactional(readOnly = true)
-    public List<SentFriendRequestResponse> getSentFriendRequests(Long memberId) {
-        List<FriendRequest> friendRequests = friendRequestRepository.findAllBySenderIdAndStatusWithMember(memberId, FriendRequest.Status.PENDING);
-
-        return friendRequests.stream()
-                .map(SentFriendRequestResponse::fromEntity)
+                .map(fr -> FriendRequestResponse.fromEntity(fr, type))
                 .toList();
     }
 

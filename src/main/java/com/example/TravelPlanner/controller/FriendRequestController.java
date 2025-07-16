@@ -1,7 +1,6 @@
 package com.example.TravelPlanner.controller;
 
-import com.example.TravelPlanner.dto.response.ReceivedFriendRequestResponse;
-import com.example.TravelPlanner.dto.response.SentFriendRequestResponse;
+import com.example.TravelPlanner.dto.response.FriendRequestResponse;
 import com.example.TravelPlanner.global.annotation.LoginMember;
 import com.example.TravelPlanner.service.FriendRequestService;
 import lombok.RequiredArgsConstructor;
@@ -12,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/friends/requests")
+@RequestMapping("/api/friend-requests")
 @RequiredArgsConstructor
 public class FriendRequestController {
     private final FriendRequestService friendRequestService;
@@ -40,21 +39,12 @@ public class FriendRequestController {
                 .ok("친구 요청이 취소되었습니다.");
     }
 
-    @GetMapping("/received")
-    public ResponseEntity<List<ReceivedFriendRequestResponse>> getReceivedFriendRequests(
-            @LoginMember Long memberId
+    @GetMapping
+    public ResponseEntity<List<FriendRequestResponse>> getFriendRequests(
+            @LoginMember Long memberId,
+            @RequestParam String type
     ) {
-        List<ReceivedFriendRequestResponse> response = friendRequestService.getPendingReceivedFriendRequests(memberId);
-
-        return ResponseEntity
-                .ok(response);
-    }
-
-    @GetMapping("/sent")
-    public ResponseEntity<List<SentFriendRequestResponse>> getSentFriendRequests(
-            @LoginMember Long memberId
-    ) {
-        List<SentFriendRequestResponse> response = friendRequestService.getSentFriendRequests(memberId);
+        List<FriendRequestResponse> response = friendRequestService.getFriendRequests(memberId, type);
 
         return ResponseEntity
                 .ok(response);

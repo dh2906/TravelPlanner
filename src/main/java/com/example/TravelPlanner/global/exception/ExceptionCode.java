@@ -26,7 +26,8 @@ public enum ExceptionCode {
     UNAUTHORIZED(401, "로그인이 필요합니다."),
     RESOURCE_RELATION_MISMATCH(400, "리소스 간의 관계가 일치하지 않습니다."),
     REQUEST_LIST_EMPTY(400, "요청 리스트가 비어있습니다."),
-    SHARING_NOT_ALLOWED(400, "공유는 비공개 상태일 때 가능합니다.");
+    SHARING_NOT_ALLOWED(400, "공유는 비공개 상태일 때 가능합니다."),
+    INVALID_QUERY_PARAMETER(400, "유효하지 않은 쿼리 파라미터입니다.");
 
     private final int status;
     private final String message;
