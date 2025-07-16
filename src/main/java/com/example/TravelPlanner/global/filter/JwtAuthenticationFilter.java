@@ -1,6 +1,5 @@
 package com.example.TravelPlanner.global.filter;
 
-import com.example.TravelPlanner.entity.Member;
 import com.example.TravelPlanner.global.exception.CustomException;
 import com.example.TravelPlanner.global.exception.ExceptionCode;
 import com.example.TravelPlanner.global.jwt.JwtProvider;
@@ -47,7 +46,7 @@ public class JwtAuthenticationFilter implements Filter {
                 if (token != null && jwtProvider.validateToken(token)) {
                     Long memberId = jwtProvider.extractMemberId(token);
 
-                    Member member = memberRepository.findById(memberId)
+                    memberRepository.findById(memberId)
                             .orElseThrow(() -> new CustomException(ExceptionCode.MEMBER_NOT_FOUND));
 
                     request.setAttribute("loginMemberId", memberId);
