@@ -15,7 +15,7 @@ import java.util.List;
 public class FavoriteController {
     private final FavoriteService favoriteService;
 
-    @PostMapping("/{planId}")
+    @PatchMapping("/{planId}")
     public ResponseEntity<String> toggleFavorite(
             @LoginMember Long memberId,
             @PathVariable Long planId
