@@ -85,6 +85,10 @@ public class PlanService {
         Plan plan = planRepository.findById(planId)
                 .orElseThrow(() -> new CustomException(ExceptionCode.PLAN_NOT_FOUND));
 
+        if (!plan.getVisibility().equals(Plan.Visibility.PRIVATE)) {
+            throw new CustomException(ExceptionCode.SHARING_NOT_ALLOWED);
+        }
+
         if (plan.getShareUrl() != null) {
             return plan.getShareUrl();
         }
