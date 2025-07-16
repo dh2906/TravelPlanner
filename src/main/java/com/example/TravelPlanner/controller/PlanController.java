@@ -120,7 +120,6 @@ public class PlanController {
                 .ok(response);
     }
 
-
     @PutMapping("/{planId}/details/bulk")
     public ResponseEntity<List<PlanDetailResponse>> updatePlanDetails(
             @PathVariable Long planId,
