@@ -18,21 +18,21 @@ import java.util.List;
 public class ChecklistItemController {
     private final ChecklistItemService checklistItemService;
 
-    @GetMapping("/me")
-    public ResponseEntity<List<ChecklistItemResponse>> getMyChecklistItems(
+    @GetMapping
+    public ResponseEntity<List<ChecklistItemResponse>> getChecklistItems(
             @LoginMember Long memberId
     ) {
-        List<ChecklistItemResponse> response = checklistItemService.getMyChecklistItems(memberId);
+        List<ChecklistItemResponse> response = checklistItemService.getChecklistItems(memberId);
 
         return ResponseEntity
                 .ok(response);
     }
 
-    @DeleteMapping("/items")
-    public ResponseEntity<Void> deleteMyChecklistItems(
+    @DeleteMapping
+    public ResponseEntity<Void> deleteAllChecklistItems(
             @LoginMember Long memberId
     ) {
-        checklistItemService.deleteMyChecklistItems(memberId);
+        checklistItemService.deleteAllChecklistItems(memberId);
 
         return ResponseEntity
                 .noContent()
@@ -75,12 +75,12 @@ public class ChecklistItemController {
                 .build();
     }
 
-    @PostMapping("/items/{id}/toggle")
-    public ResponseEntity<String> toggleChecklistItem(
+    @PatchMapping("/items/{id}/checked/toggle")
+    public ResponseEntity<String> toggleChecklistItemChecked(
             @LoginMember Long memberId,
             @PathVariable Long id
     ) {
-        boolean isChecked = checklistItemService.toggleChecklistItem(memberId, id);
+        boolean isChecked = checklistItemService.toggleChecklistItemChecked(memberId, id);
 
         String message = isChecked ? "항목이 체크되었습니다." : "항목이 체크 해제되었습니다.";
 
@@ -88,11 +88,11 @@ public class ChecklistItemController {
                 .ok(message);
     }
 
-    @PostMapping("/items/clear")
-    public ResponseEntity<String> clearCheckedAllItems(
+    @DeleteMapping("/items/checked/clear")
+    public ResponseEntity<String> clearAllCheckedItems(
             @LoginMember Long memberId
     ) {
-        checklistItemService.clearCheckedAllItems(memberId);
+        checklistItemService.clearAllCheckedItems(memberId);
 
         return ResponseEntity
                 .ok("모든 항목의 체크가 해제되었습니다.");

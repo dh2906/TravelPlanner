@@ -21,7 +21,7 @@ public class ChecklistItemService {
     private final MemberRepository memberRepository;
 
     @Transactional(readOnly = true)
-    public List<ChecklistItemResponse> getMyChecklistItems(Long memberId) {
+    public List<ChecklistItemResponse> getChecklistItems(Long memberId) {
         return checklistItemRepository.findAllByMemberId(memberId)
                 .stream()
                 .map(ChecklistItemResponse::fromEntity)
@@ -29,7 +29,7 @@ public class ChecklistItemService {
     }
 
     @Transactional
-    public void deleteMyChecklistItems(Long memberId) {
+    public void deleteAllChecklistItems(Long memberId) {
         checklistItemRepository.deleteAllByMemberId(memberId);
     }
 
@@ -74,7 +74,7 @@ public class ChecklistItemService {
     }
 
     @Transactional
-    public boolean toggleChecklistItem(
+    public boolean toggleChecklistItemChecked(
             Long memberId,
             Long id
     ) {
@@ -87,7 +87,7 @@ public class ChecklistItemService {
     }
 
     @Transactional
-    public void clearCheckedAllItems(Long memberId) {
+    public void clearAllCheckedItems(Long memberId) {
         checklistItemRepository.clearCheckedAllItems(memberId);
     }
 
