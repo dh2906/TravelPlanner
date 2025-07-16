@@ -81,7 +81,7 @@ public class PlanService {
     }
 
     @Transactional
-    public String getPlanShareUrl(Long planId) {
+    public String getPlanSharePath(Long planId) {
         Plan plan = planRepository.findById(planId)
                 .orElseThrow(() -> new CustomException(ExceptionCode.PLAN_NOT_FOUND));
 
@@ -89,13 +89,13 @@ public class PlanService {
             throw new CustomException(ExceptionCode.SHARING_NOT_ALLOWED);
         }
 
-        if (plan.getShareUrl() != null) {
-            return plan.getShareUrl();
+        if (plan.getSharePath() != null) {
+            return plan.getSharePath();
         }
 
-        String shareUrl = UUID.randomUUID().toString();
-        plan.assignShareUrl(shareUrl);
+        String sharePath = UUID.randomUUID().toString();
+        plan.assignShareUrl(sharePath);
 
-        return shareUrl;
+        return sharePath;
     }
 }

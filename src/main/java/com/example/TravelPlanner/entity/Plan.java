@@ -44,8 +44,8 @@ public class Plan {
     @Column(name = "end_date", nullable = false)
     private LocalDate endDate;
 
-    @Column(name = "share_url")
-    private String shareUrl;
+    @Column(name = "share_path")
+    private String sharePath;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
@@ -73,9 +73,13 @@ public class Plan {
         this.startDate = request.startDate();
         this.endDate = request.endDate();
         this.visibility = request.visibility();
+
+        if (this.visibility.equals(Visibility.PUBLIC)) {
+            this.sharePath = null;
+        }
     }
 
-    public void assignShareUrl(String shareUrl) {
-        this.shareUrl = shareUrl;
+    public void assignShareUrl(String sharePath) {
+        this.sharePath = sharePath;
     }
 }

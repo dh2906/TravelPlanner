@@ -145,12 +145,12 @@ public class PlanController {
     }
 
     @PostMapping("/{planId}/share")
-    public ResponseEntity<String> getPlanShareUrl(
+    public ResponseEntity<String> getPlanSharePath(
             @PathVariable Long planId
     ) {
-        String shareUrl = planService.getPlanShareUrl(planId);
+        String sharePath = planService.getPlanSharePath(planId);
 
         return ResponseEntity
-                .ok(shareUrl);
+                .ok(sharePath);
     }
 }
