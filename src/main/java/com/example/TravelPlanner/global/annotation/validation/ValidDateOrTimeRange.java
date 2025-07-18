@@ -1,4 +1,4 @@
-package com.example.TravelPlanner.global.annotation;
+package com.example.TravelPlanner.global.annotation.validation;
 
 import com.example.TravelPlanner.global.validation.DateTimeRangeValidator;
 import jakarta.validation.Constraint;

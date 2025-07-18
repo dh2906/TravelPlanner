@@ -1,4 +1,4 @@
-package com.example.TravelPlanner.global.interceptor;
+package com.example.TravelPlanner.global.web.interceptor;
 
 import com.example.TravelPlanner.entity.Plan;
 import com.example.TravelPlanner.global.exception.CustomException;

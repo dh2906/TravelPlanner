@@ -2,7 +2,7 @@ package com.example.TravelPlanner.controller.api;
 
 import com.example.TravelPlanner.dto.request.MemberUpdateRequest;
 import com.example.TravelPlanner.dto.response.MemberResponse;
-import com.example.TravelPlanner.global.annotation.LoginMember;
+import com.example.TravelPlanner.global.annotation.resolver.LoginMember;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;

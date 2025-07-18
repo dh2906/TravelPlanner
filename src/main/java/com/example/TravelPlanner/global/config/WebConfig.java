@@ -1,7 +1,7 @@
 package com.example.TravelPlanner.global.config;
 
-import com.example.TravelPlanner.global.interceptor.PlanAccessInterceptor;
-import com.example.TravelPlanner.global.resolver.LoginMemberArgumentResolver;
+import com.example.TravelPlanner.global.web.interceptor.PlanAccessInterceptor;
+import com.example.TravelPlanner.global.web.resolver.LoginMemberArgumentResolver;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;

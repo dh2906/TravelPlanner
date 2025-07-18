@@ -1,6 +1,6 @@
 package com.example.TravelPlanner.global.validation;
 
-import com.example.TravelPlanner.global.annotation.*;
+import com.example.TravelPlanner.global.annotation.validation.*;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 

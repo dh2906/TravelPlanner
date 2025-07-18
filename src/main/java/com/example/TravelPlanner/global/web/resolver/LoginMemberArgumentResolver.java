@@ -1,6 +1,6 @@
-package com.example.TravelPlanner.global.resolver;
+package com.example.TravelPlanner.global.web.resolver;
 
-import com.example.TravelPlanner.global.annotation.LoginMember;
+import com.example.TravelPlanner.global.annotation.resolver.LoginMember;
 import com.example.TravelPlanner.global.exception.CustomException;
 import com.example.TravelPlanner.global.exception.ExceptionCode;
 import jakarta.servlet.http.HttpServletRequest;

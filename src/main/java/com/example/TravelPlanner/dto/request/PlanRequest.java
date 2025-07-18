@@ -2,9 +2,9 @@ package com.example.TravelPlanner.dto.request;
 
 import com.example.TravelPlanner.entity.Member;
 import com.example.TravelPlanner.entity.Plan;
-import com.example.TravelPlanner.global.annotation.EndDate;
-import com.example.TravelPlanner.global.annotation.StartDate;
-import com.example.TravelPlanner.global.annotation.ValidDateOrTimeRange;
+import com.example.TravelPlanner.global.annotation.validation.EndDate;
+import com.example.TravelPlanner.global.annotation.validation.StartDate;
+import com.example.TravelPlanner.global.annotation.validation.ValidDateOrTimeRange;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

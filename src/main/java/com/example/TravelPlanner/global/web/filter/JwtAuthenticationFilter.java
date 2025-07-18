@@ -1,4 +1,4 @@
-package com.example.TravelPlanner.global.filter;
+package com.example.TravelPlanner.global.web.filter;
 
 import com.example.TravelPlanner.global.exception.CustomException;
 import com.example.TravelPlanner.global.exception.ExceptionCode;

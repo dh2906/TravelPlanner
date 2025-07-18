@@ -3,7 +3,7 @@ package com.example.TravelPlanner.controller;
 import com.example.TravelPlanner.controller.api.ChecklistItemApi;
 import com.example.TravelPlanner.dto.request.ChecklistItemRequest;
 import com.example.TravelPlanner.dto.response.ChecklistItemResponse;
-import com.example.TravelPlanner.global.annotation.LoginMember;
+import com.example.TravelPlanner.global.annotation.resolver.LoginMember;
 import com.example.TravelPlanner.service.ChecklistItemService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
