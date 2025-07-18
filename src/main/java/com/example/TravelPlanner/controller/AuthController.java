@@ -1,9 +1,10 @@
 package com.example.TravelPlanner.controller;
 
+import com.example.TravelPlanner.controller.api.AuthApi;
 import com.example.TravelPlanner.dto.request.LoginRequest;
 import com.example.TravelPlanner.dto.request.SignupRequest;
-import com.example.TravelPlanner.dto.response.TokenResponse;
 import com.example.TravelPlanner.dto.response.MemberResponse;
+import com.example.TravelPlanner.dto.response.TokenResponse;
 import com.example.TravelPlanner.global.util.TokenCookieUtil;
 import com.example.TravelPlanner.service.AuthService;
 import jakarta.servlet.http.Cookie;
@@ -15,13 +16,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/auth")
 @RequiredArgsConstructor
-public class AuthController {
+public class AuthController implements AuthApi {
     private final AuthService authService;
 
     @PostMapping("/signup")

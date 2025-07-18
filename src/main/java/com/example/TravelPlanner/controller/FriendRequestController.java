@@ -1,5 +1,6 @@
 package com.example.TravelPlanner.controller;
 
+import com.example.TravelPlanner.controller.api.FriendRequestApi;
 import com.example.TravelPlanner.dto.response.FriendRequestResponse;
 import com.example.TravelPlanner.global.annotation.LoginMember;
 import com.example.TravelPlanner.service.FriendRequestService;
@@ -11,9 +12,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/friend-requests")
 @RequiredArgsConstructor
-public class FriendRequestController {
+public class FriendRequestController implements FriendRequestApi {
     private final FriendRequestService friendRequestService;
 
     @PostMapping("/{friendId}")

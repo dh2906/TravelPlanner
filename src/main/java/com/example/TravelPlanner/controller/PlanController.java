@@ -1,5 +1,6 @@
 package com.example.TravelPlanner.controller;
 
+import com.example.TravelPlanner.controller.api.PlanApi;
 import com.example.TravelPlanner.dto.request.PlanDetailRequest;
 import com.example.TravelPlanner.dto.request.PlanDetailBulkUpdateRequest;
 import com.example.TravelPlanner.dto.request.PlanRequest;
@@ -22,7 +23,7 @@ import java.util.List;
 @RequestMapping("/api/plans")
 @RequiredArgsConstructor
 @Validated
-public class PlanController {
+public class PlanController implements PlanApi {
     private final PlanService planService;
     private final PlanDetailService planDetailService;
 

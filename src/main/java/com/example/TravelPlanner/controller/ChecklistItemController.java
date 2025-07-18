@@ -1,5 +1,6 @@
 package com.example.TravelPlanner.controller;
 
+import com.example.TravelPlanner.controller.api.ChecklistItemApi;
 import com.example.TravelPlanner.dto.request.ChecklistItemRequest;
 import com.example.TravelPlanner.dto.response.ChecklistItemResponse;
 import com.example.TravelPlanner.global.annotation.LoginMember;
@@ -13,9 +14,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/checklist")
 @RequiredArgsConstructor
-public class ChecklistItemController {
+public class ChecklistItemController implements ChecklistItemApi {
     private final ChecklistItemService checklistItemService;
 
     @GetMapping

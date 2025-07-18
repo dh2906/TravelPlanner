@@ -1,5 +1,6 @@
 package com.example.TravelPlanner.controller;
 
+import com.example.TravelPlanner.controller.api.FavoriteApi;
 import com.example.TravelPlanner.dto.response.PlanResponse;
 import com.example.TravelPlanner.global.annotation.LoginMember;
 import com.example.TravelPlanner.service.FavoriteService;
@@ -10,9 +11,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/favorites")
 @RequiredArgsConstructor
-public class FavoriteController {
+public class FavoriteController implements FavoriteApi {
     private final FavoriteService favoriteService;
 
     @PatchMapping("/{planId}")
