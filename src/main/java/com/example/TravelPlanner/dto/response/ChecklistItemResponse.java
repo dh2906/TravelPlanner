@@ -10,7 +10,7 @@ public record ChecklistItemResponse(
     Long id,
     String name,
     String description,
-    boolean is_checked,
+    boolean isChecked,
     LocalDateTime createdAt,
     LocalDateTime updatedAt
 ) {
@@ -20,7 +20,7 @@ public record ChecklistItemResponse(
         return ChecklistItemResponse.builder()
             .id(checklistItem.getId())
             .name(checklistItem.getName())
-            .is_checked(checklistItem.isChecked())
+            .isChecked(checklistItem.isChecked())
             .description(checklistItem.getDescription())
             .createdAt(checklistItem.getCreatedAt())
             .updatedAt(checklistItem.getUpdatedAt())
