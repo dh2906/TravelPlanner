@@ -206,7 +206,7 @@ public class PlanDetailService {
 
     private void validateDayNumberRange(
         Plan plan,
-        int dayNumber
+        Integer dayNumber
     ) {
         int travelDay = (int) ChronoUnit.DAYS.between(plan.getStartDate(), plan.getEndDate()) + 1;
 

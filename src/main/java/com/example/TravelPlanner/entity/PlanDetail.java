@@ -26,7 +26,7 @@ public class PlanDetail {
     private Plan plan;
 
     @Column(nullable = false)
-    private int dayNumber;
+    private Integer dayNumber;
 
     @Column(length = 100, nullable = false)
     private String placeName;

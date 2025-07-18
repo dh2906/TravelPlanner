@@ -9,7 +9,7 @@ import java.time.LocalTime;
 @Builder
 public record PlanDetailResponse(
     Long id,
-    int dayNumber,
+    Integer dayNumber,
     String placeName,
     String address,
     String memo,
