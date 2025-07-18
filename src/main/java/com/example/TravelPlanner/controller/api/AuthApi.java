@@ -42,6 +42,14 @@ public interface AuthApi {
     @ApiResponses(
         value = {
             @ApiResponse(responseCode = "200"),
+        }
+    )
+    @Operation(summary = "사용자 로그아웃을 처리하고 쿠키를 삭제한다.")
+    ResponseEntity<Void> logout(HttpServletResponse response);
+
+    @ApiResponses(
+        value = {
+            @ApiResponse(responseCode = "200"),
             @ApiResponse(responseCode = "401", content = @Content(schema = @Schema(hidden = true))),
             @ApiResponse(responseCode = "404", content = @Content(schema = @Schema(hidden = true)))
         }
