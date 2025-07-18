@@ -24,31 +24,31 @@ public class FavoriteService {
 
     @Transactional
     public boolean toggleFavorite(
-            Long memberId,
-            Long planId
+        Long memberId,
+        Long planId
     ) {
         Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new CustomException(ExceptionCode.MEMBER_NOT_FOUND));
+            .orElseThrow(() -> new CustomException(ExceptionCode.MEMBER_NOT_FOUND));
 
         Plan plan = planRepository.findById(planId)
-                .orElseThrow(() -> new CustomException(ExceptionCode.PLAN_NOT_FOUND));
+            .orElseThrow(() -> new CustomException(ExceptionCode.PLAN_NOT_FOUND));
 
         if (!plan.getMember().getId().equals(memberId) && plan.getVisibility() != Plan.Visibility.PUBLIC) {
             throw new CustomException(ExceptionCode.ACCESS_DENIED);
         }
 
         Favorite favorite = favoriteRepository.findByMemberIdAndPlanId(memberId, planId)
-                .orElse(null);
+            .orElse(null);
 
         if (favorite != null) {
             favoriteRepository.delete(favorite);
             return false;
         } else {
             favoriteRepository.save(
-                    Favorite.builder()
-                            .member(member)
-                            .plan(plan)
-                            .build()
+                Favorite.builder()
+                    .member(member)
+                    .plan(plan)
+                    .build()
             );
 
             return true;
@@ -57,17 +57,17 @@ public class FavoriteService {
 
     @Transactional(readOnly = true)
     public List<PlanResponse> getFavoritePlans(
-            Long memberId
+        Long memberId
     ) {
         List<Favorite> favorites = favoriteRepository.findAllByMemberIdWithPlan(memberId);
 
         return favorites.stream()
-                        .map(Favorite::getPlan)
-                        .filter(plan ->
-                                plan.getVisibility() == Plan.Visibility.PUBLIC ||
-                                plan.getMember().getId().equals(memberId)
-                        )
-                        .map(PlanResponse::fromEntity)
-                        .toList();
+            .map(Favorite::getPlan)
+            .filter(plan ->
+                plan.getVisibility() == Plan.Visibility.PUBLIC ||
+                    plan.getMember().getId().equals(memberId)
+            )
+            .map(PlanResponse::fromEntity)
+            .toList();
     }
 }

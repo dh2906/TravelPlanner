@@ -8,20 +8,20 @@ import java.util.List;
 
 @Builder
 public record PlanWithDetailsResponse(
-        PlanResponse plan,
-        List<PlanDetailResponse> planDetailsResponses
+    PlanResponse plan,
+    List<PlanDetailResponse> planDetailsResponses
 ) {
     public static PlanWithDetailsResponse fromEntities(
-            Plan plan,
-            List<PlanDetail> planDetails
+        Plan plan,
+        List<PlanDetail> planDetails
     ) {
         return PlanWithDetailsResponse.builder()
-                .plan(PlanResponse.fromEntity(plan))
-                .planDetailsResponses(
-                        planDetails.stream()
-                                .map(PlanDetailResponse::fromEntity)
-                                .toList()
-                )
-                .build();
+            .plan(PlanResponse.fromEntity(plan))
+            .planDetailsResponses(
+                planDetails.stream()
+                    .map(PlanDetailResponse::fromEntity)
+                    .toList()
+            )
+            .build();
     }
 }

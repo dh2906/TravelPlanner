@@ -17,9 +17,9 @@ public class PlanAccessInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(
-            HttpServletRequest request,
-            HttpServletResponse response,
-            Object handler
+        HttpServletRequest request,
+        HttpServletResponse response,
+        Object handler
     ) throws Exception {
         Long loginMemberId = (Long) request.getAttribute("loginMemberId");
 
@@ -36,7 +36,7 @@ public class PlanAccessInterceptor implements HandlerInterceptor {
         }
 
         Plan plan = planRepository.findById(planId)
-                .orElseThrow(() -> new CustomException(ExceptionCode.PLAN_NOT_FOUND));
+            .orElseThrow(() -> new CustomException(ExceptionCode.PLAN_NOT_FOUND));
 
         if (!plan.getMember().getId().equals(loginMemberId)) {
             if (!"GET".equalsIgnoreCase(method)) {
@@ -50,7 +50,7 @@ public class PlanAccessInterceptor implements HandlerInterceptor {
     }
 
     private Long extractPlanIdFromPath(
-            String path
+        String path
     ) {
         try {
             String[] parts = path.split("/");

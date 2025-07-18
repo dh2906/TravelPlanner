@@ -16,13 +16,13 @@ public interface PlanRepository extends JpaRepository<Plan, Long> {
     Optional<Plan> findBySharePath(String sharePath);
 
     @Query(value = """
-                SELECT p
-                FROM Plan p
-                WHERE p.visibility = 'PUBLIC'
-                AND (
-                    LOWER(p.title) LIKE LOWER(CONCAT('%', :keyword, '%'))
-                    OR LOWER(p.description) LIKE LOWER(CONCAT('%', :keyword, '%'))
-                )
-            """)
+            SELECT p
+            FROM Plan p
+            WHERE p.visibility = 'PUBLIC'
+            AND (
+                LOWER(p.title) LIKE LOWER(CONCAT('%', :keyword, '%'))
+                OR LOWER(p.description) LIKE LOWER(CONCAT('%', :keyword, '%'))
+            )
+        """)
     List<Plan> searchPublicPlansByKeyword(@Param("keyword") String keyword);
 }

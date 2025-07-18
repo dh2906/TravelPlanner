@@ -8,7 +8,7 @@ public class TokenCookieUtil {
     private static final String REFRESH_TOKEN_COOKIE_NAME = "refreshToken";
 
     public static Cookie createAccessToken(
-            String stringAccessToken
+        String stringAccessToken
     ) {
         Cookie accessTokenCookie = new Cookie(ACCESS_TOKEN_COOKIE_NAME, stringAccessToken);
         accessTokenCookie.setHttpOnly(true);

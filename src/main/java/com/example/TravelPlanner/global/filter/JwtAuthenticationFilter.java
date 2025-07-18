@@ -21,18 +21,18 @@ public class JwtAuthenticationFilter implements Filter {
     private final MemberRepository memberRepository;
 
     private static final List<String> EXCLUDED_PATHS = List.of(
-            "/api/auth/signup",
-            "/api/auth/login",
-            "/swagger-ui/**",
-            "/v3/api-docs",
-            "/swagger-resources"
+        "/api/auth/signup",
+        "/api/auth/login",
+        "/swagger-ui/**",
+        "/v3/api-docs",
+        "/swagger-resources"
     );
 
     @Override
     public void doFilter(
-            ServletRequest servletRequest,
-            ServletResponse servletResponse,
-            FilterChain filterChain
+        ServletRequest servletRequest,
+        ServletResponse servletResponse,
+        FilterChain filterChain
     ) throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
@@ -47,7 +47,7 @@ public class JwtAuthenticationFilter implements Filter {
                     Long memberId = jwtProvider.extractMemberId(token);
 
                     memberRepository.findById(memberId)
-                            .orElseThrow(() -> new CustomException(ExceptionCode.MEMBER_NOT_FOUND));
+                        .orElseThrow(() -> new CustomException(ExceptionCode.MEMBER_NOT_FOUND));
 
                     request.setAttribute("loginMemberId", memberId);
                 }

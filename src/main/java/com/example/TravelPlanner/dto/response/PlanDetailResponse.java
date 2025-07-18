@@ -8,29 +8,29 @@ import java.time.LocalTime;
 
 @Builder
 public record PlanDetailResponse(
-        Long id,
-        int dayNumber,
-        String placeName,
-        String address,
-        String memo,
-        LocalTime startTime,
-        LocalTime endTime,
-        LocalDateTime createdAt,
-        LocalDateTime updatedAt
+    Long id,
+    int dayNumber,
+    String placeName,
+    String address,
+    String memo,
+    LocalTime startTime,
+    LocalTime endTime,
+    LocalDateTime createdAt,
+    LocalDateTime updatedAt
 ) {
     public static PlanDetailResponse fromEntity(
-            PlanDetail planDetail
+        PlanDetail planDetail
     ) {
         return PlanDetailResponse.builder()
-                .id(planDetail.getId())
-                .dayNumber(planDetail.getDayNumber())
-                .placeName(planDetail.getPlaceName())
-                .address(planDetail.getAddress())
-                .memo(planDetail.getMemo())
-                .startTime(planDetail.getStartTime())
-                .endTime(planDetail.getEndTime())
-                .createdAt(planDetail.getCreatedAt())
-                .updatedAt(planDetail.getUpdatedAt())
-                .build();
+            .id(planDetail.getId())
+            .dayNumber(planDetail.getDayNumber())
+            .placeName(planDetail.getPlaceName())
+            .address(planDetail.getAddress())
+            .memo(planDetail.getMemo())
+            .startTime(planDetail.getStartTime())
+            .endTime(planDetail.getEndTime())
+            .createdAt(planDetail.getCreatedAt())
+            .updatedAt(planDetail.getUpdatedAt())
+            .build();
     }
 }

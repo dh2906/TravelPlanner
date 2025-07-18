@@ -6,7 +6,10 @@ import com.example.TravelPlanner.global.annotation.LoginMember;
 import com.example.TravelPlanner.service.FriendService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -17,23 +20,23 @@ public class FriendController implements FriendApi {
 
     @GetMapping
     public ResponseEntity<List<FriendResponse>> getFriends(
-            @LoginMember Long memberId
+        @LoginMember Long memberId
     ) {
         List<FriendResponse> response = friendService.getFriends(memberId);
 
         return ResponseEntity
-                .ok(response);
+            .ok(response);
     }
 
     @DeleteMapping("/{friendId}")
     public ResponseEntity<String> deleteFriend(
-            @LoginMember Long memberId,
-            @PathVariable Long friendId
+        @LoginMember Long memberId,
+        @PathVariable Long friendId
     ) {
         friendService.deleteFriend(memberId, friendId);
 
         return ResponseEntity
-                .noContent()
-                .build();
+            .noContent()
+            .build();
     }
 }

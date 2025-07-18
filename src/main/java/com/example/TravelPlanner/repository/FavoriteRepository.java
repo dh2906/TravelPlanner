@@ -10,15 +10,15 @@ import java.util.Optional;
 
 public interface FavoriteRepository extends JpaRepository<Favorite, Long> {
     Optional<Favorite> findByMemberIdAndPlanId(
-            Long memberId,
-            Long planId
+        Long memberId,
+        Long planId
     );
 
     @Query(value = """
-            SELECT f
-            FROM Favorite f
-            JOIN FETCH f.plan p
-            WHERE f.member.id = :memberId
-            """)
+        SELECT f
+        FROM Favorite f
+        JOIN FETCH f.plan p
+        WHERE f.member.id = :memberId
+        """)
     List<Favorite> findAllByMemberIdWithPlan(@Param("memberId") Long memberId);
 }

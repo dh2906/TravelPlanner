@@ -13,16 +13,16 @@ public interface ChecklistItemRepository extends JpaRepository<ChecklistItem, Lo
 
     @Modifying
     @Query(value = """
-            DELETE FROM ChecklistItem c
-            WHERE c.member.id = :memberId
-            """)
+        DELETE FROM ChecklistItem c
+        WHERE c.member.id = :memberId
+        """)
     void deleteAllByMemberId(@Param("memberId") Long memberId);
 
     @Modifying
     @Query(value = """
-            UPDATE ChecklistItem c
-            SET c.checked = false
-            WHERE c.member.id = :memberId
-            """)
+        UPDATE ChecklistItem c
+        SET c.checked = false
+        WHERE c.member.id = :memberId
+        """)
     void clearCheckedAllItems(@Param("memberId") Long memberId);
 }

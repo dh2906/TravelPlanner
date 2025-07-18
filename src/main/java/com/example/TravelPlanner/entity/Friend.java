@@ -24,8 +24,8 @@ public class Friend {
 
     public static Friend create(Member member, Member friend) {
         return Friend.builder()
-                .member(member)
-                .friend(friend)
-                .build();
+            .member(member)
+            .friend(friend)
+            .build();
     }
 }

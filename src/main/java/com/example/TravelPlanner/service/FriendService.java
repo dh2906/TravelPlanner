@@ -18,22 +18,22 @@ public class FriendService {
 
     @Transactional(readOnly = true)
     public List<FriendResponse> getFriends(
-            Long memberId
+        Long memberId
     ) {
         List<Friend> friends = friendRepository.findAllByMemberId(memberId);
 
         return friends.stream()
-                .map(FriendResponse::fromEntity)
-                .toList();
+            .map(FriendResponse::fromEntity)
+            .toList();
     }
 
     @Transactional
     public void deleteFriend(
-            Long memberId,
-            Long friendId
+        Long memberId,
+        Long friendId
     ) {
         friendRepository.findByMemberIdAndFriendId(memberId, friendId)
-                .orElseThrow(() -> new CustomException(ExceptionCode.FRIEND_RELATION_NOT_FOUND));
+            .orElseThrow(() -> new CustomException(ExceptionCode.FRIEND_RELATION_NOT_FOUND));
 
         friendRepository.deleteByMemberIdAndFriendId(memberId, friendId);
         friendRepository.deleteByMemberIdAndFriendId(friendId, memberId);

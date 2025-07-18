@@ -27,28 +27,28 @@ public class PlanService {
 
     @Transactional
     public PlanResponse createPlan(
-            Long memberId,
-            PlanRequest request
+        Long memberId,
+        PlanRequest request
     ) {
         Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new CustomException(ExceptionCode.MEMBER_NOT_FOUND));
+            .orElseThrow(() -> new CustomException(ExceptionCode.MEMBER_NOT_FOUND));
 
         return PlanResponse.fromEntity(
-                planRepository.save(
-                        request.toEntity(member)
-                )
+            planRepository.save(
+                request.toEntity(member)
+            )
         );
     }
 
     @Transactional(readOnly = true)
     public List<PlanResponse> getPlansByMemberId(
-            Long memberId
+        Long memberId
     ) {
         List<Plan> plans = planRepository.findAllByMemberId(memberId);
 
         return plans.stream()
-                .map(PlanResponse::fromEntity)
-                .toList();
+            .map(PlanResponse::fromEntity)
+            .toList();
     }
 
     @Transactional(readOnly = true)
@@ -56,13 +56,13 @@ public class PlanService {
         List<Plan> plans = planRepository.findAllByVisibility(Plan.Visibility.PUBLIC);
 
         return plans.stream()
-                .map(PlanResponse::fromEntity)
-                .toList();
+            .map(PlanResponse::fromEntity)
+            .toList();
     }
 
     @Transactional(readOnly = true)
     public PlanWithDetailsResponse getPlanWithDetails(
-            Long planId
+        Long planId
     ) {
         Plan plan = findPlanOrThrow(planId);
 
@@ -73,8 +73,8 @@ public class PlanService {
 
     @Transactional
     public PlanResponse updatePlan(
-            Long planId,
-            PlanRequest request
+        Long planId,
+        PlanRequest request
     ) {
         Plan plan = findPlanOrThrow(planId);
 
@@ -85,14 +85,14 @@ public class PlanService {
 
     @Transactional
     public void deletePlan(
-            Long planId
+        Long planId
     ) {
         planRepository.deleteById(planId);
     }
 
     @Transactional
     public String getPlanSharePath(
-            Long planId
+        Long planId
     ) {
         Plan plan = findPlanOrThrow(planId);
 
@@ -112,10 +112,10 @@ public class PlanService {
 
     @Transactional(readOnly = true)
     public PlanWithDetailsResponse getSharedPlan(
-            String sharePath
+        String sharePath
     ) {
         Plan plan = planRepository.findBySharePath(sharePath)
-                .orElseThrow(() -> new CustomException(ExceptionCode.PLAN_NOT_FOUND));
+            .orElseThrow(() -> new CustomException(ExceptionCode.PLAN_NOT_FOUND));
 
         List<PlanDetail> planDetails = planDetailRepository.findAllByPlanIdOrderByDayNumberAscStartTimeAsc(plan.getId());
 
@@ -124,19 +124,19 @@ public class PlanService {
 
     @Transactional(readOnly = true)
     public List<PlanResponse> searchPlans(
-            String keyword
+        String keyword
     ) {
         List<Plan> plans = planRepository.searchPublicPlansByKeyword(keyword);
 
         return plans.stream()
-                .map(PlanResponse::fromEntity)
-                .toList();
+            .map(PlanResponse::fromEntity)
+            .toList();
     }
 
     private Plan findPlanOrThrow(
-            Long planId
+        Long planId
     ) {
         return planRepository.findById(planId)
-                .orElseThrow(() -> new CustomException(ExceptionCode.PLAN_NOT_FOUND));
+            .orElseThrow(() -> new CustomException(ExceptionCode.PLAN_NOT_FOUND));
     }
 }

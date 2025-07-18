@@ -31,49 +31,49 @@ public class JwtProvider {
     }
 
     public String createAccessToken(
-            Long memberId,
-            String role
+        Long memberId,
+        String role
     ) {
         return Jwts.builder()
-                .setSubject(String.valueOf(memberId))
-                .claim("role", role)
-                .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + accessTokenExpirationMillis))
-                .signWith(key, SignatureAlgorithm.HS256)
-                .compact();
+            .setSubject(String.valueOf(memberId))
+            .claim("role", role)
+            .setIssuedAt(new Date())
+            .setExpiration(new Date(System.currentTimeMillis() + accessTokenExpirationMillis))
+            .signWith(key, SignatureAlgorithm.HS256)
+            .compact();
     }
 
     public String createRefreshToken(
-            Long memberId
+        Long memberId
     ) {
         return Jwts.builder()
-                .setSubject(String.valueOf(memberId))
-                .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + refreshTokenExpirationMillis))
-                .signWith(key, SignatureAlgorithm.HS256)
-                .compact();
+            .setSubject(String.valueOf(memberId))
+            .setIssuedAt(new Date())
+            .setExpiration(new Date(System.currentTimeMillis() + refreshTokenExpirationMillis))
+            .signWith(key, SignatureAlgorithm.HS256)
+            .compact();
     }
 
     public Long extractMemberId(
-            String token
+        String token
     ) {
         Claims claims = Jwts.parser()
-                .setSigningKey(key)
-                .build()
-                .parseClaimsJws(token)
-                .getBody();
+            .setSigningKey(key)
+            .build()
+            .parseClaimsJws(token)
+            .getBody();
 
         return Long.valueOf(claims.getSubject());
     }
 
     public boolean validateToken(
-            String token
+        String token
     ) {
         try {
             Jwts.parser()
-                    .setSigningKey(key)
-                    .build()
-                    .parseClaimsJws(token);
+                .setSigningKey(key)
+                .build()
+                .parseClaimsJws(token);
             return true;
         } catch (Exception e) {
             return false;

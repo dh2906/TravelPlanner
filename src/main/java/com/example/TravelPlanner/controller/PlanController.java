@@ -1,8 +1,8 @@
 package com.example.TravelPlanner.controller;
 
 import com.example.TravelPlanner.controller.api.PlanApi;
-import com.example.TravelPlanner.dto.request.PlanDetailRequest;
 import com.example.TravelPlanner.dto.request.PlanDetailBulkUpdateRequest;
+import com.example.TravelPlanner.dto.request.PlanDetailRequest;
 import com.example.TravelPlanner.dto.request.PlanRequest;
 import com.example.TravelPlanner.dto.response.PlanDetailResponse;
 import com.example.TravelPlanner.dto.response.PlanResponse;
@@ -29,8 +29,8 @@ public class PlanController implements PlanApi {
 
     @PostMapping
     public ResponseEntity<PlanResponse> createPlan(
-            @LoginMember Long memberId,
-            @RequestBody @Valid PlanRequest request
+        @LoginMember Long memberId,
+        @RequestBody @Valid PlanRequest request
     ) {
         PlanResponse response = planService.createPlan(memberId, request);
 
@@ -39,7 +39,7 @@ public class PlanController implements PlanApi {
 
     @GetMapping("/me")
     public ResponseEntity<List<PlanResponse>> getMyPlans(
-            @LoginMember Long memberId
+        @LoginMember Long memberId
     ) {
         List<PlanResponse> response = planService.getPlansByMemberId(memberId);
 
@@ -51,12 +51,12 @@ public class PlanController implements PlanApi {
         List<PlanResponse> response = planService.getPublicPlans();
 
         return ResponseEntity
-                .ok(response);
+            .ok(response);
     }
 
     @GetMapping("/{planId}")
     public ResponseEntity<PlanWithDetailsResponse> getPlanDetail(
-            @PathVariable Long planId
+        @PathVariable Long planId
     ) {
         PlanWithDetailsResponse response = planService.getPlanWithDetails(planId);
 
@@ -65,112 +65,112 @@ public class PlanController implements PlanApi {
 
     @PostMapping("/{planId}/details")
     public ResponseEntity<PlanDetailResponse> createPlanDetail(
-            @PathVariable Long planId,
-            @RequestBody @Valid PlanDetailRequest request
+        @PathVariable Long planId,
+        @RequestBody @Valid PlanDetailRequest request
     ) {
         PlanDetailResponse response = planDetailService.createDetail(planId, request);
 
         return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .body(response);
+            .status(HttpStatus.CREATED)
+            .body(response);
     }
 
     @PostMapping("/{planId}/details/bulk")
     public ResponseEntity<List<PlanDetailResponse>> createPlanDetails(
-            @PathVariable Long planId,
-            @RequestBody @Valid List<PlanDetailRequest> request
+        @PathVariable Long planId,
+        @RequestBody @Valid List<PlanDetailRequest> request
     ) {
         List<PlanDetailResponse> response = planDetailService.createDetails(planId, request);
 
         return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .body(response);
+            .status(HttpStatus.CREATED)
+            .body(response);
     }
 
     @PutMapping("/{planId}")
     public ResponseEntity<PlanResponse> updatePlan(
-            @PathVariable Long planId,
-            @RequestBody @Valid PlanRequest request
+        @PathVariable Long planId,
+        @RequestBody @Valid PlanRequest request
     ) {
         PlanResponse response = planService.updatePlan(planId, request);
 
         return ResponseEntity
-                .ok(response);
+            .ok(response);
     }
 
     @DeleteMapping("/{planId}")
     public ResponseEntity<Void> deletePlan(
-            @PathVariable Long planId
+        @PathVariable Long planId
     ) {
         planService.deletePlan(planId);
 
         return ResponseEntity
-                .noContent()
-                .build();
+            .noContent()
+            .build();
     }
 
     @PutMapping("/{planId}/details/{detailId}")
     public ResponseEntity<PlanDetailResponse> updatePlanDetail(
-            @PathVariable Long planId,
-            @PathVariable Long detailId,
-            @RequestBody @Valid PlanDetailRequest request
+        @PathVariable Long planId,
+        @PathVariable Long detailId,
+        @RequestBody @Valid PlanDetailRequest request
     ) {
         PlanDetailResponse response = planDetailService.updateDetail(planId, detailId, request);
 
         return ResponseEntity
-                .ok(response);
+            .ok(response);
     }
 
     @PutMapping("/{planId}/details/bulk")
     public ResponseEntity<List<PlanDetailResponse>> updatePlanDetails(
-            @PathVariable Long planId,
-            @RequestBody @Valid List<PlanDetailBulkUpdateRequest> request
+        @PathVariable Long planId,
+        @RequestBody @Valid List<PlanDetailBulkUpdateRequest> request
     ) {
         List<PlanDetailResponse> response = planDetailService.updateDetails(planId, request);
 
         return ResponseEntity
-                .ok(response);
+            .ok(response);
     }
 
     @DeleteMapping("/{planId}/details/{detailId}")
     public ResponseEntity<Void> deletePlanDetail(
-            @PathVariable Long planId,
-            @PathVariable Long detailId
+        @PathVariable Long planId,
+        @PathVariable Long detailId
     ) {
         planDetailService.deleteDetail(planId, detailId);
 
         return ResponseEntity
-                .noContent()
-                .build();
+            .noContent()
+            .build();
     }
 
     @PostMapping("/{planId}/share")
     public ResponseEntity<String> getPlanSharePath(
-            @PathVariable Long planId
+        @PathVariable Long planId
     ) {
         String sharePath = planService.getPlanSharePath(planId);
 
         return ResponseEntity
-                .ok(sharePath);
+            .ok(sharePath);
     }
 
     @GetMapping("/share/{sharePath}")
     public ResponseEntity<PlanWithDetailsResponse> getSharedPlan(
-            @PathVariable String sharePath
+        @PathVariable String sharePath
     ) {
         PlanWithDetailsResponse response = planService.getSharedPlan(sharePath);
 
         return ResponseEntity
-                .ok(response);
+            .ok(response);
     }
 
     @GetMapping("/search")
     public ResponseEntity<List<PlanResponse>> searchPlans(
-            @RequestParam String keyword
+        @RequestParam String keyword
     ) {
         List<PlanResponse> response = planService.searchPlans(keyword);
 
         return ResponseEntity
-                .ok(response);
+            .ok(response);
     }
 }

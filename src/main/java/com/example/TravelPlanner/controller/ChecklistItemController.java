@@ -20,81 +20,81 @@ public class ChecklistItemController implements ChecklistItemApi {
 
     @GetMapping
     public ResponseEntity<List<ChecklistItemResponse>> getChecklistItems(
-            @LoginMember Long memberId
+        @LoginMember Long memberId
     ) {
         List<ChecklistItemResponse> response = checklistItemService.getChecklistItems(memberId);
 
         return ResponseEntity
-                .ok(response);
+            .ok(response);
     }
 
     @DeleteMapping
     public ResponseEntity<Void> deleteAllChecklistItems(
-            @LoginMember Long memberId
+        @LoginMember Long memberId
     ) {
         checklistItemService.deleteAllChecklistItems(memberId);
 
         return ResponseEntity
-                .noContent()
-                .build();
+            .noContent()
+            .build();
     }
 
     @PostMapping("/items")
     public ResponseEntity<ChecklistItemResponse> createChecklistItem(
-            @LoginMember Long memberId,
-            @RequestBody @Valid ChecklistItemRequest request
+        @LoginMember Long memberId,
+        @RequestBody @Valid ChecklistItemRequest request
     ) {
         ChecklistItemResponse response = checklistItemService.createChecklistItem(memberId, request);
 
         return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .body(response);
+            .status(HttpStatus.CREATED)
+            .body(response);
     }
 
     @PutMapping("/items/{itemId}")
     public ResponseEntity<ChecklistItemResponse> updateChecklistItem(
-            @LoginMember Long memberId,
-            @PathVariable Long itemId,
-            @RequestBody @Valid ChecklistItemRequest request
+        @LoginMember Long memberId,
+        @PathVariable Long itemId,
+        @RequestBody @Valid ChecklistItemRequest request
     ) {
         ChecklistItemResponse response = checklistItemService.updateChecklistItem(memberId, itemId, request);
 
         return ResponseEntity
-                .ok(response);
+            .ok(response);
     }
 
     @DeleteMapping("/items/{itemId}")
     public ResponseEntity<Void> deleteChecklistItem(
-            @LoginMember Long memberId,
-            @PathVariable Long itemId
+        @LoginMember Long memberId,
+        @PathVariable Long itemId
     ) {
         checklistItemService.deleteChecklistItem(memberId, itemId);
 
         return ResponseEntity
-                .noContent()
-                .build();
+            .noContent()
+            .build();
     }
 
     @PatchMapping("/items/{itemId}/checked/toggle")
     public ResponseEntity<String> toggleChecklistItemChecked(
-            @LoginMember Long memberId,
-            @PathVariable Long itemId
+        @LoginMember Long memberId,
+        @PathVariable Long itemId
     ) {
         boolean isChecked = checklistItemService.toggleChecklistItemChecked(memberId, itemId);
 
         String message = isChecked ? "항목이 체크되었습니다." : "항목이 체크 해제되었습니다.";
 
         return ResponseEntity
-                .ok(message);
+            .ok(message);
     }
 
     @DeleteMapping("/items/checked/clear")
     public ResponseEntity<String> clearAllCheckedItems(
-            @LoginMember Long memberId
+        @LoginMember Long memberId
     ) {
         checklistItemService.clearAllCheckedItems(memberId);
 
         return ResponseEntity
-                .ok("모든 항목의 체크가 해제되었습니다.");
+            .ok("모든 항목의 체크가 해제되었습니다.");
     }
 }

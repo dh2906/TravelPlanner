@@ -22,7 +22,7 @@ public class AuthService {
 
     @Transactional
     public MemberResponse signup(
-            SignupRequest request
+        SignupRequest request
     ) {
         if (memberRepository.existsByEmail(request.email())) {
             throw new CustomException(ExceptionCode.DUPLICATE_EMAIL);
@@ -31,16 +31,16 @@ public class AuthService {
         String encodedPassword = PasswordEncoder.encode(request.password());
 
         return MemberResponse.fromEntity(
-                memberRepository.save(request.toEntity(encodedPassword))
+            memberRepository.save(request.toEntity(encodedPassword))
         );
     }
 
     @Transactional
     public TokenResponse login(
-            LoginRequest request
+        LoginRequest request
     ) {
         Member member = memberRepository.findByEmail(request.email())
-                .orElse(null);
+            .orElse(null);
 
         if (member == null || !PasswordEncoder.matches(request.password(), member.getPassword()))
             throw new CustomException(ExceptionCode.LOGIN_FAILED);
@@ -52,7 +52,7 @@ public class AuthService {
     }
 
     public TokenResponse refresh(
-            String refreshToken
+        String refreshToken
     ) {
         if (!jwtProvider.validateToken(refreshToken)) {
             throw new CustomException(ExceptionCode.INVALID_REFRESH_TOKEN);
@@ -65,7 +65,7 @@ public class AuthService {
         }
 
         Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new CustomException(ExceptionCode.MEMBER_NOT_FOUND));
+            .orElseThrow(() -> new CustomException(ExceptionCode.MEMBER_NOT_FOUND));
 
         String newAccessToken = jwtProvider.createAccessToken(memberId, member.getRole().name());
         String newRefreshToken = jwtProvider.createRefreshToken(memberId);

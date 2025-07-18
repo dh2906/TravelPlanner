@@ -12,6 +12,8 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ValidDateOrTimeRange {
     String message() default "종료 시점은 시작 시점보다 이후여야 합니다.";
+
     Class<?>[] groups() default {};
+
     Class<? extends Payload>[] payload() default {};
 }

@@ -22,41 +22,41 @@ public class ChecklistItemService {
 
     @Transactional(readOnly = true)
     public List<ChecklistItemResponse> getChecklistItems(
-            Long memberId
+        Long memberId
     ) {
         return checklistItemRepository.findAllByMemberId(memberId)
-                .stream()
-                .map(ChecklistItemResponse::fromEntity)
-                .toList();
+            .stream()
+            .map(ChecklistItemResponse::fromEntity)
+            .toList();
     }
 
     @Transactional
     public void deleteAllChecklistItems(
-            Long memberId
+        Long memberId
     ) {
         checklistItemRepository.deleteAllByMemberId(memberId);
     }
 
     @Transactional
     public ChecklistItemResponse createChecklistItem(
-            Long memberId,
-            ChecklistItemRequest request
+        Long memberId,
+        ChecklistItemRequest request
     ) {
         Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new CustomException(ExceptionCode.MEMBER_NOT_FOUND));
+            .orElseThrow(() -> new CustomException(ExceptionCode.MEMBER_NOT_FOUND));
 
         return ChecklistItemResponse.fromEntity(
-                checklistItemRepository.save(
-                        request.toEntity(member)
-                )
+            checklistItemRepository.save(
+                request.toEntity(member)
+            )
         );
     }
 
     @Transactional
     public ChecklistItemResponse updateChecklistItem(
-            Long memberId,
-            Long itemId,
-            ChecklistItemRequest request
+        Long memberId,
+        Long itemId,
+        ChecklistItemRequest request
     ) {
         ChecklistItem checklistItem = findChecklistItemOrThrow(itemId);
         validateOwnership(memberId, checklistItem);
@@ -68,8 +68,8 @@ public class ChecklistItemService {
 
     @Transactional
     public void deleteChecklistItem(
-            Long memberId,
-            Long itemId
+        Long memberId,
+        Long itemId
     ) {
         ChecklistItem checklistItem = findChecklistItemOrThrow(itemId);
         validateOwnership(memberId, checklistItem);
@@ -79,8 +79,8 @@ public class ChecklistItemService {
 
     @Transactional
     public boolean toggleChecklistItemChecked(
-            Long memberId,
-            Long itemId
+        Long memberId,
+        Long itemId
     ) {
         ChecklistItem checklistItem = findChecklistItemOrThrow(itemId);
         validateOwnership(memberId, checklistItem);
@@ -92,21 +92,21 @@ public class ChecklistItemService {
 
     @Transactional
     public void clearAllCheckedItems(
-            Long memberId
+        Long memberId
     ) {
         checklistItemRepository.clearCheckedAllItems(memberId);
     }
 
     private ChecklistItem findChecklistItemOrThrow(
-            Long itemId
+        Long itemId
     ) {
         return checklistItemRepository.findById(itemId)
-                                      .orElseThrow(() -> new CustomException(ExceptionCode.CHECKLIST_ITEM_NOT_FOUND));
+            .orElseThrow(() -> new CustomException(ExceptionCode.CHECKLIST_ITEM_NOT_FOUND));
     }
 
     private void validateOwnership(
-            Long memberId,
-            ChecklistItem checklistItem
+        Long memberId,
+        ChecklistItem checklistItem
     ) {
         if (!checklistItem.getMember().getId().equals(memberId)) {
             throw new CustomException(ExceptionCode.ACCESS_DENIED);

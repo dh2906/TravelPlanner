@@ -11,9 +11,9 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "friend_request",
-        uniqueConstraints = @UniqueConstraint(
-                columnNames = {"sender_id", "receiver_id"}
-        )
+    uniqueConstraints = @UniqueConstraint(
+        columnNames = {"sender_id", "receiver_id"}
+    )
 )
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor

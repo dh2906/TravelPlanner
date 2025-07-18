@@ -15,36 +15,36 @@ import java.util.stream.Collectors;
 public class GlobalExceptionHandler {
     @ExceptionHandler(CustomException.class)
     public ResponseEntity<String> ExceptionHandle(
-            CustomException ex
+        CustomException ex
     ) {
         return ResponseEntity.status(
-                        ex.getExceptionCode()
-                                .getStatus()
-                )
-                .body(ex.getMessage());
+                ex.getExceptionCode()
+                    .getStatus()
+            )
+            .body(ex.getMessage());
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<List<String>> ExceptionHandle(
-            MethodArgumentNotValidException ex
+        MethodArgumentNotValidException ex
     ) {
         List<String> errorMessages = ex.getBindingResult()
-                .getFieldErrors()
-                .stream()
-                .map(DefaultMessageSourceResolvable::getDefaultMessage)
-                .collect(Collectors.toList());
+            .getFieldErrors()
+            .stream()
+            .map(DefaultMessageSourceResolvable::getDefaultMessage)
+            .collect(Collectors.toList());
 
         return ResponseEntity.badRequest().body(errorMessages);
     }
 
     @ExceptionHandler(ConstraintViolationException.class)
     public ResponseEntity<List<String>> handleConstraintViolationException(
-            ConstraintViolationException ex
+        ConstraintViolationException ex
     ) {
         List<String> errors = ex.getConstraintViolations()
-                .stream()
-                .map(ConstraintViolation::getMessage)
-                .toList();
+            .stream()
+            .map(ConstraintViolation::getMessage)
+            .toList();
 
         return ResponseEntity.badRequest().body(errors);
     }

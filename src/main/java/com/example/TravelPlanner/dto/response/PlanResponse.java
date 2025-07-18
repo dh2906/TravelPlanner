@@ -8,29 +8,29 @@ import java.time.LocalDateTime;
 
 @Builder
 public record PlanResponse(
-        Long id,
-        Long memberId,
-        String title,
-        String description,
-        LocalDate startDate,
-        LocalDate endDate,
-        Plan.Visibility visibility,
-        LocalDateTime createdAt,
-        LocalDateTime updatedAt
+    Long id,
+    Long memberId,
+    String title,
+    String description,
+    LocalDate startDate,
+    LocalDate endDate,
+    Plan.Visibility visibility,
+    LocalDateTime createdAt,
+    LocalDateTime updatedAt
 ) {
     public static PlanResponse fromEntity(
-            Plan plan
+        Plan plan
     ) {
         return PlanResponse.builder()
-                .id(plan.getId())
-                .memberId(plan.getMember().getId())
-                .title(plan.getTitle())
-                .description(plan.getDescription())
-                .startDate(plan.getStartDate())
-                .endDate(plan.getEndDate())
-                .visibility(plan.getVisibility())
-                .createdAt(plan.getCreatedAt())
-                .updatedAt(plan.getUpdatedAt())
-                .build();
+            .id(plan.getId())
+            .memberId(plan.getMember().getId())
+            .title(plan.getTitle())
+            .description(plan.getDescription())
+            .startDate(plan.getStartDate())
+            .endDate(plan.getEndDate())
+            .visibility(plan.getVisibility())
+            .createdAt(plan.getCreatedAt())
+            .updatedAt(plan.getUpdatedAt())
+            .build();
     }
 }

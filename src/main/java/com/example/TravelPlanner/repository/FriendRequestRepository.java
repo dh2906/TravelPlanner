@@ -10,36 +10,36 @@ import java.util.Optional;
 
 public interface FriendRequestRepository extends JpaRepository<FriendRequest, Long> {
     boolean existsBySenderIdAndReceiverIdAndStatus(
-            Long senderId,
-            Long receiverId,
-            FriendRequest.Status status
+        Long senderId,
+        Long receiverId,
+        FriendRequest.Status status
     );
 
     Optional<FriendRequest> findBySenderIdAndReceiverId(
-            Long senderId,
-            Long ReceiverId
+        Long senderId,
+        Long ReceiverId
     );
 
     @Query(value = """
-            SELECT fr
-            FROM FriendRequest fr
-            JOIN FETCH fr.sender
-            WHERE fr.receiver.id = :receiverId
-            AND fr.status = :status
-            """)
+        SELECT fr
+        FROM FriendRequest fr
+        JOIN FETCH fr.sender
+        WHERE fr.receiver.id = :receiverId
+        AND fr.status = :status
+        """)
     List<FriendRequest> findAllByReceiverIdAndStatusWithMember(
-            @Param("receiverId") Long receiverId,
-            @Param("status") FriendRequest.Status status
+        @Param("receiverId") Long receiverId,
+        @Param("status") FriendRequest.Status status
     );
 
     @Query(value = """
-            SELECT fr
-            FROM FriendRequest fr
-            JOIN FETCH fr.receiver
-            WHERE fr.sender.id = :senderId
-            """)
+        SELECT fr
+        FROM FriendRequest fr
+        JOIN FETCH fr.receiver
+        WHERE fr.sender.id = :senderId
+        """)
     List<FriendRequest> findAllBySenderIdAndStatusWithMember(
-            @Param("senderId") Long senderId,
-            @Param("status") FriendRequest.Status status
+        @Param("senderId") Long senderId,
+        @Param("status") FriendRequest.Status status
     );
 }

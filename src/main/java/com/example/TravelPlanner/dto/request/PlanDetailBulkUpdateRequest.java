@@ -10,27 +10,27 @@ import java.time.LocalTime;
 
 @ValidDateOrTimeRange
 public record PlanDetailBulkUpdateRequest(
-        @NotNull(message = "상세 일정 id를 입력해주세요.")
-        Long detailId,
+    @NotNull(message = "상세 일정 id를 입력해주세요.")
+    Long detailId,
 
-        @NotNull(message = "여행 일차를 입력해주세요.")
-        Integer dayNumber,
+    @NotNull(message = "여행 일차를 입력해주세요.")
+    Integer dayNumber,
 
-        @NotBlank(message = "장소 명을 입력해주세요.")
-        String placeName,
+    @NotBlank(message = "장소 명을 입력해주세요.")
+    String placeName,
 
-        @NotBlank(message = "주소를 입력해주세요.")
-        String address,
+    @NotBlank(message = "주소를 입력해주세요.")
+    String address,
 
-        String memo,
+    String memo,
 
-        @NotNull(message = "시작 시간을 입력해주세요")
-        @StartTime
-        LocalTime startTime,
+    @NotNull(message = "시작 시간을 입력해주세요")
+    @StartTime
+    LocalTime startTime,
 
-        @NotNull(message = "종료 시간을 입력해주세요")
-        @EndTime
-        LocalTime endTime
+    @NotNull(message = "종료 시간을 입력해주세요")
+    @EndTime
+    LocalTime endTime
 ) {
 
 }

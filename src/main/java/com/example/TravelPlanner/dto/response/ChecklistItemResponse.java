@@ -7,23 +7,23 @@ import java.time.LocalDateTime;
 
 @Builder
 public record ChecklistItemResponse(
-        Long id,
-        String name,
-        String description,
-        boolean is_checked,
-        LocalDateTime createdAt,
-        LocalDateTime updatedAt
+    Long id,
+    String name,
+    String description,
+    boolean is_checked,
+    LocalDateTime createdAt,
+    LocalDateTime updatedAt
 ) {
     public static ChecklistItemResponse fromEntity(
-            ChecklistItem checklistItem
+        ChecklistItem checklistItem
     ) {
         return ChecklistItemResponse.builder()
-                .id(checklistItem.getId())
-                .name(checklistItem.getName())
-                .is_checked(checklistItem.isChecked())
-                .description(checklistItem.getDescription())
-                .createdAt(checklistItem.getCreatedAt())
-                .updatedAt(checklistItem.getUpdatedAt())
-                .build();
+            .id(checklistItem.getId())
+            .name(checklistItem.getName())
+            .is_checked(checklistItem.isChecked())
+            .description(checklistItem.getDescription())
+            .createdAt(checklistItem.getCreatedAt())
+            .updatedAt(checklistItem.getUpdatedAt())
+            .build();
     }
 }

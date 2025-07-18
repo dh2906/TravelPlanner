@@ -11,31 +11,31 @@ import java.util.Optional;
 
 public interface FriendRepository extends JpaRepository<Friend, Long> {
     @Query("""
-            SELECT f
-            FROM Friend f
-            JOIN FETCH f.friend
-            WHERE f.member.id = :memberId
-            """)
+        SELECT f
+        FROM Friend f
+        JOIN FETCH f.friend
+        WHERE f.member.id = :memberId
+        """)
     List<Friend> findAllByMemberId(@Param("memberId") Long memberId);
 
     Optional<Friend> findByMemberIdAndFriendId(
-            Long memberId,
-            Long friendId
+        Long memberId,
+        Long friendId
     );
 
     @Modifying
     @Query(value = """
-            DELETE FROM Friend f
-            WHERE f.member.id = :memberId
-            AND f.friend.id = :friendId
-            """)
+        DELETE FROM Friend f
+        WHERE f.member.id = :memberId
+        AND f.friend.id = :friendId
+        """)
     void deleteByMemberIdAndFriendId(
-            @Param("memberId") Long memberId,
-            @Param("friendId") Long friendId
+        @Param("memberId") Long memberId,
+        @Param("friendId") Long friendId
     );
 
     boolean existsByMemberIdAndFriendId(
-            Long memberId,
-            Long friendId
+        Long memberId,
+        Long friendId
     );
 }

@@ -17,18 +17,18 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 public class LoginMemberArgumentResolver implements HandlerMethodArgumentResolver {
     @Override
     public boolean supportsParameter(
-            MethodParameter parameter
+        MethodParameter parameter
     ) {
         return parameter.hasParameterAnnotation(LoginMember.class)
-                && parameter.getParameterType().equals(Long.class);
+            && parameter.getParameterType().equals(Long.class);
     }
 
     @Override
     public Object resolveArgument(
-            MethodParameter parameter,
-            ModelAndViewContainer mavContainer,
-            NativeWebRequest webRequest,
-            WebDataBinderFactory binderFactory
+        MethodParameter parameter,
+        ModelAndViewContainer mavContainer,
+        NativeWebRequest webRequest,
+        WebDataBinderFactory binderFactory
     ) throws Exception {
         HttpServletRequest request = (HttpServletRequest) webRequest.getNativeRequest();
         Long memberId = (Long) request.getAttribute("loginMemberId");

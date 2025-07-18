@@ -13,33 +13,33 @@ import java.time.LocalDate;
 
 @ValidDateOrTimeRange
 public record PlanRequest(
-        @NotBlank(message = "제목은 필수 입력값입니다.")
-        @Size(max = 100, message = "제목은 최대 100자까지 가능합니다.")
-        String title,
+    @NotBlank(message = "제목은 필수 입력값입니다.")
+    @Size(max = 100, message = "제목은 최대 100자까지 가능합니다.")
+    String title,
 
-        String description,
+    String description,
 
-        @NotNull(message = "시작일은 필수 입력값입니다.")
-        @StartDate
-        LocalDate startDate,
+    @NotNull(message = "시작일은 필수 입력값입니다.")
+    @StartDate
+    LocalDate startDate,
 
-        @NotNull(message = "종료일은 필수 입력값입니다.")
-        @EndDate
-        LocalDate endDate,
+    @NotNull(message = "종료일은 필수 입력값입니다.")
+    @EndDate
+    LocalDate endDate,
 
-        @NotNull(message = "공개 여부는 필수 입력값입니다.")
-        Plan.Visibility visibility
+    @NotNull(message = "공개 여부는 필수 입력값입니다.")
+    Plan.Visibility visibility
 ) {
     public Plan toEntity(
-            Member member
+        Member member
     ) {
         return Plan.builder()
-                .member(member)
-                .title(title)
-                .description(description)
-                .startDate(startDate)
-                .endDate(endDate)
-                .visibility(visibility)
-                .build();
+            .member(member)
+            .title(title)
+            .description(description)
+            .startDate(startDate)
+            .endDate(endDate)
+            .visibility(visibility)
+            .build();
     }
 }

@@ -19,19 +19,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Tag(name = "인증 API", description = "회원가입, 로그인, 로그아웃, 토큰 재발급")
 public interface AuthApi {
     @ApiResponses(
-            value = {
-                    @ApiResponse(responseCode = "201"),
-                    @ApiResponse(responseCode = "409", content = @Content(schema = @Schema(hidden = true)))
-            }
+        value = {
+            @ApiResponse(responseCode = "201"),
+            @ApiResponse(responseCode = "409", content = @Content(schema = @Schema(hidden = true)))
+        }
     )
     @Operation(summary = "회원 정보를 입력받아 가입한다.")
     ResponseEntity<MemberResponse> signup(SignupRequest request);
 
     @ApiResponses(
-            value = {
-                    @ApiResponse(responseCode = "200"),
-                    @ApiResponse(responseCode = "400", content = @Content(schema = @Schema(hidden = true)))
-            }
+        value = {
+            @ApiResponse(responseCode = "200"),
+            @ApiResponse(responseCode = "400", content = @Content(schema = @Schema(hidden = true)))
+        }
     )
     @Operation(summary = "이메일과 비밀번호로 로그인한다.")
     ResponseEntity<TokenResponse> login(

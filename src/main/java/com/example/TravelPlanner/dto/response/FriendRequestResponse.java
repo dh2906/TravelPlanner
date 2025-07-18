@@ -5,23 +5,23 @@ import lombok.Builder;
 
 @Builder
 public record FriendRequestResponse(
-        Long id,
-        Long memberId,
-        String memberName
+    Long id,
+    Long memberId,
+    String memberName
 ) {
     public static FriendRequestResponse fromEntity(
-            FriendRequest friendRequest
+        FriendRequest friendRequest
     ) {
         return FriendRequestResponse.builder()
-                .id(friendRequest.getId())
-                .memberId(friendRequest.getSender().getId())
-                .memberName(friendRequest.getSender().getName())
-                .build();
+            .id(friendRequest.getId())
+            .memberId(friendRequest.getSender().getId())
+            .memberName(friendRequest.getSender().getName())
+            .build();
     }
 
     public static FriendRequestResponse fromEntity(
-            FriendRequest friendRequest,
-            String type
+        FriendRequest friendRequest,
+        String type
     ) {
         Long targetId = null;
         String targetName = null;
@@ -35,9 +35,9 @@ public record FriendRequestResponse(
         }
 
         return FriendRequestResponse.builder()
-                .id(friendRequest.getId())
-                .memberId(targetId)
-                .memberName(targetName)
-                .build();
+            .id(friendRequest.getId())
+            .memberId(targetId)
+            .memberName(targetName)
+            .build();
     }
 }

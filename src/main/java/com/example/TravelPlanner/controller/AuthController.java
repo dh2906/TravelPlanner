@@ -25,19 +25,19 @@ public class AuthController implements AuthApi {
 
     @PostMapping("/signup")
     public ResponseEntity<MemberResponse> signup(
-            @RequestBody @Valid SignupRequest request
+        @RequestBody @Valid SignupRequest request
     ) {
         MemberResponse response = authService.signup(request);
 
         return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .body(response);
+            .status(HttpStatus.CREATED)
+            .body(response);
     }
 
     @PostMapping("/login")
     public ResponseEntity<TokenResponse> login(
-            @RequestBody @Valid LoginRequest request,
-            HttpServletResponse httpServletResponse
+        @RequestBody @Valid LoginRequest request,
+        HttpServletResponse httpServletResponse
     ) {
         TokenResponse response = authService.login(request);
 
@@ -48,12 +48,12 @@ public class AuthController implements AuthApi {
         httpServletResponse.addCookie(refreshTokenCookie);
 
         return ResponseEntity
-                .ok(response);
+            .ok(response);
     }
 
     @PostMapping("/logout")
     public ResponseEntity<Void> logout(
-            HttpServletResponse response
+        HttpServletResponse response
     ) {
         Cookie accessTokenCookie = TokenCookieUtil.clearAccessToken();
         Cookie refreshTokenCookie = TokenCookieUtil.clearRefreshToken();
@@ -62,14 +62,14 @@ public class AuthController implements AuthApi {
         response.addCookie(refreshTokenCookie);
 
         return ResponseEntity
-                .ok()
-                .build();
+            .ok()
+            .build();
     }
 
     @PostMapping("/refresh")
     public ResponseEntity<TokenResponse> refresh(
-            HttpServletRequest httpServletRequest,
-            HttpServletResponse httpServletResponse
+        HttpServletRequest httpServletRequest,
+        HttpServletResponse httpServletResponse
     ) {
         String refreshToken = TokenCookieUtil.getRefreshTokenFromRequest(httpServletRequest);
 
@@ -82,6 +82,6 @@ public class AuthController implements AuthApi {
         httpServletResponse.addCookie(refreshTokenCookie);
 
         return ResponseEntity
-                .ok(response);
+            .ok(response);
     }
 }

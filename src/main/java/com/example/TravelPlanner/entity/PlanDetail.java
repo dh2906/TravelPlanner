@@ -1,7 +1,7 @@
 package com.example.TravelPlanner.entity;
 
-import com.example.TravelPlanner.dto.request.PlanDetailRequest;
 import com.example.TravelPlanner.dto.request.PlanDetailBulkUpdateRequest;
+import com.example.TravelPlanner.dto.request.PlanDetailRequest;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
